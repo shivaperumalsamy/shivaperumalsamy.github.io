@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1200" viewBox="0 0 1920 1200">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0B1F3A" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title{font:700 48px Arial, sans-serif;fill:#0B1F3A}
+      .subtitle{font:500 23px Arial, sans-serif;fill:#40566D}
+      .tiny{font:600 15px Arial, sans-serif;fill:#66788A;letter-spacing:.4px}
+      .coltitle{font:700 22px Arial, sans-serif;fill:white}
+      .h2{font:700 18px Arial, sans-serif;fill:#102033}
+      .body{font:500 14px Arial, sans-serif;fill:#66788A}
+      .small{font:500 13px Arial, sans-serif;fill:#40566D}
+      .label{font:700 14px Arial, sans-serif;fill:#102033}
+      .white{fill:#fff}
+      .card{fill:#fff;stroke:#C9D8E8;stroke-width:1.2}
+      .line{stroke:#1F78A4;stroke-width:3;fill:none;marker-end:url(#arrow)}
+      .line2{stroke:#0D62B3;stroke-width:3;fill:none;marker-end:url(#arrow2)}
+      .dash{stroke:#B5C7DC;stroke-width:1.5;stroke-dasharray:7 7;fill:none}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#1F78A4"/></marker>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0D62B3"/></marker>
+  </defs>
+
+  <rect x="0" y="0" width="1920" height="1200" rx="0" fill="#F7FAFC"/>
+  <rect x="40" y="40" width="1840" height="1120" rx="28" fill="#F7FAFC" stroke="#E3EAF2"/>
+
+  <text x="98" y="104" class="title">Real-Time Voice Booking Agent Architecture</text>
+  <text x="102" y="144" class="subtitle">NVIDIA PersonaPlex + Nemotron · natural-language booking · controlled transaction workflow · no scripted IVR tree</text>
+  <rect x="1464" y="58" width="310" height="40" rx="20" fill="#1F78A4"/>
+  <text x="1490" y="84" font-family="Arial" font-size="15" font-weight="700" fill="#fff">manual architecture artifact</text>
+  <text x="102" y="178" class="tiny">Editable-style layout · clean boxes and connectors · portfolio/blog ready</text>
+
+  <!-- column headers -->
+  <g transform="translate(74 110)">
+    <g transform="translate(0 0)"><rect width="300" height="64" rx="18" fill="#0B3B75"/><circle cx="32" cy="32" r="18" fill="#ffffff" opacity=".16" stroke="#fff"/><text x="27" y="38" font="700 16px Arial" fill="#fff">1</text><text x="62" y="28" class="coltitle">Channel / User</text><text x="62" y="52" class="coltitle">Input</text></g>
+    <g transform="translate(342 0)"><rect width="300" height="64" rx="18" fill="#0F7D88"/><circle cx="32" cy="32" r="18" fill="#ffffff" opacity=".16" stroke="#fff"/><text x="27" y="38" font="700 16px Arial" fill="#fff">2</text><text x="62" y="28" class="coltitle">Real-Time</text><text x="62" y="52" class="coltitle">Conversation</text></g>
+    <g transform="translate(684 0)"><rect width="300" height="64" rx="18" fill="#0F8F98"/><circle cx="32" cy="32" r="18" fill="#ffffff" opacity=".16" stroke="#fff"/><text x="27" y="38" font="700 16px Arial" fill="#fff">3</text><text x="62" y="28" class="coltitle">Language +</text><text x="62" y="52" class="coltitle">Decision</text></g>
+    <g transform="translate(1026 0)"><rect width="300" height="64" rx="18" fill="#0D62B3"/><circle cx="32" cy="32" r="18" fill="#ffffff" opacity=".16" stroke="#fff"/><text x="27" y="38" font="700 16px Arial" fill="#fff">4</text><text x="62" y="28" class="coltitle">Transaction +</text><text x="62" y="52" class="coltitle">Tools</text></g>
+    <g transform="translate(1368 0)"><rect width="300" height="64" rx="18" fill="#113A68"/><circle cx="32" cy="32" r="18" fill="#ffffff" opacity=".16" stroke="#fff"/><text x="27" y="38" font="700 16px Arial" fill="#fff">5</text><text x="62" y="28" class="coltitle">Enterprise</text><text x="62" y="52" class="coltitle">Systems</text></g>
+  </g>
+
+  <!-- columns -->
+  <g id="columns" transform="translate(74 186)">
+    <rect width="300" height="560" rx="20" class="card" filter="url(#shadow)"/>
+    <rect x="342" width="300" height="560" rx="20" class="card" filter="url(#shadow)"/>
+    <rect x="684" width="300" height="560" rx="20" class="card" filter="url(#shadow)"/>
+    <rect x="1026" width="300" height="560" rx="20" class="card" filter="url(#shadow)"/>
+    <rect x="1368" width="300" height="560" rx="20" class="card" filter="url(#shadow)"/>
+
+    <text x="26" y="55" class="h2">Caller / user</text><text x="26" y="92" class="small">Phone · WebRTC · mobile app</text>
+    <rect x="24" y="130" width="252" height="86" rx="14" class="card"/><text x="44" y="165" class="h2">Live audio stream</text><text x="44" y="192" class="body">barge-in capable channel</text>
+    <rect x="24" y="236" width="252" height="86" rx="14" class="card"/><text x="44" y="271" class="h2">Spoken response</text><text x="44" y="298" class="body">confirmation returns to caller</text>
+    <text x="28" y="405" class="small">No scripted IVR tree.</text><text x="28" y="430" class="small">Interaction begins as natural</text><text x="28" y="455" class="small">language and stays conversational.</text>
+
+    <g transform="translate(342 0)">
+      <rect x="24" y="28" width="252" height="74" rx="14" class="card"/><text x="44" y="60" class="h2">Streaming audio I/O</text><text x="44" y="84" class="body">low-latency input/output path</text>
+      <rect x="24" y="128" width="252" height="74" rx="14" class="card"/><text x="44" y="160" class="h2">VAD + turn-taking</text><text x="44" y="184" class="body">interruptions and pauses</text>
+      <rect x="24" y="228" width="252" height="74" rx="14" class="card"/><text x="44" y="260" class="h2">ASR transcript stream</text><text x="44" y="284" class="body">incremental transcript</text>
+      <rect x="24" y="328" width="252" height="74" rx="14" class="card"/><text x="44" y="360" class="h2">PersonaPlex session</text><text x="44" y="384" class="body">conversation orchestration</text>
+      <rect x="24" y="428" width="252" height="74" rx="14" class="card"/><text x="44" y="460" class="h2">TTS voice rendering</text><text x="44" y="484" class="body">spoken response generation</text>
+    </g>
+
+    <g transform="translate(684 0)">
+      <rect x="24" y="28" width="252" height="74" rx="14" class="card"/><text x="44" y="60" class="h2">Nemotron</text><text x="44" y="84" class="body">language + response synthesis</text>
+      <rect x="24" y="128" width="252" height="74" rx="14" class="card"/><text x="44" y="160" class="h2">Intent capture</text><text x="44" y="184" class="body">booking goal and constraints</text>
+      <rect x="24" y="228" width="252" height="74" rx="14" class="card"/><text x="44" y="260" class="h2">Dialogue state</text><text x="44" y="284" class="body">slot tracking and memory</text>
+      <rect x="24" y="328" width="252" height="74" rx="14" class="card"/><text x="44" y="360" class="h2">Response planning</text><text x="44" y="384" class="body">question, confirm, tool call</text>
+      <rect x="24" y="428" width="252" height="74" rx="14" class="card"/><text x="44" y="460" class="h2">Guardrails + policy</text><text x="44" y="484" class="body">safe domain and fallback</text>
+    </g>
+
+    <g transform="translate(1026 0)">
+      <rect x="40" y="28" width="220" height="78" rx="14" fill="#F7FBFF" stroke="#AAC5DE"/><text x="92" y="60" class="h2">Booking Agent</text><text x="108" y="86" class="h2">Controller</text>
+      <rect x="24" y="134" width="252" height="74" rx="14" class="card"/><text x="44" y="166" class="h2">Search availability</text><text x="44" y="190" class="body">inventory and time windows</text>
+      <rect x="24" y="234" width="252" height="74" rx="14" class="card"/><text x="44" y="266" class="h2">Customer lookup</text><text x="44" y="290" class="body">profile and preferences</text>
+      <rect x="24" y="334" width="252" height="74" rx="14" class="card"/><text x="44" y="366" class="h2">Pricing + rules</text><text x="44" y="390" class="body">policy and validation</text>
+      <rect x="24" y="434" width="252" height="74" rx="14" class="card"/><text x="44" y="466" class="h2">Reservation + payment</text><text x="44" y="490" class="body">authorize and confirm</text>
+    </g>
+
+    <g transform="translate(1368 0)">
+      <rect x="24" y="28" width="252" height="74" rx="14" class="card"/><text x="44" y="60" class="h2">Booking engine</text><text x="44" y="84" class="body">availability and inventory</text>
+      <rect x="24" y="118" width="252" height="74" rx="14" class="card"/><text x="44" y="150" class="h2">CRM / customer data</text><text x="44" y="174" class="body">identity and history</text>
+      <rect x="24" y="208" width="252" height="74" rx="14" class="card"/><text x="44" y="240" class="h2">Calendar / scheduling</text><text x="44" y="264" class="body">time slot creation</text>
+      <rect x="24" y="298" width="252" height="74" rx="14" class="card"/><text x="44" y="330" class="h2">Payments</text><text x="44" y="354" class="body">authorization</text>
+      <rect x="24" y="388" width="252" height="74" rx="14" class="card"/><text x="44" y="420" class="h2">Notifications</text><text x="44" y="444" class="body">SMS and email</text>
+      <rect x="24" y="478" width="252" height="74" rx="14" class="card"/><text x="44" y="510" class="h2">Audit / logs</text><text x="44" y="534" class="body">traceable decisions</text>
+    </g>
+  </g>
+
+  <!-- arrows between columns -->
+  <path d="M380 466 L410 466" class="line"/><path d="M722 466 L752 466" class="line"/><path d="M1064 466 L1094 466" class="line"/><path d="M1406 466 L1436 466" class="line"/>
+  <path d="M1250 786 L240 786" class="line2"/><text x="430" y="814" font="700 16px Arial" fill="#0D62B3">spoken response + booking confirmation</text>
+
+  <!-- operational controls -->
+  <rect x="74" y="790" width="1280" height="240" rx="24" fill="#EFF7FA" stroke="#B9D6E2"/>
+  <text x="104" y="830" class="h2" font-size="26">Operational trust layer</text>
+  <text x="104" y="866" class="small">The voice UX is judged by more than the model: traceability, latency, safety, fallback, and evaluation carry the perceived quality.</text>
+  <g transform="translate(104 908)">
+    <g><rect width="176" height="86" rx="14" class="card"/><text x="18" y="32" class="h2" font-size="15">Tracing</text><text x="18" y="58" class="body" font-size="12">tool calls, decisions, context</text></g>
+    <g transform="translate(202 0)"><rect width="176" height="86" rx="14" class="card"/><text x="18" y="32" class="h2" font-size="15">Latency metrics</text><text x="18" y="58" class="body" font-size="12">ASR, model, TTS, end-to-end</text></g>
+    <g transform="translate(404 0)"><rect width="176" height="86" rx="14" class="card"/><text x="18" y="32" class="h2" font-size="15">Observability</text><text x="18" y="58" class="body" font-size="12">sessions, errors, quality signals</text></g>
+    <g transform="translate(606 0)"><rect width="176" height="86" rx="14" class="card"/><text x="18" y="32" class="h2" font-size="15">Security / auth</text><text x="18" y="58" class="body" font-size="12">least privilege, boundaries</text></g>
+    <g transform="translate(808 0)"><rect width="176" height="86" rx="14" class="card"/><text x="18" y="32" class="h2" font-size="15">Fallback</text><text x="18" y="58" class="body" font-size="12">escalate low confidence</text></g>
+    <g transform="translate(1010 0)"><rect width="176" height="86" rx="14" class="card"/><text x="18" y="32" class="h2" font-size="15">Evaluation</text><text x="18" y="58" class="body" font-size="12">task success, turns</text></g>
+  </g>
+
+  <!-- lens -->
+  <rect x="1400" y="790" width="420" height="240" rx="22" fill="#fff" stroke="#B5C7DC" filter="url(#shadow)"/>
+  <text x="1426" y="830" class="h2" font-size="26">Experiment lens</text>
+  <rect x="1426" y="852" width="278" height="34" rx="17" fill="#0F7D88"/><text x="1444" y="874" font="700 14px Arial" fill="#fff">controlled counterpart to VitalForce</text>
+  <text x="1430" y="924" class="small">• Same latency and turn-taking discipline</text>
+  <text x="1430" y="956" class="small">• Simpler embodiment layer</text>
+  <text x="1430" y="988" class="small">• Isolates model quality vs. engineering</text>
+  <text x="1430" y="1020" class="small">• Narrow booking domain for evaluation</text>
+
+  <!-- outcome -->
+  <rect x="74" y="1066" width="1746" height="70" rx="22" fill="#0B1F3A"/>
+  <text x="128" y="1108" font="700 20px Arial" fill="#fff">Natural-language booking</text>
+  <text x="710" y="1108" font="700 20px Arial" fill="#fff">Controlled transaction completion</text>
+  <text x="1334" y="1108" font="700 20px Arial" fill="#fff">Grounded, real-time voice UX</text>
+</svg>

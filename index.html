@@ -158,7 +158,7 @@ h1 .op{
 .chip:hover{border-color:var(--signal-dim);color:var(--signal)}
 
 /* trace */
-.trace{border-top:1px solid var(--line-soft);padding:4px 16px 6px;display:none}
+.trace{border-top:1px solid var(--line-soft);padding:4px 16px 6px;display:none;background:var(--surface-2)}
 .trace.on{display:block}
 .step{display:flex;gap:13px;padding:9px 0;border-bottom:1px solid var(--line-soft);opacity:.25;transition:opacity .3s}
 .step:last-child{border-bottom:0}
@@ -176,6 +176,11 @@ h1 .op{
 }
 .answer{padding:16px;border-top:1px solid var(--line-soft);display:none}
 .answer.on{display:block}
+.answer-label{
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--signal);margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.answer-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal-glow);flex:none}
 .answer p{margin:0 0 11px;font-size:16px;line-height:1.7}
 .answer p:last-child{margin-bottom:0}
 .answer .src{font-family:var(--mono);font-size:11.5px;color:var(--muted-dim);margin-top:14px;padding-top:11px;border-top:1px solid var(--line-soft)}
@@ -217,18 +222,16 @@ h1 .op{
 .item{border-left:2px solid var(--line);padding-left:14px}
 .item .t{font-size:15.5px;color:var(--text)}
 .item .d{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:3px}
-
-/* selected work grid */
-.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 20px}
-@media(max-width:760px){.work-grid{grid-template-columns:1fr}}
-.work-card{
-  border:1px solid var(--line);border-radius:3px;background:var(--surface);
-  padding:16px 18px;transition:border-color .2s,transform .2s;
+.item .demo-link{
+  position:relative;display:inline-block;margin-top:8px;
+  font-family:var(--mono);font-size:11.5px;color:var(--signal);text-decoration:none;
 }
-.work-card:hover{border-color:var(--signal-dim);transform:translateY(-2px)}
-.work-card .k{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--signal-dim);display:block;margin-bottom:7px}
-.work-card .t{font-size:15.5px;color:var(--text);line-height:1.4}
-.work-card .d{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:8px}
+.item .demo-link::after{
+  content:'';position:absolute;left:0;right:0;bottom:-2px;height:1px;
+  background:var(--signal);transform:scaleX(0);transform-origin:center;
+  transition:transform .3s ease;
+}
+.item .demo-link:hover::after{transform:scaleX(1)}
 
 /* stack tiers */
 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -249,6 +252,13 @@ h1 .op{
 .proj{border:1px solid var(--line);border-radius:3px;padding:20px;background:var(--surface);display:flex;flex-direction:column;gap:12px}
 .proj .t{font-size:16px;color:var(--text);font-weight:400}
 .proj .d{color:var(--muted);font-size:14.5px;flex:1}
+.proj-diagram-wrap{
+  display:block;border:1px solid var(--line);border-radius:3px;overflow:hidden;
+  background:#fff;transition:border-color .2s;
+}
+.proj-diagram-wrap:hover{border-color:var(--signal-dim)}
+.proj-diagram{display:block;width:100%;height:140px;object-fit:contain}
+.proj-diagram-cap{font-family:var(--mono);font-size:10.5px;color:var(--muted-dim);margin-top:-8px}
 .proj .tags{display:flex;flex-wrap:wrap;gap:6px}
 .proj .tags span{font-family:var(--mono);font-size:10.5px;color:var(--muted-dim);border:1px solid var(--line-soft);border-radius:2px;padding:2px 7px}
 .proj .links{display:flex;gap:8px}
@@ -293,6 +303,24 @@ h1 .op{
 footer{border-top:1px solid var(--line-soft);padding:26px 0 40px}
 footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font-size:11.5px;color:var(--muted-dim)}
 
+/* image modal (architecture diagrams) */
+.img-modal{
+  position:fixed;inset:0;z-index:200;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(5,8,9,.92);padding:clamp(20px,6vw,60px);
+}
+.img-modal.on{display:flex}
+.img-modal img{max-width:100%;max-height:100%;border-radius:3px;box-shadow:0 24px 80px -20px rgba(0,0,0,.85)}
+.img-modal-close{
+  position:absolute;top:20px;right:24px;
+  width:40px;height:40px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);
+  color:var(--text);font-size:22px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .18s,color .18s;
+}
+.img-modal-close:hover{border-color:var(--signal);color:var(--signal)}
+
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;transition-duration:.001ms!important}
   html{scroll-behavior:auto}
@@ -306,7 +334,6 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
     <a class="nav-id" href="#top">shiva<span class="dim">.perumalsamy</span></a>
     <div class="nav-links">
       <a href="#system">System</a>
-      <a href="#work">Work</a>
       <a href="#projects">Projects</a>
       <a href="#blog">Writing</a>
       <a href="#stack">Stack</a>
@@ -359,7 +386,10 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
         </div>
       </div>
 
-      <div class="answer" id="answer" aria-live="polite"></div>
+      <div class="answer" id="answer" aria-live="polite">
+        <div class="answer-label" id="answerLabel">Response</div>
+        <div id="answerBody"></div>
+      </div>
     </section>
   </div>
 </header>
@@ -369,7 +399,7 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
     <div class="sec-head">
       <span class="eyebrow">The system</span>
       <h2>Six surfaces I design against.</h2>
-      <p>Pick one. It filters the corpus above and expands everything tagged to that surface underneath — work, projects, and writing alike, same retrieval index the agent queries.</p>
+      <p>Pick one to see what it means — and the work shipped as part of it.</p>
     </div>
 
     <div class="map">
@@ -377,16 +407,6 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
       <div class="map-grid" id="mapGrid"></div>
       <div class="detail" id="detail"></div>
     </div>
-  </div>
-</section>
-
-<section class="sec" id="work">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Selected work</span>
-      <h2>What I've built and shipped.</h2>
-    </div>
-    <div class="work-grid" id="workList"></div>
   </div>
 </section>
 
@@ -480,10 +500,16 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
 
 <footer>
   <div class="wrap f">
-    <span>Built as a working demo, not a template.</span>
-    <span id="footMode">Retrieval runs client-side.</span>
+    <span>Build what matters.</span>
+    <span>Trace how it works.</span>
+    <span>Secure how it runs.</span>
   </div>
 </footer>
+
+<div class="img-modal" id="imgModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <button class="img-modal-close" id="imgModalClose" type="button" aria-label="Close">×</button>
+  <img id="imgModalImg" src="" alt="">
+</div>
 
 <!-- ============================================================
      CORPUS — edit this block only. Everything else reads from it.
@@ -500,16 +526,16 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
 <script type="application/json" id="corpus">
 [
 {"id":"vitalforce","node":"voice","title":"VitalForce AI — real-time multimodal voice agent","tags":["voice","livekit","pipecat","riva","nemo","metahuman","bithuman","unreal","gtc","latency","interruption","barge-in","webrtc","streaming","stt","tts"],
-"text":"VitalForce AI is a real-time multimodal voice agent demoed live on stage at NVIDIA GTC 2026. Stack: LiveKit and Pipecat for transport and orchestration, NVIDIA Riva and NeMo for speech, BitHuman and Unreal Engine MetaHuman for the embodied avatar. The hard parts were the ones that always are in live voice: interruption and barge-in handling, streaming audio under WebRTC, and holding end-to-end latency low enough that turn-taking feels human rather than transactional."},
+"text":"VitalForce AI is a real-time multimodal voice agent demoed live on stage at NVIDIA GTC 2026. Stack: LiveKit and Pipecat for transport and orchestration, NVIDIA Riva and NeMo for speech, BitHuman and Unreal Engine MetaHuman for the embodied avatar. The hard parts were the ones that always are in live voice: interruption and barge-in handling, streaming audio under WebRTC, and holding end-to-end latency low enough that turn-taking feels human rather than transactional.","demo":"https://vimeo.com/1176717334/9f3973f9a3"},
 
 {"id":"booking-agent","node":"voice","title":"Conversational booking agent","tags":["voice","personaplex","nemotron","booking","real-time","nvidia"],
-"text":"A second voice project: a conversational booking agent built on NVIDIA PersonaPlex and Nemotron for a real-time booking use case. Narrower in scope than VitalForce, and useful as a control — it isolates how much of the perceived quality in a voice agent comes from the model versus from the turn-taking and latency engineering around it."},
+"text":"A real-time voice booking agent built on NVIDIA PersonaPlex and Nemotron, handling natural-language interaction from intent capture through transaction completion. Narrower in scope than VitalForce, and useful as a control — it isolates how much of the perceived quality in a voice agent comes from the model versus the turn-taking and latency engineering around it."},
 
-{"id":"aims-guardrails","node":"governance","title":"NeMo Guardrails inside CDW's AI Management System","tags":["governance","guardrails","nemo","aims","mcp","tool call","validation","mediation","policy","enforcement","security"],
-"text":"Integrated NVIDIA NeMo Guardrails into CDW's internal AI Management System (AIMS) as a mediation and enforcement layer, specifically for validating MCP tool calls. Flow is AIMS to NeMo Guardrails to the model, so policy sits in the request path rather than beside it. The design point: an agent that can call tools needs enforcement at the call boundary, not a prompt asking it to behave."},
+{"id":"litellm-guardrails","node":"governance","title":"NeMo Guardrails inside a LiteLLM Gateway","tags":["governance","guardrails","nemo","litellm","mcp","tool call","validation","mediation","policy","enforcement","security"],
+"text":"Integrated NVIDIA NeMo Guardrails into a LiteLLM gateway as a mediation and enforcement layer, specifically for validating MCP tool calls. Flow is LiteLLM to NeMo Guardrails to the model, so policy sits in the request path rather than beside it. The design point: an agent that can call tools needs enforcement at the call boundary, not a prompt asking it to behave."},
 
-{"id":"nemoclaw","node":"agents","title":"NemoClaw / NemoHermes — Jira intelligence agent","tags":["agents","jira","nvidia","nemo","open source","pr","upstream","agentic","toolkit"],
-"text":"NemoClaw and NemoHermes are a Jira intelligence agent built on the NVIDIA stack, including the NeMo Agent Toolkit. The work produced an upstream open-source pull request into the NVIDIA ecosystem, which matters more than the demo did — it means the agent patterns survived contact with someone else's codebase and review standards."},
+{"id":"nemoclaw","node":"agents","title":"NemoClaw / NemoHermes — enterprise agentic reference architecture","tags":["agents","jira","nvidia","nemo","open source","pr","upstream","agentic","toolkit","sandboxing","governance","security"],
+"text":"Designed and built NemoClaw, later migrated to NemoHermes — an enterprise agentic reference architecture on NVIDIA's secure agentic framework, Jira-connected, with scoped tool access, sandboxed execution, and governance controls built in rather than bolted on. The work produced an upstream open-source contribution into the NVIDIA ecosystem, which matters more than the demo did — it means the agent patterns survived contact with someone else's codebase and review standards. Also written up as a technical post on secure multi-agent execution."},
 
 {"id":"forgeiq","node":"orchestration","title":"ForgeIQ — AI-driven SDLC accelerator","tags":["forgeiq","sdlc","gtm","product","sama","testify","onix","strategy","positioning","competitive"],
 "text":"ForgeIQ is an AI-driven SDLC accelerator at CDW. I contributed across GTM strategy, customer-facing deck refinement, competitive positioning against Kiro.dev, GitHub Copilot Workspace, Cognition Devin, Cursor and AWS Q Developer, and UX review. Components include SAMA for assessment, Testify for testing, and Onix for the operate stage. The recurring lesson was that an SDLC accelerator is sold on the operate stage, not the generate stage."},
@@ -529,14 +555,14 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
 {"id":"gpu-learning","node":"evaluation","title":"Where I'm still learning","tags":["cuda","pytorch","fine-tuning","lora","peft","learning","honest","limitations","gaps"],
 "text":"CUDA, PyTorch, and fine-tuning with LoRA and PEFT are PoC-level for me, not production. I list them in a separate tier deliberately. In an architecture role the cost of overstating model-training depth is high and shows up fast, usually in the first technical screen."},
 
-{"id":"la-rfp","node":"governance","title":"Public-sector AI procurement","tags":["rfp","city of los angeles","pre-plan check","procurement","public sector","government","evaluation","proposal"],
-"text":"Evaluating the City of Los Angeles AI-Powered Pre-Plan Check Assistant RFP (2025AIP007) for CDW. Public-sector AI procurement is where the governance conversation stops being theoretical — evaluators ask how the system fails, who is accountable for the failure, and what the audit trail looks like, well before they ask what model it uses."},
+{"id":"gov-rfp","node":"governance","title":"Public-sector AI procurement","tags":["rfp","municipal","permitting","procurement","public sector","government","evaluation","proposal"],
+"text":"Evaluated an AI-powered permitting and plan-review assistant RFP for a large municipal government. Public-sector AI procurement is where the governance conversation stops being theoretical — evaluators ask how the system fails, who is accountable for the failure, and what the audit trail looks like, well before they ask what model it uses."},
 
 {"id":"courts","node":"rag","title":"Court systems and records search","tags":["courts","utah","montana","records","search","freemium","billing","rag","retrieval","pagination","large result sets"],
 "text":"Analyzed an AI assistant RFP for the Montana court system and positioned relevant prior Utah Courts experience in client-facing responses. Related build: a court records search application with a freemium and billing boundary designed around large result sets — the retrieval problem and the pricing problem turned out to be the same problem, since where you draw the result-set boundary is simultaneously a relevance decision and a revenue decision."},
 
-{"id":"fiber-rfp","node":"governance","title":"Municipal fiber ISP RFP analysis","tags":["rfp","longmont","nextlight","fiber","isp","municipal","analysis"],
-"text":"Analyzed the City of Longmont NextLight municipal fiber ISP RFP (RFP-426054) and helped position CDW's relevant prior experience. Useful range: not every architecture problem in consulting is an AI problem, and being able to read a procurement document properly is its own skill."},
+{"id":"municipal-rfp","node":"governance","title":"Municipal fiber ISP RFP analysis","tags":["rfp","fiber","isp","municipal","analysis"],
+"text":"Analyzed a municipal fiber ISP RFP and helped position relevant prior experience. Useful range: not every architecture problem in consulting is an AI problem, and being able to read a procurement document properly is its own skill."},
 
 {"id":"distributed","node":"orchestration","title":"Bulk PDF generation — race condition","tags":["distributed systems","redis","atomic counter","rabbitmq","aggregator","informix","row locking","race condition","concurrency","backend"],
 "text":"Distributed systems design for a bulk PDF generation race condition: a Redis atomic counter for completion tracking, a RabbitMQ aggregator pattern for fan-in, and Informix row locking at the data layer. Predates the agentic work and still informs it — an agent fanning out tool calls is a distributed system with worse error messages."},
@@ -547,26 +573,50 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
 {"id":"healthnow","node":"orchestration","title":"HealthNow — design-first API backend","tags":["go","golang","openapi","swagger","codegen","angular","design-first","api","backend"],
 "text":"HealthNow backend built in Go with a design-first OpenAPI/Swagger codegen workflow integrated with an Angular frontend. Design-first is the same discipline as spec-driven development with AI tooling, arrived at years earlier — write the contract, generate the edges, keep humans arguing about the interface rather than the implementation."},
 
+{"id":"sage","node":"orchestration","title":"SAGE — internal seller assistant","tags":["aws","azure","bedrock","langgraph","orchestration","rag","teams","entra id"],
+"text":"SAGE is a cross-cloud seller assistant: a Microsoft Teams bot on Azure, bridged by Entra ID SSO and tenant isolation, fronts a LangGraph supervisor-of-supervisors on AWS that routes lead qualification, cloud-funding, cost-estimation, and licensing questions to sub-agents grounded in Amazon Bedrock Knowledge Bases."},
+
 {"id":"role","node":"orchestration","title":"Current role and recognition","tags":["cdw","sirius","role","consultant","architect","award","presidential","crystal","austin","experience","gtm"],
 "text":"AI Managing Consultant Engineer and Enterprise AI Solutions Architect at CDW (formerly Sirius), based in Austin, Texas, with 14+ years across enterprise software and production AI systems. The role spans agentic AI architecture, client-facing engagements, internal product strategy and GTM. Received CDW's Presidential Award (Crystal Winner, 2025) — roughly the top 50 of about 15,000 employees."},
 
 {"id":"creds","node":"evaluation","title":"Certifications and education","tags":["certification","anthropic","claude","certified architect","nvidia","agentic ai","ut austin","pgp","education","credentials"],
 "text":"Anthropic Claude Certified Architect (2026) and NVIDIA Certified Professional, Agentic AI (2026). Post Graduate Program in AI/ML from the University of Texas at Austin. Earlier career includes WebSphere Commerce delivery and about a year of hands-on native Android/Java development between 2012 and 2015; React Native and Flutter exposure was at a leadership level rather than hands-on."},
 
-{"id":"proj-1","kind":"project","node":"agents","title":"[Project title]","tags":["placeholder","project","agents"],
-"text":"[What it does in one sentence. Why it exists — the itch it scratched — in a second sentence.]","repo":"https://github.com/YOURHANDLE/REPO","demo":""},
+{"id":"proj-vitalforce","kind":"project","node":"voice","title":"VitalForce AI — enterprise avatar agent platform","tags":["voice","avatar","nvidia","riva","livekit","rag","healthcare","retail","banking"],
+"text":"VitalForce AI is an enterprise avatar agent platform for real-time conversational digital humans — secure AI 'digital employees' that listen, speak, reason, and act on a technology-agnostic stack spanning NVIDIA, Google, and Azure. The demo showcases role-specific avatars across healthcare, retail, banking, hospitality, and education.","repo":"","demo":"https://vimeo.com/1176717334/9f3973f9a3","diagram":"img/vital-force.png"},
 
-{"id":"proj-2","kind":"project","node":"rag","title":"[Project title]","tags":["placeholder","project","rag"],
-"text":"[What it does in one sentence. What's technically interesting about the build in a second sentence.]","repo":"https://github.com/YOURHANDLE/REPO","demo":""},
+{"id":"proj-personaplex","kind":"project","node":"voice","title":"NVIDIA PersonaPlex — real-time conversational booking assistant","tags":["voice","personaplex","nemotron","booking","real-time","nvidia","observability"],
+"text":"A real-time voice booking agent built on NVIDIA PersonaPlex and Nemotron, running natural-language interaction end-to-end — intent capture, dialogue state, response planning, and transaction execution — with no scripted IVR tree. Built as a narrower, controlled counterpart to VitalForce, useful for isolating model quality from real-time engineering quality.","repo":"","demo":"","diagram":"img/personaplex-architecture.svg"},
 
-{"id":"proj-3","kind":"project","node":"voice","title":"[Project title]","tags":["placeholder","project","voice"],
-"text":"[What it does in one sentence. What's technically interesting about the build in a second sentence.]","repo":"https://github.com/YOURHANDLE/REPO","demo":""},
+{"id":"proj-sage","kind":"project","node":"orchestration","title":"SAGE — internal seller assistant","tags":["orchestration","agents","aws","azure","bedrock","langgraph","teams","entra id","cross-cloud"],
+"text":"A cross-cloud hierarchical multi-agent seller assistant: a Microsoft Teams bot on Azure, bridged by Entra ID SSO and tenant isolation, to a LangGraph supervisor-of-supervisors on AWS. Domain sub-agents for lead qualification, cloud-funding, cost-estimation, and licensing are each grounded in their own Amazon Bedrock Knowledge Base, running Claude on Bedrock on ECS/Fargate.","repo":"","demo":"","diagram":"img/sage-architecture.svg"},
+
+{"id":"proj-nemoclaw","kind":"project","node":"agents","title":"NemoClaw / NemoHermes — enterprise agentic reference architecture","tags":["agents","nvidia","jira","open source","sandboxing","landlock","secret vault","observability","hitl","governance","security"],
+"text":"NemoClaw (OpenShell) is a sandboxed multi-agent system built for controlled execution: kernel-level isolation, deny-by-default least privilege, and modular single-responsibility sub-agents — Jira, code, test, build, docs, notify — coordinated by a planning agent, with a secret vault and human-in-the-loop approval gating every write action. Produced an upstream open-source contribution into the NVIDIA ecosystem.","repo":"","demo":"","article":"https://www.linkedin.com/pulse/designing-secure-multi-agent-systems-nemoclaw-sivanandham-perumalsamy-mxm3c","diagram":"img/nemo-agent.png"},
+
+{"id":"proj-crash-intel","kind":"project","node":"agents","title":"Crash-Data Intelligence Agent","tags":["agents","mcp","sql","google mcp toolbox","nemo guardrails","classification","sentiment","trend detection"],
+"text":"A SQL-connected crash-data intelligence agent, fronted by an internal AI manager service and routed through an MCP layer — a purpose-built Crash Intelligence MCP and a Narrative Intelligence MCP, alongside Google's MCP Toolbox for Databases. Generation runs on Gemma and Nemotron on-prem behind NVIDIA NeMo Guardrails, with low-confidence responses routed to a human analyst review queue.","repo":"","demo":"","diagram":"img/crash-intelligent.png"},
+
+{"id":"proj-testify","kind":"project","node":"evaluation","title":"Testify — agentic testing accelerator","tags":["testing","agents","langchain","langgraph","playwright","accessibility","ci/cd"],
+"text":"A multi-agent testing workflow (Python, LangChain/LangGraph, Playwright) that generates tests and runs browser-based regression and accessibility checks — CI/CD-integrated and reused across teams, cutting manual testing effort by roughly 40%. Aligned to government accessibility legislation, with live scans that quantify issues and the effort to fix them, seeding a pipeline of 50+ entities.","repo":"","demo":"","diagram":"img/Testify-Architecture.png"},
+
+{"id":"proj-agent-eval","kind":"project","node":"evaluation","title":"Agent evaluation and benchmarking framework","tags":["evaluation","benchmarking","agents","llm","latency","regression"],
+"text":"An evaluation harness for benchmarking multi-agent and LLM systems on accuracy, tool-use correctness, reasoning quality, latency, and regression across releases. Ground-truth feedback loops turn those scores into evidence for agent design decisions — which model, which prompt, which guardrail — instead of shipping on vibes.","repo":"","demo":""},
+
+{"id":"proj-aidlc","kind":"project","node":"orchestration","title":"AI-DLC multi-agent orchestration framework","tags":["orchestration","aidlc","mcp","jira","gitlab","ci/cd","python"],
+"text":"A coordinator-led orchestration framework — Research, Dev, Code Review, Testing, and CI/CD agents, each a Python agent integrated via MCP tool connectors. Jira and GitLab connectors make the workflow git-native and PR-linked, so execution closes the loop end-to-end instead of stopping at a suggestion someone has to act on manually.","repo":"","demo":""},
+
+{"id":"proj-nlp-automation","kind":"project","node":"agents","title":"Enterprise conversational AI and NLP automation","tags":["nlp","conversational ai","rasa","luis","salesforce","automation"],
+"text":"Earlier-career delivery of machine learning and conversational AI for enterprise clients: a custom NLP model for support-email triage that automated Salesforce queue routing and eliminated manual overhead at scale, plus conversational AI and virtual-assistant builds on Rasa and Microsoft LUIS integrated into enterprise workflows.","repo":"","demo":""},
 
 {"id":"post-1","kind":"post","node":"rag","title":"I Built a Portfolio That Refuses to Bluff","date":"2026-07-15","tags":["blog","rag","retrieval","citations","grounding"],
 "text":"Why the retrieval agent on this site cites real sources instead of paraphrasing, refuses to answer when nothing is well-grounded, and keeps synthesis strictly separate from evidence.","url":"blog/grounding-a-portfolio.html"},
 
 {"id":"post-nemoclaw-security","kind":"post","node":"agents","title":"Designing Secure Multi-Agent Systems with NemoClaw and OpenShell","date":"2026-04-22","tags":["blog","nemoclaw","openshell","security","sandboxing","multi-agent","agents"],
-"text":"A deep dive into building a custom multi-agent architecture on NemoClaw's OpenShell runtime and sandboxing, with dedicated agents for tasks like Jira management and code review — the argument being that execution safety and reliability matter more than agent sophistication alone.","url":"https://www.linkedin.com/pulse/designing-secure-multi-agent-systems-nemoclaw-sivanandham-perumalsamy-mxm3c/"}
+"text":"A deep dive into building a custom multi-agent architecture on NemoClaw's OpenShell runtime and sandboxing, with dedicated agents for tasks like Jira management and code review — the argument being that execution safety and reliability matter more than agent sophistication alone.","url":"https://www.linkedin.com/pulse/designing-secure-multi-agent-systems-nemoclaw-sivanandham-perumalsamy-mxm3c/"},
+
+{"id":"post-vitalforce-demo","kind":"post","node":"voice","title":"VitalForce AI: Enterprise Avatar Agent Platform — a recorded walkthrough","date":"2026-03-05","tags":["blog","voice","vitalforce","demo","avatar","metahuman"],
+"text":"VitalForce AI Avatars moves beyond traditional text chat by introducing AI-powered digital avatars that interact in a natural, human-like way. These avatars don't just listen, speak, and understand users — they can also take action and perform tasks, acting as intelligent agents powered by enterprise knowledge and AI.","url":"https://vimeo.com/1176717334/9f3973f9a3"}
 ]
 </script>
 
@@ -723,7 +773,8 @@ function resetTrace(){
   ['d1','d2','d3','m1','m2','m3'].forEach(d=>el(d).textContent='');
   el('c2').innerHTML='';
   el('answer').classList.remove('on');
-  el('answer').innerHTML='';
+  el('answerBody').innerHTML='';
+  el('answerLabel').textContent='Response';
 }
 
 const wait = ms => new Promise(r=>setTimeout(r,ms));
@@ -762,7 +813,8 @@ async function run(){
   if(!hits.length){
     el('d3').textContent = 'Refused — nothing above threshold';
     el('m3').textContent = '0ms';
-    el('answer').innerHTML = `<p>Nothing in the corpus covers that. The agent is scoped to Shiva's own work history, projects, and writing, and will not answer from general knowledge — that's deliberate.</p><div class="src">Try: MCP, guardrails, voice AI, distributed systems, public-sector RFPs, side projects, recent writing.</div>`;
+    el('answerLabel').textContent = 'Refused';
+    el('answerBody').innerHTML = `<p>Nothing in the corpus covers that. The agent is scoped to Shiva's own work history, projects, and writing, and will not answer from general knowledge — that's deliberate.</p><div class="src">Try: MCP, guardrails, voice AI, distributed systems, public-sector RFPs, side projects, recent writing.</div>`;
     el('answer').classList.add('on');
     busy=false; el('run').disabled=false;
     return;
@@ -786,7 +838,7 @@ async function run(){
 
   el('d3').textContent = label;
   el('m3').textContent = Math.round(performance.now()-t0)+'ms';
-  el('answer').innerHTML = html;
+  el('answerBody').innerHTML = html;
   el('answer').classList.add('on');
   busy=false; el('run').disabled=false;
 }
@@ -806,14 +858,13 @@ el('chips').addEventListener('click', e=>{
   el('statusDot').className = 'dot ' + (live?'live':'local');
   el('statusText').textContent = live ? 'live model' : 'local retrieval';
   el('modeLabel').textContent = live ? 'worker · claude' : 'client-side · no model';
-  el('footMode').textContent = live ? 'Synthesis runs on a Cloudflare Worker.' : 'Retrieval runs client-side. No key in this page.';
 })();
 
 /* ============================================================
    ARCHITECTURE MAP
    ============================================================ */
 const counts = {};
-CORPUS.forEach(c=>counts[c.node]=(counts[c.node]||0)+1);
+CORPUS.filter(c=>!c.kind).forEach(c=>counts[c.node]=(counts[c.node]||0)+1);
 
 el('mapGrid').innerHTML = NODES.map(n=>`
   <button class="node" data-k="${n.k}" aria-pressed="false">
@@ -822,34 +873,44 @@ el('mapGrid').innerHTML = NODES.map(n=>`
     <span class="c">${counts[n.k]||0} entries</span>
   </button>`).join('');
 
-function renderWork(filter){
-  const items = CORPUS.filter(c=>!c.kind && (!filter || c.node===filter));
-  el('workList').innerHTML = items.map(c=>{
-    const meta = NODES.find(n=>n.k===c.node);
-    return `
-    <div class="work-card">
-      <span class="k">${esc(meta ? meta.label : c.node)}</span>
-      <div class="t">${esc(c.title)}</div>
-      <div class="d">${esc(c.tags.slice(0,5).join(' · '))}</div>
-    </div>`;
-  }).join('');
-}
-renderWork(null);
-
 function renderProjects(){
   const items = CORPUS.filter(c=>c.kind==='project');
   el('projectsGrid').innerHTML = items.map(c=>`
     <div class="proj">
       <div class="t">${esc(c.title)}</div>
       <div class="d">${esc(c.text)}</div>
+      ${c.diagram?`<a class="proj-diagram-wrap" href="${esc(c.diagram)}">
+        <img class="proj-diagram" src="${esc(c.diagram)}" alt="${esc(c.title)} architecture diagram" loading="lazy">
+      </a><div class="proj-diagram-cap">Architecture diagram — click to enlarge</div>`:''}
       <div class="tags">${c.tags.slice(0,5).map(t=>`<span>${esc(t)}</span>`).join('')}</div>
       <div class="links">
         ${c.repo?`<a href="${esc(c.repo)}" target="_blank" rel="noopener">Repo</a>`:''}
         ${c.demo?`<a href="${esc(c.demo)}" target="_blank" rel="noopener">Demo</a>`:''}
+        ${c.article?`<a href="${esc(c.article)}" target="_blank" rel="noopener">Article</a>`:''}
       </div>
     </div>`).join('');
 }
 renderProjects();
+
+/* image modal — architecture diagrams open in a lightbox, not a new tab */
+function openImgModal(src, alt){
+  el('imgModalImg').src = src;
+  el('imgModalImg').alt = alt;
+  el('imgModal').classList.add('on');
+  el('imgModal').setAttribute('aria-hidden', 'false');
+}
+function closeImgModal(){
+  el('imgModal').classList.remove('on');
+  el('imgModal').setAttribute('aria-hidden', 'true');
+  el('imgModalImg').src = '';
+}
+document.addEventListener('click', e=>{
+  const wrap = e.target.closest('.proj-diagram-wrap');
+  if(wrap){ e.preventDefault(); openImgModal(wrap.href, wrap.querySelector('img').alt); return; }
+});
+el('imgModal').addEventListener('click', e=>{ if(e.target===el('imgModal')) closeImgModal(); });
+el('imgModalClose').addEventListener('click', closeImgModal);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeImgModal(); });
 
 function renderPosts(){
   const items = CORPUS.filter(c=>c.kind==='post').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
@@ -864,25 +925,27 @@ function renderPosts(){
 renderPosts();
 
 let active = null;
-el('mapGrid').addEventListener('click', e=>{
-  const b = e.target.closest('.node'); if(!b) return;
-  const k = b.dataset.k;
+function selectNode(k){
   const same = active===k;
   active = same ? null : k;
 
   document.querySelectorAll('.node').forEach(n=>n.setAttribute('aria-pressed', String(n.dataset.k===active)));
 
   const d = el('detail');
-  if(!active){ d.classList.remove('on'); renderWork(null); return; }
+  if(!active){ d.classList.remove('on'); return; }
 
   const meta = NODES.find(n=>n.k===active);
-  const items = CORPUS.filter(c=>c.node===active);
+  const items = CORPUS.filter(c=>!c.kind && c.node===active);
   d.innerHTML = `<h3>${esc(meta.label)}</h3><p>${esc(meta.blurb)}</p>
     <div class="detail-list">${items.map(c=>`
       <div class="item"><div class="t">${esc(c.title)}</div>
-      <div class="d">${esc(firstSentences(c.text,1))}</div></div>`).join('')}</div>`;
+      <div class="d">${esc(firstSentences(c.text,1))}</div>
+      ${c.demo?`<a class="demo-link" href="${esc(c.demo)}" target="_blank" rel="noopener">Watch demo →</a>`:''}</div>`).join('')}</div>`;
   d.classList.add('on');
-  renderWork(active);
+}
+el('mapGrid').addEventListener('click', e=>{
+  const b = e.target.closest('.node'); if(!b) return;
+  selectNode(b.dataset.k);
 });
 
 /* edges between map nodes */

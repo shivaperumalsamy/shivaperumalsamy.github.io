@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1620" viewBox="0 0 1500 1620">
+  <defs>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0B1F3A" flood-opacity=".14"/>
+    </filter>
+    <marker id="arrDown" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5B6E82"/>
+    </marker>
+    <marker id="arrIdM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5B3EA6"/>
+    </marker>
+    <marker id="arrRet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#0078D4"/>
+    </marker>
+    <style>
+      .h{font:700 28px Arial,sans-serif;fill:#0B1F3A}
+      .sub{font:500 16px Arial,sans-serif;fill:#5B6E82}
+      .band{stroke-width:1.5}
+      .bandlbl{font:700 15px Arial,sans-serif;letter-spacing:1.4px}
+      .card{fill:#fff;stroke:#D3DEEA;stroke-width:1.5}
+      .lbl{font:700 18px Arial,sans-serif;fill:#fff}
+      .cap{font:500 13.5px Arial,sans-serif;fill:#5B6E82}
+      .tt{font:700 13.5px Arial,sans-serif}
+      .foot{font:700 15px Arial,sans-serif;fill:#102033}
+      .footcap{font:500 12.5px Arial,sans-serif;fill:#5B6E82}
+      .down{stroke:#5B6E82;stroke-width:2.5;fill:none;marker-end:url(#arrDown)}
+      .idflow{stroke:#5B3EA6;stroke-width:2.5;stroke-dasharray:2 6;fill:none;marker-end:url(#arrIdM)}
+      .retflow{stroke:#0078D4;stroke-width:2.5;fill:none;marker-end:url(#arrRet)}
+      .step{fill:#fff;stroke:#D9CCF0;stroke-width:1.5}
+      .steplbl{font:700 14px Arial,sans-serif;fill:#3D2B72}
+      .stepcap{font:500 11.5px Arial,sans-serif;fill:#6B5C94}
+    </style>
+  </defs>
+
+  <rect width="1500" height="1620" fill="#F7FAFC"/>
+
+  <text x="60" y="56" class="h">SAGE — Cross-Cloud Seller Assistant, Layer by Layer</text>
+  <text x="60" y="86" class="sub">Teams/Azure channel → Entra ID identity bridge → AWS agent backend → Bedrock RAG retrieval</text>
+
+  <!-- ===================== BAND 1 — AZURE CHANNEL ===================== -->
+  <rect x="50" y="120" width="1400" height="180" rx="22" fill="#EAF3FC" stroke="#B9D6EE" class="band"/>
+  <text x="80" y="150" class="bandlbl" fill="#0078D4">CHANNEL LAYER — MICROSOFT AZURE</text>
+
+  <!-- azure logo mark -->
+  <g transform="translate(1288 122)">
+    <polygon points="17,1 6,15 1,44 13,44" fill="#0078D4"/>
+    <polygon points="17,1 45,44 22,44 20,22" fill="#0078D4"/>
+    <polygon points="1,44 13,44 5,48" fill="#0078D4"/>
+    <text x="56" y="34" font="500 26px Arial" fill="#0078D4">Azure</text>
+  </g>
+
+  <g transform="translate(80 168)">
+    <rect width="300" height="110" rx="16" class="card" filter="url(#sh)"/>
+    <rect width="300" height="46" rx="16" fill="#0078D4"/>
+    <rect y="30" width="300" height="16" fill="#0078D4"/>
+    <text x="20" y="31" class="lbl">Teams Client</text>
+    <text x="20" y="72" class="cap">Seller opens a chat inside Microsoft Teams</text>
+    <text x="20" y="92" class="cap">— no separate app to install</text>
+  </g>
+  <path d="M382 223 L410 223" class="down" marker-end="url(#arrDown)" transform="rotate(0)"/>
+  <g transform="translate(410 168)">
+    <rect width="300" height="110" rx="16" class="card" filter="url(#sh)"/>
+    <rect width="300" height="46" rx="16" fill="#2B88D8"/>
+    <rect y="30" width="300" height="16" fill="#2B88D8"/>
+    <text x="20" y="31" class="lbl">Azure Bot Service</text>
+    <text x="20" y="72" class="cap">Bot Framework channel adapter,</text>
+    <text x="20" y="92" class="cap">deployed and hosted in Azure</text>
+  </g>
+
+  <!-- ===================== IDENTITY BRIDGE ===================== -->
+  <path d="M750 300 L750 350" class="idflow"/>
+  <rect x="540" y="308" width="420" height="60" rx="18" fill="#EFEAFB" stroke="#C9B8ED"/>
+  <text x="566" y="332" class="tt" fill="#5B3EA6">Entra ID — SSO + tenant isolation</text>
+  <text x="566" y="352" class="footcap">cross-cloud identity bridge, one token, per-tenant boundaries</text>
+
+  <!-- ===================== BAND 2 — AWS COMPUTE ===================== -->
+  <rect x="50" y="392" width="1400" height="180" rx="22" fill="#FDF0E2" stroke="#F0CBA0" class="band"/>
+  <text x="80" y="422" class="bandlbl" fill="#B25900">COMPUTE LAYER — AMAZON WEB SERVICES</text>
+
+  <!-- aws logo mark -->
+  <g transform="translate(1300 400)">
+    <text x="0" y="28" font="700 30px Arial" fill="#242F3E">aws</text>
+    <path d="M2 46 Q46 74 82 42" stroke="#FF9900" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M74 24 L100 33 L78 52 Z" fill="#FF9900"/>
+  </g>
+
+  <g transform="translate(80 440)">
+    <rect width="300" height="110" rx="16" class="card" filter="url(#sh)"/>
+    <rect width="300" height="46" rx="16" fill="#B25900"/>
+    <rect y="30" width="300" height="16" fill="#B25900"/>
+    <text x="20" y="31" class="lbl">FastAPI Backend</text>
+    <text x="20" y="72" class="cap">Authenticated endpoint on ECS /</text>
+    <text x="20" y="92" class="cap">Fargate, behind ECR-built images</text>
+  </g>
+  <g transform="translate(410 440)">
+    <rect width="300" height="110" rx="16" class="card" filter="url(#sh)"/>
+    <rect width="300" height="46" rx="16" fill="#EC7211"/>
+    <rect y="30" width="300" height="16" fill="#EC7211"/>
+    <text x="20" y="31" class="lbl">LangGraph Supervisor</text>
+    <text x="20" y="72" class="cap">Supervisor-of-supervisors routes</text>
+    <text x="20" y="92" class="cap">to domain sub-agents below</text>
+  </g>
+
+  <path d="M750 572 L750 620" class="down"/>
+
+  <!-- ===================== BAND 3 — DOMAIN AGENTS ===================== -->
+  <rect x="50" y="640" width="1400" height="190" rx="22" fill="#fff" stroke="#D3DEEA" class="band" filter="url(#sh)"/>
+  <text x="80" y="670" class="bandlbl" fill="#102033">AGENT LAYER — DOMAIN SUB-AGENTS</text>
+
+  <g transform="translate(80 690)">
+    <rect width="310" height="110" rx="14" fill="#F7FAFC" stroke="#D3DEEA"/>
+    <text x="18" y="30" class="foot" font-size="15">Lead Qualification</text>
+    <text x="18" y="54" class="footcap">BANT-style intake before</text>
+    <text x="18" y="72" class="footcap">routing to a solutions architect</text>
+  </g>
+  <g transform="translate(410 690)">
+    <rect width="310" height="110" rx="14" fill="#F7FAFC" stroke="#D3DEEA"/>
+    <text x="18" y="30" class="foot" font-size="15">Cloud Funding</text>
+    <text x="18" y="54" class="footcap">AWS / Azure / GCP funding</text>
+    <text x="18" y="72" class="footcap">sub-agents, one KB each</text>
+  </g>
+  <g transform="translate(740 690)">
+    <rect width="310" height="110" rx="14" fill="#F7FAFC" stroke="#D3DEEA"/>
+    <text x="18" y="30" class="foot" font-size="15">Cost Estimation</text>
+    <text x="18" y="54" class="footcap">VM-inventory SQL lookup +</text>
+    <text x="18" y="72" class="footcap">live AWS Price List API</text>
+  </g>
+  <g transform="translate(1070 690)">
+    <rect width="310" height="110" rx="14" fill="#F7FAFC" stroke="#D3DEEA"/>
+    <text x="18" y="30" class="foot" font-size="15">Licensing + Solutions</text>
+    <text x="18" y="54" class="footcap">Licensing Q&amp;A and offering</text>
+    <text x="18" y="72" class="footcap">recommendations, RAG-grounded</text>
+  </g>
+
+  <path d="M750 830 L750 878" class="down"/>
+
+  <!-- ===================== BAND 4 — RAG / VECTOR RETRIEVAL DETAIL ===================== -->
+  <rect x="50" y="898" width="1400" height="420" rx="22" fill="#F6F1FD" stroke="#DCCBF3" class="band"/>
+  <text x="80" y="930" class="bandlbl" fill="#5B3EA6">KNOWLEDGE LAYER — RETRIEVAL-AUGMENTED GENERATION (per sub-agent)</text>
+  <text x="80" y="954" class="footcap">Each domain sub-agent owns a dedicated Amazon Bedrock Knowledge Base — its own index, its own retrieval scope.</text>
+
+  <!-- RAG pipeline steps -->
+  <g transform="translate(80 980)">
+    <rect width="230" height="130" rx="14" class="step"/>
+    <text x="18" y="30" class="steplbl">1. Query</text>
+    <text x="18" y="56" class="stepcap">Sub-agent forwards the</text>
+    <text x="18" y="74" class="stepcap">seller's question as a</text>
+    <text x="18" y="92" class="stepcap">retrieval query</text>
+  </g>
+  <path d="M310 1045 L338 1045" class="idflow" marker-end="url(#arrIdM)"/>
+
+  <g transform="translate(346 980)">
+    <rect width="230" height="130" rx="14" class="step"/>
+    <text x="18" y="30" class="steplbl">2. Embed</text>
+    <text x="18" y="56" class="stepcap">Amazon Titan Embeddings</text>
+    <text x="18" y="74" class="stepcap">turns query + source docs</text>
+    <text x="18" y="92" class="stepcap">into dense vectors</text>
+  </g>
+  <path d="M576 1045 L604 1045" class="idflow" marker-end="url(#arrIdM)"/>
+
+  <g transform="translate(612 980)">
+    <rect width="270" height="130" rx="14" class="step"/>
+    <text x="18" y="30" class="steplbl">3. Vector search</text>
+    <text x="18" y="56" class="stepcap">OpenSearch Serverless finds</text>
+    <text x="18" y="74" class="stepcap">the k nearest chunks by</text>
+    <text x="18" y="92" class="stepcap">cosine similarity</text>
+  </g>
+  <path d="M882 1045 L910 1045" class="idflow" marker-end="url(#arrIdM)"/>
+
+  <g transform="translate(918 980)">
+    <rect width="250" height="130" rx="14" class="step"/>
+    <text x="18" y="30" class="steplbl">4. Ground</text>
+    <text x="18" y="56" class="stepcap">Top-k chunks + citations</text>
+    <text x="18" y="74" class="stepcap">are injected into the</text>
+    <text x="18" y="92" class="stepcap">Claude prompt as context</text>
+  </g>
+  <path d="M1168 1045 L1196 1045" class="idflow" marker-end="url(#arrIdM)"/>
+
+  <g transform="translate(1204 980)">
+    <rect width="216" height="130" rx="14" fill="#3D2B72"/>
+    <text x="18" y="32" font="700 15px Arial" fill="#fff">5. Answer</text>
+    <text x="18" y="58" font="500 12px Arial" fill="#E4DBF7">Claude on Bedrock</text>
+    <text x="18" y="76" font="500 12px Arial" fill="#E4DBF7">replies with the</text>
+    <text x="18" y="94" font="500 12px Arial" fill="#E4DBF7">source chunk cited</text>
+  </g>
+
+  <text x="80" y="1160" class="footcap">No answer is generated from a domain question without a retrieval hit — an empty result set means the</text>
+  <text x="80" y="1180" class="footcap">sub-agent says so instead of guessing, the same discipline as the retrieval agent running this page.</text>
+
+  <g transform="translate(80 1210)">
+    <rect width="1340" height="70" rx="16" fill="#fff" stroke="#DCCBF3"/>
+    <text x="24" y="30" class="foot" font-size="14">Five domain-scoped Knowledge Bases</text>
+    <text x="24" y="50" class="footcap">AWS funding · Azure funding · GCP funding · Microsoft licensing · Solutions catalog — retrieval never crosses scope.</text>
+  </g>
+
+  <!-- ===================== RETURN PATH ===================== -->
+  <path d="M1440 200 L1470 200 L1470 1330 L1440 1330" class="retflow" fill="none" stroke="#0078D4" stroke-width="2.5" marker-end="url(#arrRet)"/>
+  <text x="1478" y="770" class="tt" fill="#0078D4" transform="rotate(90 1478 770)">grounded reply → FastAPI → Bot Service → Teams</text>
+
+  <!-- ===================== WHY CROSS-CLOUD ===================== -->
+  <line x1="50" y1="1350" x2="1450" y2="1350" stroke="#D3DEEA" stroke-width="1.5"/>
+  <text x="50" y="1382" class="foot" font-size="16">Why split across clouds</text>
+  <text x="50" y="1408" class="footcap">Distribution lives where sellers already work — Microsoft Teams. The agent stack, the retrieval index, and the</text>
+  <text x="50" y="1426" class="footcap">live AWS pricing data run where the model and the data actually live — AWS. Entra ID bridges the two with a</text>
+  <text x="50" y="1444" class="footcap">single sign-on and per-tenant isolation, instead of standing up a second identity system.</text>
+</svg>
