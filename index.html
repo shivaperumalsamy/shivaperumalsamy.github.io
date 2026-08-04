@@ -1,549 +1,965 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sivanandham (Shiva) Perumalsamy — Enterprise AI Solutions Architect</title>
-<meta name="description" content="Enterprise AI Solutions Architect specializing in agentic AI, automation, real-time Voice AI, and RAG systems.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shiva Perumalsamy — Enterprise AI Solutions Architect</title>
+<meta name="description" content="Agentic systems, retrieval, real-time voice AI, side projects, and technical writing. Ask this page a question — it retrieves before it answers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg: #0B0F14;
-    --surface: #121822;
-    --surface-2: #182130;
-    --line: #232E3D;
-    --text: #E7ECF1;
-    --muted: #8695A7;
-    --signal: #52D9C8;
-    --signal-dim: #2E6E68;
-    --amber: #F2A65A;
-    --radius: 10px;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:'IBM Plex Sans', sans-serif;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  ::selection{ background:var(--signal-dim); color:var(--text); }
-  a{ color:var(--signal); text-decoration:none; }
-  a:hover{ text-decoration:underline; }
-  a:focus-visible, button:focus-visible{ outline:2px solid var(--signal); outline-offset:3px; }
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --ink:#090C0E;
+  --surface:#111A1D;
+  --surface-2:#19252A;
+  --line:#2B3D44;
+  --line-soft:#1D2B30;
+  --text:#E9F1F2;
+  --muted:#8CA3AB;
+  --muted-dim:#617880;
+  --signal:#3EF0D4;
+  --signal-dim:#1F8F80;
+  --signal-ghost:rgba(62,240,212,.10);
+  --signal-glow:rgba(62,240,212,.35);
+  --amber:#F0AC42;
 
-  .mono{ font-family:'IBM Plex Mono', monospace; }
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12.5px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--signal);
-    margin:0 0 14px 0;
-  }
-  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
 
-  /* ---------- NAV ---------- */
-  header{
-    position:sticky; top:0; z-index:50;
-    background:rgba(11,15,20,0.85);
-    backdrop-filter: blur(8px);
-    border-bottom:1px solid var(--line);
-  }
-  nav.wrap{
-    display:flex; align-items:center; justify-content:space-between;
-    height:64px;
-  }
-  .brand{ font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:15px; color:var(--text); }
-  .brand span{ color:var(--signal); }
-  .navlinks{ display:flex; gap:28px; font-family:'IBM Plex Mono', monospace; font-size:13px; }
-  .navlinks a{ color:var(--muted); }
-  .navlinks a:hover{ color:var(--text); text-decoration:none; }
-  .navlinks{ display:none; }
-  @media(min-width:760px){ .navlinks{ display:flex; } }
+  --gut:clamp(20px,5vw,64px);
+  --maxw:1180px;
+}
 
-  /* ---------- HERO ---------- */
-  .hero{
-    padding:96px 0 64px;
-    position:relative;
-    overflow:hidden;
-  }
-  .hero-grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:40px;
-    align-items:center;
-  }
-  @media(min-width:900px){
-    .hero-grid{ grid-template-columns: 1.15fr 0.85fr; gap:56px; }
-  }
-  .hero h1{
-    font-size:clamp(32px,5vw,52px);
-    line-height:1.08;
-    margin:0 0 20px;
-    font-weight:700;
-    letter-spacing:-0.01em;
-  }
-  .hero h1 em{
-    font-style:normal;
-    color:var(--signal);
-  }
-  .hero p.lead{
-    font-size:17px;
-    color:var(--muted);
-    max-width:56ch;
-    margin:0 0 32px;
-  }
-  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
-  .btn{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:13px;
-    padding:12px 20px;
-    border-radius:8px;
-    border:1px solid var(--line);
-    display:inline-flex; align-items:center; gap:8px;
-    transition: border-color .15s ease, transform .15s ease;
-  }
-  .btn:hover{ text-decoration:none; border-color:var(--signal); transform:translateY(-1px); }
-  .btn.primary{ background:var(--signal); color:#04231F; border-color:var(--signal); font-weight:600; }
-  .btn.primary:hover{ border-color:var(--signal); }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--text);
+  font-family:var(--sans);font-weight:300;
+  font-size:17px;line-height:1.66;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit}
+::selection{background:var(--signal);color:var(--ink)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px}
 
-  canvas#signal{
-    width:100%; height:220px; display:block;
-    border-radius:var(--radius);
-    background:linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
-    border:1px solid var(--line);
-  }
-  .hero-tag{
-    margin-top:14px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11.5px;
-    color:var(--muted);
-    text-align:center;
-  }
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
 
-  /* ---------- SECTION SHELL ---------- */
-  section{ padding:64px 0; border-top:1px solid var(--line); }
-  .section-head{ margin-bottom:36px; max-width:60ch; }
-  .section-head h2{ font-size:26px; margin:0 0 8px; letter-spacing:-0.01em; }
-  .section-head p{ color:var(--muted); margin:0; font-size:15px; }
+/* eyebrow / utility type */
+.eyebrow{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--muted-dim);
+}
 
-  /* ---------- FOCUS AREAS ---------- */
-  .focus-grid{
-    display:grid; grid-template-columns:repeat(2,1fr); gap:1px;
-    background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
-  }
-  @media(min-width:760px){ .focus-grid{ grid-template-columns:repeat(4,1fr); } }
-  .focus-card{
-    background:var(--surface);
-    padding:26px 22px;
-  }
-  .focus-card .idx{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--signal); margin-bottom:14px; }
-  .focus-card h3{ font-size:16px; margin:0 0 8px; }
-  .focus-card p{ font-size:13.5px; color:var(--muted); margin:0; }
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;top:0;z-index:60;
+  background:rgba(11,15,17,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-in{
+  max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);
+  height:58px;display:flex;align-items:center;gap:22px;
+}
+.nav-id{font-family:var(--mono);font-size:13.5px;font-weight:500;letter-spacing:.01em;color:var(--text);text-decoration:none;white-space:nowrap}
+.nav-id .dim{color:var(--muted-dim)}
+.nav-links{margin-left:auto;display:flex;gap:20px}
+.nav-links a{
+  position:relative;
+  font-family:var(--mono);font-size:12px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;
+  padding:4px 0;transition:color .18s;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--signal);transform:scaleX(0);transform-origin:center;
+  transition:transform .3s ease;
+}
+.nav-links a:hover{color:var(--signal)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.status{
+  display:flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted-dim);white-space:nowrap;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--muted-dim);flex:none}
+.dot.live{background:var(--signal);box-shadow:0 0 0 0 rgba(62,240,212,.5);animation:pulse 2.6s infinite}
+.dot.local{background:var(--amber)}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(62,240,212,0)}100%{box-shadow:0 0 0 0 rgba(62,240,212,0)}}
+@media(max-width:820px){.nav-links{display:none}}
 
-  /* ---------- PROJECTS ---------- */
-  .proj-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
-  .proj{
-    background:var(--surface);
-    padding:28px 26px;
-    display:grid;
-    grid-template-columns:1fr;
-    gap:6px;
-    transition:background .15s ease;
-  }
-  .proj:hover{ background:var(--surface-2); }
-  @media(min-width:760px){
-    .proj{ grid-template-columns: 220px 1fr; gap:24px; align-items:start; }
-  }
-  .proj .cat{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
-    color:var(--amber);
-  }
-  .proj h3{ margin:6px 0 0; font-size:17px; }
-  .proj p{ margin:8px 0 0; color:var(--muted); font-size:14.5px; }
-  .proj .tags{ margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; }
-  .tag{
-    font-family:'IBM Plex Mono', monospace; font-size:11px;
-    padding:4px 9px; border:1px solid var(--line); border-radius:6px; color:var(--muted);
-  }
+/* ============================================================
+   HERO — the demo is the thesis
+   ============================================================ */
+.hero{position:relative;padding:clamp(48px,9vw,104px) 0 clamp(40px,6vw,72px);overflow:hidden}
+#graph{position:absolute;inset:0;width:100%;height:100%;opacity:.5;pointer-events:none}
+.hero-in{position:relative;z-index:2}
+.hero-id{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin-bottom:26px}
+.hero-id .name{font-family:var(--mono);font-size:13.5px;font-weight:500;letter-spacing:.02em}
+.hero-id .role{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-dim)}
 
-  /* ---------- STACK ---------- */
-  .stack-grid{ display:grid; grid-template-columns:1fr; gap:18px; }
-  @media(min-width:760px){ .stack-grid{ grid-template-columns:repeat(2,1fr); gap:22px; } }
-  .stack-item{ border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; background:var(--surface); }
-  .stack-item h4{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase;
-    color:var(--signal); margin:0 0 12px;
-  }
-  .stack-item p{ margin:0; color:var(--text); font-size:14px; line-height:1.7; }
+h1{
+  font-family:var(--sans);font-weight:200;
+  font-size:clamp(36px,6.6vw,70px);line-height:1.05;
+  letter-spacing:-.028em;margin:0 0 22px;max-width:16ch;
+}
+/* the typographic risk: the verb switches to mono — prose vs. system */
+h1 .op{
+  font-family:var(--mono);font-weight:500;
+  font-size:.82em;letter-spacing:-.01em;color:var(--signal);
+  text-shadow:0 0 22px var(--signal-glow);
+}
+.lede{font-size:clamp(16px,1.8vw,19px);color:var(--muted);max-width:56ch;margin:0 0 34px;font-weight:300}
+.lede strong{color:var(--text);font-weight:400}
 
-  /* ---------- EXPERIENCE ---------- */
-  .exp-item{ border-left:2px solid var(--line); padding:2px 0 28px 24px; position:relative; }
-  .exp-item::before{
-    content:''; position:absolute; left:-6px; top:4px;
-    width:10px; height:10px; border-radius:50%;
-    background:var(--signal);
-  }
-  .exp-item:last-child{ padding-bottom:0; }
-  .exp-role{ font-weight:600; font-size:16px; }
-  .exp-meta{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--muted); margin:4px 0 10px; }
-  .exp-item p{ margin:0; color:var(--muted); font-size:14.5px; max-width:70ch; }
+/* ============================================================
+   ORCHESTRATOR
+   ============================================================ */
+.orch{
+  border:1px solid var(--line);background:var(--surface);
+  border-radius:3px;max-width:820px;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.9),0 0 0 1px rgba(62,240,212,.04);
+}
+.orch-bar{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 16px;border-bottom:1px solid var(--line-soft);
+}
+.orch-bar .eyebrow{color:var(--muted)}
+.orch-bar .mode{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-dim)}
 
-  /* ---------- CERTS ---------- */
-  .cert-list{ display:grid; grid-template-columns:1fr; gap:10px; }
-  @media(min-width:760px){ .cert-list{ grid-template-columns:repeat(2,1fr); } }
-  .cert{ display:flex; align-items:baseline; gap:10px; font-size:14.5px; }
-  .cert .dot{ color:var(--signal); font-family:'IBM Plex Mono', monospace; }
+.ask{display:flex;align-items:stretch;border-bottom:1px solid var(--line-soft)}
+.ask input{
+  flex:1;min-width:0;background:transparent;border:0;color:var(--text);
+  font-family:var(--sans);font-size:16.5px;font-weight:300;
+  padding:17px 16px;outline:none;
+}
+.ask input::placeholder{color:var(--muted-dim)}
+.ask button{
+  flex:none;background:transparent;border:0;border-left:1px solid var(--line-soft);
+  color:var(--signal);font-family:var(--mono);font-size:12px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;padding:0 20px;cursor:pointer;
+  transition:background .18s;
+}
+.ask button:hover{background:var(--signal-ghost)}
+.ask button:disabled{color:var(--muted-dim);cursor:default;background:transparent}
 
-  /* ---------- FOOTER ---------- */
-  footer{ padding:56px 0 40px; border-top:1px solid var(--line); }
-  .footer-grid{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:center; }
-  .footer-links{ display:flex; gap:22px; font-family:'IBM Plex Mono', monospace; font-size:13px; }
-  .copyright{ color:var(--muted); font-size:12.5px; font-family:'IBM Plex Mono', monospace; }
+.chips{display:flex;flex-wrap:wrap;gap:7px;padding:13px 16px}
+.chip{
+  background:transparent;border:1px solid var(--line);color:var(--muted);
+  font-family:var(--mono);font-size:11.5px;padding:5px 10px;border-radius:2px;
+  cursor:pointer;transition:border-color .18s,color .18s;
+}
+.chip:hover{border-color:var(--signal-dim);color:var(--signal)}
 
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior:auto; }
-  }
+/* trace */
+.trace{border-top:1px solid var(--line-soft);padding:4px 16px 6px;display:none}
+.trace.on{display:block}
+.step{display:flex;gap:13px;padding:9px 0;border-bottom:1px solid var(--line-soft);opacity:.25;transition:opacity .3s}
+.step:last-child{border-bottom:0}
+.step.on{opacity:1}
+.step-n{font-family:var(--mono);font-size:11px;color:var(--signal-dim);padding-top:2px;flex:none;width:20px}
+.step-b{flex:1;min-width:0}
+.step-t{font-family:var(--mono);font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--text)}
+.step-d{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:3px;word-break:break-word}
+.step-ms{font-family:var(--mono);font-size:11px;color:var(--muted-dim);flex:none;padding-top:2px}
+.cites{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.cite{
+  font-family:var(--mono);font-size:11px;color:var(--signal);
+  border:1px solid var(--signal-dim);border-radius:2px;padding:2px 7px;
+  background:var(--signal-ghost);
+}
+.answer{padding:16px;border-top:1px solid var(--line-soft);display:none}
+.answer.on{display:block}
+.answer p{margin:0 0 11px;font-size:16px;line-height:1.7}
+.answer p:last-child{margin-bottom:0}
+.answer .src{font-family:var(--mono);font-size:11.5px;color:var(--muted-dim);margin-top:14px;padding-top:11px;border-top:1px solid var(--line-soft)}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.sec{padding:clamp(56px,8vw,96px) 0;border-top:1px solid var(--line-soft)}
+.sec-head{margin-bottom:34px}
+.sec-head h2{
+  font-family:var(--sans);font-weight:200;letter-spacing:-.02em;
+  font-size:clamp(26px,3.6vw,38px);margin:9px 0 0;
+}
+.sec-head p{color:var(--muted);max-width:58ch;margin:11px 0 0;font-size:15.5px}
+
+/* architecture map */
+.map{position:relative;border:1px solid var(--line);background:var(--surface);border-radius:3px;padding:26px}
+.map-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:16px 12px}
+#edges{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.node{
+  position:relative;z-index:2;text-align:left;cursor:pointer;
+  background:var(--ink);border:1px solid var(--line);border-radius:2px;
+  padding:14px 15px;color:var(--text);font-family:var(--sans);
+  transition:border-color .2s,background .2s,transform .2s;
+}
+.node:hover{border-color:var(--signal-dim);transform:translateY(-2px)}
+.node[aria-pressed="true"]{border-color:var(--signal);background:var(--signal-ghost);box-shadow:0 0 0 1px var(--signal-dim),0 0 24px -8px var(--signal-glow)}
+.node .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-dim);display:block}
+.node .l{font-size:16px;font-weight:400;margin-top:5px;display:block}
+.node .c{font-family:var(--mono);font-size:11px;color:var(--signal-dim);margin-top:6px;display:block}
+@media(max-width:760px){.map-grid{grid-template-columns:repeat(2,1fr)}#edges{display:none}}
+@media(max-width:420px){.map-grid{grid-template-columns:1fr}}
+
+.detail{margin-top:20px;border-top:1px solid var(--line-soft);padding-top:20px;display:none}
+.detail.on{display:block}
+.detail h3{font-family:var(--mono);font-size:12.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--signal);margin:0 0 12px;font-weight:500}
+.detail p{margin:0 0 14px;color:var(--muted);font-size:15.5px;max-width:66ch}
+.detail-list{display:grid;gap:11px}
+.item{border-left:2px solid var(--line);padding-left:14px}
+.item .t{font-size:15.5px;color:var(--text)}
+.item .d{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:3px}
+
+/* selected work grid */
+.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 20px}
+@media(max-width:760px){.work-grid{grid-template-columns:1fr}}
+.work-card{
+  border:1px solid var(--line);border-radius:3px;background:var(--surface);
+  padding:16px 18px;transition:border-color .2s,transform .2s;
+}
+.work-card:hover{border-color:var(--signal-dim);transform:translateY(-2px)}
+.work-card .k{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--signal-dim);display:block;margin-bottom:7px}
+.work-card .t{font-size:15.5px;color:var(--text);line-height:1.4}
+.work-card .d{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:8px}
+
+/* stack tiers */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:820px){.tiers{grid-template-columns:1fr}}
+.tier{border:1px solid var(--line);border-radius:3px;padding:20px;background:var(--surface)}
+.tier .h{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px}
+.tier.t1 .h{color:var(--signal);text-shadow:0 0 16px var(--signal-glow)}
+.tier.t2 .h{color:var(--text)}
+.tier.t3 .h{color:var(--amber)}
+.tier .sub{font-family:var(--mono);font-size:11.5px;color:var(--muted-dim);margin-bottom:14px}
+.tier ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.tier li{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line-soft);border-radius:2px;padding:3px 8px}
+
+/* projects */
+.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.projects{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.projects{grid-template-columns:1fr}}
+.proj{border:1px solid var(--line);border-radius:3px;padding:20px;background:var(--surface);display:flex;flex-direction:column;gap:12px}
+.proj .t{font-size:16px;color:var(--text);font-weight:400}
+.proj .d{color:var(--muted);font-size:14.5px;flex:1}
+.proj .tags{display:flex;flex-wrap:wrap;gap:6px}
+.proj .tags span{font-family:var(--mono);font-size:10.5px;color:var(--muted-dim);border:1px solid var(--line-soft);border-radius:2px;padding:2px 7px}
+.proj .links{display:flex;gap:8px}
+.proj .links a{
+  font-family:var(--mono);font-size:11.5px;color:var(--signal);text-decoration:none;
+  border:1px solid var(--signal-dim);border-radius:2px;padding:5px 10px;
+  background:var(--signal-ghost);transition:border-color .18s;
+}
+.proj .links a:hover{border-color:var(--signal)}
+
+/* writing / blog */
+.posts{display:grid;gap:22px;max-width:74ch}
+.post{border-left:2px solid var(--line);padding-left:16px}
+.post .meta{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-dim)}
+.post .t{font-size:16.5px;color:var(--text);margin-top:4px}
+.post .d{color:var(--muted);font-size:15px;margin-top:5px}
+.post .read{position:relative;font-family:var(--mono);font-size:11.5px;color:var(--signal);text-decoration:none;margin-top:8px;display:inline-block}
+.post .read::after{
+  content:'';position:absolute;left:0;right:0;bottom:-2px;height:1px;
+  background:var(--signal);transform:scaleX(0);transform-origin:center;
+  transition:transform .3s ease;
+}
+.post .read:hover::after{transform:scaleX(1)}
+
+/* facts row */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:3px;overflow:hidden}
+@media(max-width:760px){.facts{grid-template-columns:repeat(2,1fr)}}
+.fact{background:var(--ink);padding:18px 16px}
+.fact svg{width:20px;height:20px;color:var(--signal-dim);display:block;margin-bottom:10px}
+.fact .v{font-family:var(--mono);font-size:21px;color:var(--signal);font-weight:500;text-shadow:0 0 18px var(--signal-glow)}
+.fact .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-dim);margin-top:6px}
+
+/* contact */
+.contact-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.clink{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.05em;
+  text-decoration:none;border:1px solid var(--line);border-radius:2px;
+  padding:10px 16px;color:var(--text);transition:border-color .2s,color .2s;
+}
+.clink:hover{border-color:var(--signal);color:var(--signal)}
+
+footer{border-top:1px solid var(--line-soft);padding:26px 0 40px}
+footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font-size:11.5px;color:var(--muted-dim)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <nav class="wrap">
-    <div class="brand">shiva<span>.</span>perumalsamy</div>
-    <div class="navlinks">
-      <a href="#focus">Focus</a>
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-id" href="#top">shiva<span class="dim">.perumalsamy</span></a>
+    <div class="nav-links">
+      <a href="#system">System</a>
+      <a href="#work">Work</a>
       <a href="#projects">Projects</a>
+      <a href="#blog">Writing</a>
       <a href="#stack">Stack</a>
-      <a href="#experience">Experience</a>
       <a href="#contact">Contact</a>
     </div>
-  </nav>
+    <div class="status" id="status"><span class="dot" id="statusDot"></span><span id="statusText">booting</span></div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="graph" aria-hidden="true"></canvas>
+  <div class="wrap hero-in">
+    <div class="hero-id">
+      <span class="name">Shiva Perumalsamy</span>
+      <span class="role">Enterprise AI Solutions Architect · Austin, TX</span>
+    </div>
+
+    <h1>Skip the scroll. <span class="op">query()</span> my work.</h1>
+
+    <p class="lede">This page runs a small retrieval agent over my own work history, side projects, and technical writing — agents, RAG, real-time voice, governance. <strong>Ask it something specific.</strong> It shows you what it retrieved before it answers, so you can check the grounding yourself.</p>
+
+    <section class="orch" aria-label="Ask about my work">
+      <div class="orch-bar">
+        <span class="eyebrow">Orchestrator</span>
+        <span class="mode" id="modeLabel">—</span>
+      </div>
+
+      <div class="ask">
+        <input id="q" type="text" autocomplete="off" placeholder="What has he actually shipped with MCP?" aria-label="Ask a question about my work">
+        <button id="run">Run</button>
+      </div>
+
+      <div class="chips" id="chips"></div>
+
+      <div class="trace" id="trace">
+        <div class="step" id="s1">
+          <span class="step-n">01</span>
+          <span class="step-b"><span class="step-t">Plan</span><span class="step-d" id="d1"></span></span>
+          <span class="step-ms" id="m1"></span>
+        </div>
+        <div class="step" id="s2">
+          <span class="step-n">02</span>
+          <span class="step-b"><span class="step-t">Retrieve</span><span class="step-d" id="d2"></span><span class="cites" id="c2"></span></span>
+          <span class="step-ms" id="m2"></span>
+        </div>
+        <div class="step" id="s3">
+          <span class="step-n">03</span>
+          <span class="step-b"><span class="step-t">Synthesize</span><span class="step-d" id="d3"></span></span>
+          <span class="step-ms" id="m3"></span>
+        </div>
+      </div>
+
+      <div class="answer" id="answer" aria-live="polite"></div>
+    </section>
+  </div>
 </header>
 
-<section class="hero wrap" style="border-top:none;">
-  <div class="hero-grid">
-    <div>
-      <p class="eyebrow">Enterprise AI Solutions Architect</p>
-      <h1>I build agents that <em>act</em>, systems that <em>speak</em>, and pipelines that <em>retrieve</em>.</h1>
-      <p class="lead">14+ years across enterprise software and production AI. I design multi-agent orchestration, AI-driven delivery automation, real-time Voice AI, and RAG systems — from architecture through production, for enterprise customers and partners.</p>
-      <div class="hero-ctas">
-        <a class="btn primary" href="#projects">See the work →</a>
-        <a class="btn" href="#contact">Get in touch</a>
-      </div>
-    </div>
-    <div>
-      <canvas id="signal" width="600" height="220" aria-label="Animated signal, transitioning from a voice waveform into an agent orchestration graph" role="img"></canvas>
-      <p class="hero-tag">// voice waveform → agent graph</p>
-    </div>
-  </div>
-</section>
-
-<section id="focus">
+<section class="sec" id="system">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Focus Areas</p>
-      <h2>Four disciplines, one throughline</h2>
-      <p>Agentic systems that plan and act, automation that ships them, voice that makes them conversational, and retrieval that keeps them grounded.</p>
+    <div class="sec-head">
+      <span class="eyebrow">The system</span>
+      <h2>Six surfaces I design against.</h2>
+      <p>Pick one. It filters the corpus above and expands everything tagged to that surface underneath — work, projects, and writing alike, same retrieval index the agent queries.</p>
     </div>
-    <div class="focus-grid">
-      <div class="focus-card">
-        <div class="idx">Agent</div>
-        <h3>AI Agents</h3>
-        <p>Multi-agent orchestration, MCP tool integration, planner-executor workflows.</p>
-      </div>
-      <div class="focus-card">
-        <div class="idx">Automation</div>
-        <h3>Delivery Automation</h3>
-        <p>Agentic SDLC, testing accelerators, evaluation and benchmarking harnesses.</p>
-      </div>
-      <div class="focus-card">
-        <div class="idx">Voice</div>
-        <h3>Voice AI</h3>
-        <p>Composable STT–LLM–TTS pipelines, real-time streaming, multimodal response.</p>
-      </div>
-      <div class="focus-card">
-        <div class="idx">RAG</div>
-        <h3>RAG Systems</h3>
-        <p>Advanced and multimodal retrieval over structured and unstructured data.</p>
-      </div>
+
+    <div class="map">
+      <svg id="edges" aria-hidden="true"></svg>
+      <div class="map-grid" id="mapGrid"></div>
+      <div class="detail" id="detail"></div>
     </div>
   </div>
 </section>
 
-<section id="projects">
+<section class="sec" id="work">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Featured Projects</p>
-      <h2>Selected production work</h2>
-      <p>Ordered by discipline: agent orchestration, automation, voice, then retrieval.</p>
+    <div class="sec-head">
+      <span class="eyebrow">Selected work</span>
+      <h2>What I've built and shipped.</h2>
     </div>
-    <div class="proj-list">
-
-      <div class="proj">
-        <div><span class="cat">Agent</span><h3>NemoClaw / NemoHermes</h3></div>
-        <div>
-          <p>Secure agentic reference architecture on NVIDIA's agentic framework — Jira-connected, with scoped tool access, sandboxed execution, and governance controls. Upstream open-source contribution submitted; published an article on secure multi-agent execution.</p>
-          <div class="tags"><span class="tag">MCP</span><span class="tag">NVIDIA Stack</span><span class="tag">Governance</span><span class="tag">Open Source</span></div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div><span class="cat">Agent</span><h3>Crash-Data Intelligence Agent</h3></div>
-        <div>
-          <p>SQL-connected agent exposed via MCP, with LiteLLM as the model-routing/gateway layer and a custom-built session, authentication, and authorization layer — on-demand summary, sentiment, classification, and trend detection over large structured datasets. No SQL required.</p>
-          <div class="tags"><span class="tag">MCP</span><span class="tag">LiteLLM</span><span class="tag">Custom Auth</span><span class="tag">Data Intelligence</span></div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div><span class="cat">Automation</span><h3>Agentic SDLC & Testing Automation</h3></div>
-        <div>
-          <p>Coordinator-led multi-agent delivery framework — Research, Dev, Code Review, Testing, and CI/CD agents — integrated via MCP, with Jira/GitLab connectors for git-native, PR-linked workflows. Testing agent cut manual effort ~40% and scaled to a 50+ entity accessibility-compliance pipeline.</p>
-          <div class="tags"><span class="tag">LangGraph</span><span class="tag">Playwright</span><span class="tag">MCP</span><span class="tag">CI/CD</span></div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div><span class="cat">Automation</span><h3>Agent Evaluation & Benchmarking Framework</h3></div>
-        <div>
-          <p>Evaluation harness benchmarking multi-agent and LLM systems on accuracy, tool-use correctness, reasoning quality, latency, and regression — ground-truth feedback loops driving evidence-based agent design decisions.</p>
-          <div class="tags"><span class="tag">LangSmith</span><span class="tag">Langfuse</span><span class="tag">Benchmarking</span></div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div><span class="cat">Voice</span><h3>VitalForce AI</h3></div>
-        <div>
-          <p>Real-time, composable Voice AI system — LiveKit and Pipecat for audio orchestration, NVIDIA Riva/NeMo for ASR/TTS, BitHuman and Unreal Engine MetaHuman for embodied multimodal response — with WebRTC streaming, session management, and interruption/turn-taking handling. Demonstrated live at NVIDIA GTC 2026.</p>
-          <div class="tags"><span class="tag">LiveKit</span><span class="tag">Pipecat</span><span class="tag">NVIDIA Riva</span><span class="tag">MetaHuman</span><span class="tag">WebRTC</span></div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div><span class="cat">Voice</span><h3>PersonaPlex Voice Agent</h3></div>
-        <div>
-          <p>Real-time conversational Voice AI agent built on NVIDIA PersonaPlex and Nemotron, handling natural-language booking workflows end-to-end — from intent capture through transaction completion.</p>
-          <div class="tags"><span class="tag">PersonaPlex</span><span class="tag">Nemotron</span><span class="tag">Real-Time</span></div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <div><span class="cat">RAG</span><h3>Multimodal RAG — Engineering Drawings</h3></div>
-        <div>
-          <p>Production RAG pipeline over enterprise engineering drawings and specifications — OCR-based extraction, Google ADK, and LangChain, with embeddings, reranking, and guardrails over unstructured technical documents. LangSmith tracing for observability.</p>
-          <div class="tags"><span class="tag">OCR</span><span class="tag">Google ADK</span><span class="tag">LangChain</span><span class="tag">Reranking</span></div>
-        </div>
-      </div>
-
-    </div>
+    <div class="work-grid" id="workList"></div>
   </div>
 </section>
 
-<section id="stack">
+<section class="sec" id="projects">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Tech Stack</p>
-      <h2>Tools of the trade</h2>
+    <div class="sec-head">
+      <span class="eyebrow">Projects</span>
+      <h2>Side builds, not just the day job.</h2>
+      <p>Placeholders below marked in [brackets] — swap in real repos and demos. Same retrieval index: the agent above can already answer questions about these.</p>
     </div>
-    <div class="stack-grid">
-      <div class="stack-item">
-        <h4>Agent & LLM Stack</h4>
-        <p>LangChain, LangGraph, MCP (Model Context Protocol), A2A, CrewAI, AutoGen, Claude Agent SDK, OpenAI Agents SDK, Gemini ADK, AWS Strands, vector databases, tool integration</p>
-      </div>
-      <div class="stack-item">
-        <h4>Evaluation & Observability</h4>
-        <p>Agent evaluation harnesses, LLM benchmarking, latency/cost evaluation, LangSmith, Langfuse, Arize Phoenix</p>
-      </div>
-      <div class="stack-item">
-        <h4>Voice AI & Real-Time Systems</h4>
-        <p>LiveKit, Pipecat, NVIDIA Riva (ASR/TTS), BitHuman, Unreal Engine MetaHuman, WebRTC, streaming audio, interruption handling, latency optimization</p>
-      </div>
-      <div class="stack-item">
-        <h4>LLMs & Model Development</h4>
-        <p>Foundation models, advanced & multimodal RAG, fine-tuning (LoRA/PEFT), embeddings, reranking, prompt engineering, guardrails, Hugging Face, vLLM, Ollama</p>
-      </div>
-      <div class="stack-item">
-        <h4>Cloud & Platform</h4>
-        <p>AWS Bedrock, AWS AgentCore, Amazon EKS, Azure AI Foundry, Azure ML, NVIDIA AI Enterprise, Kubernetes, Docker, GitOps (Argo CD), CI/CD (GitLab), Linux</p>
-      </div>
-      <div class="stack-item">
-        <h4>NVIDIA AI Stack</h4>
-        <p>NeMo, Nemotron, NeMo Agent Toolkit, NIM, TensorRT-LLM, Triton Inference Server, CUDA, GPU inference</p>
-      </div>
-    </div>
+    <div class="projects" id="projectsGrid"></div>
   </div>
 </section>
 
-<section id="experience">
+<section class="sec" id="blog">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Experience</p>
-      <h2>Where the work happened</h2>
+    <div class="sec-head">
+      <span class="eyebrow">Writing</span>
+      <h2>Technical notes, in public.</h2>
+      <p>Placeholders below — replace with real posts as they publish.</p>
     </div>
-
-    <div class="exp-item">
-      <div class="exp-role">AI Managing Consultant Engineer (AI Solutions Architect)</div>
-      <div class="exp-meta">CDW (formerly Sirius) · Austin, TX · Nov 2025 – Present</div>
-      <p>Leading customer- and partner-facing agentic AI and Voice AI engagements from architecture through production. Built VitalForce AI and a PersonaPlex booking agent, shipped secure multi-agent orchestration on the NVIDIA stack, and standardized AI-assisted delivery practices across teams.</p>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-role">Senior Solutions Specialist</div>
-      <div class="exp-meta">CDW (formerly Sirius) · Austin, TX · Nov 2019 – Nov 2025</div>
-      <p>Built the enterprise GenAI practice from early LLM applications to production advanced and multimodal RAG systems. Delivered AI-powered SDLC automation and mentored 20+ engineers across AI architecture and agentic systems.</p>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-role">Senior Consultant</div>
-      <div class="exp-meta">Sirius Computer Solutions (formerly Avnet/Ascendant) · Chennai, India · Oct 2015 – Nov 2019</div>
-      <p>Delivered machine learning and conversational AI solutions for enterprise clients, including NLP-based support triage and Rasa/LUIS-based virtual assistants.</p>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-role">Consultant</div>
-      <div class="exp-meta">Ascendant Technology · Chennai, India · May 2012 – Oct 2015</div>
-      <p>Delivered enterprise workflow and business-process automation using J2EE, IBM BPM, and WebSphere Commerce.</p>
-    </div>
-
+    <div class="posts" id="postsList"></div>
   </div>
 </section>
 
-<section id="certifications">
+<section class="sec" id="stack">
   <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">Certifications & Recognition</p>
-      <h2>Credentials</h2>
+    <div class="sec-head">
+      <span class="eyebrow">Stack</span>
+      <h2>Graded by depth, not by logo count.</h2>
+      <p>Most stack lists flatten everything to one tier. Mine doesn't — if you interview me on the third column, expect PoC-level answers.</p>
     </div>
-    <div class="cert-list">
-      <div class="cert"><span class="dot mono">▸</span> NVIDIA Certified Professional: Agentic AI (2026)</div>
-      <div class="cert"><span class="dot mono">▸</span> Anthropic Claude Certified Architect (2026)</div>
-      <div class="cert"><span class="dot mono">▸</span> NVIDIA Certified Associate: Gen AI LLM (2024)</div>
-      <div class="cert"><span class="dot mono">▸</span> NVIDIA AI Advisor (2025)</div>
-      <div class="cert"><span class="dot mono">▸</span> CDW Presidential Award & Crystal Winner (2025)</div>
-      <div class="cert"><span class="dot mono">▸</span> Post Graduate Program in AI/ML — UT Austin (2020)</div>
+    <div class="tiers">
+      <div class="tier t1">
+        <div class="h">Production</div>
+        <div class="sub">Shipped, operated, debugged at 2am</div>
+        <ul id="tier1"></ul>
+      </div>
+      <div class="tier t2">
+        <div class="h">Working</div>
+        <div class="sub">Hands-on, delivered, not yet at scale</div>
+        <ul id="tier2"></ul>
+      </div>
+      <div class="tier t3">
+        <div class="h">Learning</div>
+        <div class="sub">PoC-level — stated plainly</div>
+        <ul id="tier3"></ul>
+      </div>
     </div>
   </div>
 </section>
 
-<footer id="contact">
-  <div class="wrap footer-grid">
-    <div>
-      <div class="brand" style="margin-bottom:8px;">shiva<span>.</span>perumalsamy</div>
-      <div class="copyright">Austin, Texas · Enterprise AI Solutions Architect</div>
+<section class="sec">
+  <div class="wrap">
+    <div class="facts">
+      <div class="fact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <div class="v">14+ yrs</div><div class="k">Enterprise engineering</div>
+      </div>
+      <div class="fact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+        <div class="v">3</div><div class="k">Open-source contributions</div>
+      </div>
+      <div class="fact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M9 12.5 7 21l5-3 5 3-2-8.5"/></svg>
+        <div class="v">Top ~50</div><div class="k">of ~15,000 · Presidential Award</div>
+      </div>
+      <div class="fact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div class="v">2</div><div class="k">Agentic AI certifications</div>
+      </div>
     </div>
-    <div class="footer-links">
-      <a href="mailto:shiva.perumalsamy@gmail.com">Email</a>
-      <a href="https://www.linkedin.com/in/shiva-perumalsamy" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/shivaperumalsamy" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</section>
+
+<section class="sec" id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Contact</span>
+      <h2>Let's talk shop.</h2>
+      <p>Say hi, dig into agentic systems, retrieval, or voice AI with me, or just follow along below.</p>
     </div>
+    <div class="contact-links">
+      <!-- TODO: replace placeholders -->
+      <a class="clink" href="mailto:shiva.perumalsamy@gmail.com">Email</a>
+      <a class="clink" href="https://www.linkedin.com/in/shiva-perumalsamy/">LinkedIn</a>
+      <a class="clink" href="https://github.com/shivaperumalsamy">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap f">
+    <span>Built as a working demo, not a template.</span>
+    <span id="footMode">Retrieval runs client-side.</span>
   </div>
 </footer>
 
-<script>
-(function(){
-  const canvas = document.getElementById('signal');
-  const ctx = canvas.getContext('2d');
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+<!-- ============================================================
+     CORPUS — edit this block only. Everything else reads from it.
+     Each chunk: id, node, title, text, tags
+     Optional: kind ("project" | "post", default = work history item)
+       project → repo, demo (URLs, shown in the Projects section)
+       post    → date, url (shown in the Writing section)
+                 url should point at a page under /blog — e.g. "blog/your-post-slug.html".
+                 Duplicate blog/grounding-a-portfolio.html to start a new one, then add its
+                 entry here so it's linked from the Writing section and queryable
+                 by the orchestrator above.
+     Entries with [bracketed] text are placeholders — replace freely.
+     ============================================================ -->
+<script type="application/json" id="corpus">
+[
+{"id":"vitalforce","node":"voice","title":"VitalForce AI — real-time multimodal voice agent","tags":["voice","livekit","pipecat","riva","nemo","metahuman","bithuman","unreal","gtc","latency","interruption","barge-in","webrtc","streaming","stt","tts"],
+"text":"VitalForce AI is a real-time multimodal voice agent demoed live on stage at NVIDIA GTC 2026. Stack: LiveKit and Pipecat for transport and orchestration, NVIDIA Riva and NeMo for speech, BitHuman and Unreal Engine MetaHuman for the embodied avatar. The hard parts were the ones that always are in live voice: interruption and barge-in handling, streaming audio under WebRTC, and holding end-to-end latency low enough that turn-taking feels human rather than transactional."},
 
-  function resize(){
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  window.addEventListener('resize', resize);
-  resize();
+{"id":"booking-agent","node":"voice","title":"Conversational booking agent","tags":["voice","personaplex","nemotron","booking","real-time","nvidia"],
+"text":"A second voice project: a conversational booking agent built on NVIDIA PersonaPlex and Nemotron for a real-time booking use case. Narrower in scope than VitalForce, and useful as a control — it isolates how much of the perceived quality in a voice agent comes from the model versus from the turn-taking and latency engineering around it."},
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+{"id":"aims-guardrails","node":"governance","title":"NeMo Guardrails inside CDW's AI Management System","tags":["governance","guardrails","nemo","aims","mcp","tool call","validation","mediation","policy","enforcement","security"],
+"text":"Integrated NVIDIA NeMo Guardrails into CDW's internal AI Management System (AIMS) as a mediation and enforcement layer, specifically for validating MCP tool calls. Flow is AIMS to NeMo Guardrails to the model, so policy sits in the request path rather than beside it. The design point: an agent that can call tools needs enforcement at the call boundary, not a prompt asking it to behave."},
 
-  // Node graph points (agent graph target shape)
-  const nodeCount = 9;
-  const nodes = [];
-  for(let i=0;i<nodeCount;i++){
-    nodes.push({
-      tx: 0.08 + Math.random()*0.84,
-      ty: 0.2 + Math.random()*0.6
-    });
-  }
-  const edges = [[0,1],[1,2],[2,3],[1,4],[4,5],[5,6],[4,7],[7,8],[0,4]];
+{"id":"nemoclaw","node":"agents","title":"NemoClaw / NemoHermes — Jira intelligence agent","tags":["agents","jira","nvidia","nemo","open source","pr","upstream","agentic","toolkit"],
+"text":"NemoClaw and NemoHermes are a Jira intelligence agent built on the NVIDIA stack, including the NeMo Agent Toolkit. The work produced an upstream open-source pull request into the NVIDIA ecosystem, which matters more than the demo did — it means the agent patterns survived contact with someone else's codebase and review standards."},
 
-  let t = 0;
-  function draw(){
-    const w = canvas.getBoundingClientRect().width;
-    const h = canvas.getBoundingClientRect().height;
-    ctx.clearRect(0,0,w,h);
+{"id":"forgeiq","node":"orchestration","title":"ForgeIQ — AI-driven SDLC accelerator","tags":["forgeiq","sdlc","gtm","product","sama","testify","onix","strategy","positioning","competitive"],
+"text":"ForgeIQ is an AI-driven SDLC accelerator at CDW. I contributed across GTM strategy, customer-facing deck refinement, competitive positioning against Kiro.dev, GitHub Copilot Workspace, Cognition Devin, Cursor and AWS Q Developer, and UX review. Components include SAMA for assessment, Testify for testing, and Onix for the operate stage. The recurring lesson was that an SDLC accelerator is sold on the operate stage, not the generate stage."},
 
-    // morph factor 0 -> waveform, 1 -> node graph, oscillates slowly
-    const cycle = reduceMotion ? 0.5 : (Math.sin(t*0.25)+1)/2;
+{"id":"spec-driven","node":"orchestration","title":"Spec-driven development with Claude Code","tags":["claude code","spec-driven","skills","hooks","delivery","teams","aidlc","developer productivity","adoption"],
+"text":"Introduced spec-driven development with Claude Code — skills and hooks — across delivery teams. The adoption problem was never the tooling; it was getting engineers to write the spec before the prompt. Related industry framing: AIDLC, the AI-driven development lifecycle, which I treat as an emerging generic term rather than any vendor's property."},
 
-    // Waveform points
-    const waveN = 64;
-    const wavePts = [];
-    for(let i=0;i<waveN;i++){
-      const x = (i/(waveN-1))*w;
-      const freq = 6 + Math.sin(t*0.15)*1.5;
-      const amp = h*0.18*(0.5+0.5*Math.sin(i*0.4+t*0.6));
-      const y = h/2 + Math.sin((i/waveN)*Math.PI*freq + t*1.2)*amp;
-      wavePts.push({x,y});
-    }
+{"id":"mcp","node":"agents","title":"MCP and A2A in practice","tags":["mcp","model context protocol","a2a","agent to agent","tools","interop","protocol","tool call"],
+"text":"Production experience with A2A and the NeMo Agent Toolkit, and hands-on MCP work in two directions: exposing enterprise systems as MCP tools, and governing what agents are allowed to do with them via guardrail mediation on tool calls. The interesting failure mode in multi-agent systems is not a bad model response — it is an agent confidently calling the wrong tool with well-formed arguments."},
 
-    // Node target points
-    const nodePts = nodes.map(n => ({ x: n.tx*w, y: n.ty*h }));
+{"id":"aws","node":"agents","title":"AWS agentic stack","tags":["aws","bedrock","agentcore","strands","eks","kubernetes","production","cloud"],
+"text":"Production-level work with AWS Bedrock, AWS AgentCore, AWS Strands, and Amazon EKS. This is the cloud stack I would default to for a new agentic build today, mostly because the operational story around agents there is further along than the alternatives."},
 
-    // Draw edges (fade in with cycle)
-    ctx.strokeStyle = `rgba(82,217,200,${0.25*cycle})`;
-    ctx.lineWidth = 1.2;
-    edges.forEach(([a,b])=>{
-      const pa = lerpPt(wavePtAt(a, wavePts, nodeCount), nodePts[a], cycle);
-      const pb = lerpPt(wavePtAt(b, wavePts, nodeCount), nodePts[b], cycle);
-      ctx.beginPath();
-      ctx.moveTo(pa.x, pa.y);
-      ctx.lineTo(pb.x, pb.y);
-      ctx.stroke();
-    });
+{"id":"azure","node":"agents","title":"Azure AI stack","tags":["azure","ai foundry","apim","logic apps","api gateway","azure ml","vllm","semantic router","routing"],
+"text":"Working, hands-on level with Azure AI Foundry, Azure APIM, Logic Apps, API Gateway, and Azure ML, plus vLLM Semantic Router for LLM traffic routing. Solid delivery experience — a step below the AWS depth, and I say so rather than flattening both into one stack list."},
 
-    // Draw waveform line (fades out with cycle)
-    ctx.strokeStyle = `rgba(82,217,200,${0.9*(1-cycle*0.85)})`;
-    ctx.lineWidth = 1.6;
-    ctx.beginPath();
-    wavePts.forEach((p,i)=> i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
-    ctx.stroke();
+{"id":"gpu-learning","node":"evaluation","title":"Where I'm still learning","tags":["cuda","pytorch","fine-tuning","lora","peft","learning","honest","limitations","gaps"],
+"text":"CUDA, PyTorch, and fine-tuning with LoRA and PEFT are PoC-level for me, not production. I list them in a separate tier deliberately. In an architecture role the cost of overstating model-training depth is high and shows up fast, usually in the first technical screen."},
 
-    // Draw morphing nodes at sampled positions
-    for(let i=0;i<nodeCount;i++){
-      const wp = wavePtAt(i, wavePts, nodeCount);
-      const np = nodePts[i];
-      const p = lerpPt(wp, np, cycle);
-      const r = 2.4 + cycle*2.2;
-      ctx.beginPath();
-      ctx.fillStyle = i%3===0 ? `rgba(242,166,90,${0.7+0.3*cycle})` : `rgba(82,217,200,${0.7+0.3*cycle})`;
-      ctx.arc(p.x, p.y, r, 0, Math.PI*2);
-      ctx.fill();
-    }
+{"id":"la-rfp","node":"governance","title":"Public-sector AI procurement","tags":["rfp","city of los angeles","pre-plan check","procurement","public sector","government","evaluation","proposal"],
+"text":"Evaluating the City of Los Angeles AI-Powered Pre-Plan Check Assistant RFP (2025AIP007) for CDW. Public-sector AI procurement is where the governance conversation stops being theoretical — evaluators ask how the system fails, who is accountable for the failure, and what the audit trail looks like, well before they ask what model it uses."},
 
-    t += 0.016;
-    requestAnimationFrame(draw);
-  }
+{"id":"courts","node":"rag","title":"Court systems and records search","tags":["courts","utah","montana","records","search","freemium","billing","rag","retrieval","pagination","large result sets"],
+"text":"Analyzed an AI assistant RFP for the Montana court system and positioned relevant prior Utah Courts experience in client-facing responses. Related build: a court records search application with a freemium and billing boundary designed around large result sets — the retrieval problem and the pricing problem turned out to be the same problem, since where you draw the result-set boundary is simultaneously a relevance decision and a revenue decision."},
 
-  function wavePtAt(nodeIdx, wavePts, nodeCount){
-    const idx = Math.floor((nodeIdx/(nodeCount-1))*(wavePts.length-1));
-    return wavePts[idx];
-  }
-  function lerpPt(a,b,f){
-    return { x: a.x+(b.x-a.x)*f, y: a.y+(b.y-a.y)*f };
-  }
+{"id":"fiber-rfp","node":"governance","title":"Municipal fiber ISP RFP analysis","tags":["rfp","longmont","nextlight","fiber","isp","municipal","analysis"],
+"text":"Analyzed the City of Longmont NextLight municipal fiber ISP RFP (RFP-426054) and helped position CDW's relevant prior experience. Useful range: not every architecture problem in consulting is an AI problem, and being able to read a procurement document properly is its own skill."},
 
-  draw();
-})();
+{"id":"distributed","node":"orchestration","title":"Bulk PDF generation — race condition","tags":["distributed systems","redis","atomic counter","rabbitmq","aggregator","informix","row locking","race condition","concurrency","backend"],
+"text":"Distributed systems design for a bulk PDF generation race condition: a Redis atomic counter for completion tracking, a RabbitMQ aggregator pattern for fan-in, and Informix row locking at the data layer. Predates the agentic work and still informs it — an agent fanning out tool calls is a distributed system with worse error messages."},
+
+{"id":"a11y","node":"evaluation","title":"Accessibility and WCAG 2.1 AA","tags":["accessibility","wcag","a11y","formio","forms","schema","json","testing","compliance"],
+"text":"Accessibility and WCAG 2.1 AA testing for FormIO-generated forms, including schema restructuring and JSON delivery. Accessibility is the clearest example of a requirement that has to be designed into the schema; retrofitting it at the render layer is where projects lose their quarter."},
+
+{"id":"healthnow","node":"orchestration","title":"HealthNow — design-first API backend","tags":["go","golang","openapi","swagger","codegen","angular","design-first","api","backend"],
+"text":"HealthNow backend built in Go with a design-first OpenAPI/Swagger codegen workflow integrated with an Angular frontend. Design-first is the same discipline as spec-driven development with AI tooling, arrived at years earlier — write the contract, generate the edges, keep humans arguing about the interface rather than the implementation."},
+
+{"id":"role","node":"orchestration","title":"Current role and recognition","tags":["cdw","sirius","role","consultant","architect","award","presidential","crystal","austin","experience","gtm"],
+"text":"AI Managing Consultant Engineer and Enterprise AI Solutions Architect at CDW (formerly Sirius), based in Austin, Texas, with 14+ years across enterprise software and production AI systems. The role spans agentic AI architecture, client-facing engagements, internal product strategy and GTM. Received CDW's Presidential Award (Crystal Winner, 2025) — roughly the top 50 of about 15,000 employees."},
+
+{"id":"creds","node":"evaluation","title":"Certifications and education","tags":["certification","anthropic","claude","certified architect","nvidia","agentic ai","ut austin","pgp","education","credentials"],
+"text":"Anthropic Claude Certified Architect (2026) and NVIDIA Certified Professional, Agentic AI (2026). Post Graduate Program in AI/ML from the University of Texas at Austin. Earlier career includes WebSphere Commerce delivery and about a year of hands-on native Android/Java development between 2012 and 2015; React Native and Flutter exposure was at a leadership level rather than hands-on."},
+
+{"id":"proj-1","kind":"project","node":"agents","title":"[Project title]","tags":["placeholder","project","agents"],
+"text":"[What it does in one sentence. Why it exists — the itch it scratched — in a second sentence.]","repo":"https://github.com/YOURHANDLE/REPO","demo":""},
+
+{"id":"proj-2","kind":"project","node":"rag","title":"[Project title]","tags":["placeholder","project","rag"],
+"text":"[What it does in one sentence. What's technically interesting about the build in a second sentence.]","repo":"https://github.com/YOURHANDLE/REPO","demo":""},
+
+{"id":"proj-3","kind":"project","node":"voice","title":"[Project title]","tags":["placeholder","project","voice"],
+"text":"[What it does in one sentence. What's technically interesting about the build in a second sentence.]","repo":"https://github.com/YOURHANDLE/REPO","demo":""},
+
+{"id":"post-1","kind":"post","node":"rag","title":"I Built a Portfolio That Refuses to Bluff","date":"2026-07-15","tags":["blog","rag","retrieval","citations","grounding"],
+"text":"Why the retrieval agent on this site cites real sources instead of paraphrasing, refuses to answer when nothing is well-grounded, and keeps synthesis strictly separate from evidence.","url":"blog/grounding-a-portfolio.html"},
+
+{"id":"post-nemoclaw-security","kind":"post","node":"agents","title":"Designing Secure Multi-Agent Systems with NemoClaw and OpenShell","date":"2026-04-22","tags":["blog","nemoclaw","openshell","security","sandboxing","multi-agent","agents"],
+"text":"A deep dive into building a custom multi-agent architecture on NemoClaw's OpenShell runtime and sandboxing, with dedicated agents for tasks like Jira management and code review — the argument being that execution safety and reliability matter more than agent sophistication alone.","url":"https://www.linkedin.com/pulse/designing-secure-multi-agent-systems-nemoclaw-sivanandham-perumalsamy-mxm3c/"}
+]
 </script>
 
+<script>
+/* ============================================================
+   CONFIG
+   Leave workerUrl empty → the page runs local extractive retrieval.
+   Set it to your Cloudflare Worker → the page runs live model synthesis.
+   ============================================================ */
+const CONFIG = {
+  workerUrl: "",              // e.g. "https://shiva-agent.YOURNAME.workers.dev"
+  minScore: 1.15,             // absolute floor → below this, refuse rather than guess
+  relGate: 0.20,              // drop hits scoring under 20% of the top hit
+  topK: 3
+};
+
+const CORPUS = JSON.parse(document.getElementById('corpus').textContent);
+
+/* ---------- Nodes ---------- */
+const NODES = [
+  {k:'agents',        label:'Agents',        blurb:'Tool-using systems that take actions in enterprise environments — and the protocols that keep them interoperable.'},
+  {k:'orchestration', label:'Orchestration', blurb:'The layer that decides what runs, in what order, and what happens when a step fails.'},
+  {k:'rag',           label:'Retrieval',     blurb:'Getting the right context in front of the model, and knowing when the right context does not exist.'},
+  {k:'governance',    label:'Governance',    blurb:'Policy in the request path, not beside it. Enforcement at the tool-call boundary.'},
+  {k:'voice',         label:'Voice',         blurb:'Real-time multimodal agents where latency and turn-taking are the product.'},
+  {k:'evaluation',    label:'Evaluation',    blurb:'How you know it works — and how honestly you describe what it does not do yet.'}
+];
+
+const TIERS = {
+  tier1:['A2A','NeMo Agent Toolkit','WebRTC','Streaming audio','Interruption handling','AWS Bedrock','AWS AgentCore','AWS Strands','Amazon EKS','MCP'],
+  tier2:['Azure AI Foundry','Azure APIM','Azure Logic Apps','Azure API Gateway','Azure ML','vLLM Semantic Router','Go','OpenAPI codegen'],
+  tier3:['CUDA','PyTorch','Fine-tuning (LoRA / PEFT)']
+};
+
+const SUGGESTIONS = [
+  "What has he shipped with MCP?",
+  "How does he handle guardrails on tool calls?",
+  "What's the voice AI work?",
+  "Where is he weakest?",
+  "Any open-source contributions?",
+  "Any side projects or recent writing?"
+];
+
+/* ============================================================
+   RETRIEVAL — BM25-lite, client-side
+   ============================================================ */
+const STOP = new Set("a an the and or of to in on for with is are was were be been it its his her he she they them this that what how why when which do does did any some his shiva perumalsamy he's does he".split(/\s+/));
+
+const EXPAND = {
+  mcp:['mcp','model','context','protocol','tool','call','tools'],
+  voice:['voice','speech','audio','stt','tts','riva','livekit','pipecat','latency','realtime'],
+  guardrail:['guardrail','guardrails','governance','policy','enforcement','validation','nemo'],
+  guardrails:['guardrail','guardrails','governance','policy','enforcement','validation','nemo'],
+  agent:['agent','agents','agentic','tool','orchestration'],
+  agents:['agent','agents','agentic','tool','orchestration'],
+  rag:['rag','retrieval','search','context','records'],
+  weakest:['learning','poc','gaps','limitations','honest','cuda','pytorch'],
+  weakness:['learning','poc','gaps','limitations','honest','cuda','pytorch'],
+  gap:['learning','poc','gaps','limitations','honest'],
+  gaps:['learning','poc','gaps','limitations','honest'],
+  opensource:['open','source','pr','upstream','nvidia'],
+  nvidia:['nvidia','nemo','riva','nemotron','personaplex','gtc'],
+  aws:['aws','bedrock','agentcore','strands','eks'],
+  azure:['azure','foundry','apim','logic','ml'],
+  cloud:['aws','azure','cloud','eks','bedrock'],
+  award:['award','presidential','crystal','recognition'],
+  cert:['certification','certified','anthropic','nvidia','credentials'],
+  certs:['certification','certified','anthropic','nvidia','credentials'],
+  latency:['latency','realtime','streaming','interruption','turn'],
+  scale:['distributed','concurrency','redis','rabbitmq','race'],
+  government:['rfp','procurement','public','sector','city','courts'],
+  blog:['blog','post','posts','article','writing'],
+  writing:['blog','post','posts','article','writing'],
+  project:['project','projects','demo','repo','build','side'],
+  projects:['project','projects','demo','repo','build','side']
+};
+
+function tok(s){
+  return (s||'').toLowerCase().split(/[^a-z0-9+#.]+/).filter(t=>t.length>1 && !STOP.has(t));
+}
+
+const DOCS = CORPUS.map(c=>{
+  const body = (c.title+' '+c.text+' '+c.tags.join(' ')+' '+c.node).toLowerCase();
+  const terms = tok(body);
+  const tf = {};
+  terms.forEach(t=>tf[t]=(tf[t]||0)+1);
+  return {...c, tf, len:terms.length};
+});
+const AVGLEN = DOCS.reduce((a,d)=>a+d.len,0)/DOCS.length;
+const DF = {};
+DOCS.forEach(d=>Object.keys(d.tf).forEach(t=>DF[t]=(DF[t]||0)+1));
+
+function plan(query){
+  const base = tok(query);
+  const out = new Set(base);
+  base.forEach(t=>{ (EXPAND[t]||[]).forEach(x=>out.add(x)); });
+  return {base, expanded:[...out]};
+}
+
+function retrieve(terms){
+  const k1=1.4, b=0.72, N=DOCS.length;
+  return DOCS.map(d=>{
+    let s=0;
+    terms.forEach(t=>{
+      const f=d.tf[t]; if(!f) return;
+      const idf=Math.log(1+(N-DF[t]+0.5)/(DF[t]+0.5));
+      s += idf * (f*(k1+1))/(f + k1*(1-b+b*(d.len/AVGLEN)));
+    });
+    if(d.tags.some(tag=>terms.includes(tag))) s*=1.18;
+    return {doc:d, score:s};
+  }).filter(r=>r.score>0).sort((a,b)=>b.score-a.score);
+}
+
+/* ============================================================
+   SYNTHESIS
+   ============================================================ */
+function firstSentences(text,n){
+  const parts = text.match(/[^.!?]+[.!?]+/g) || [text];
+  return parts.slice(0,n).join(' ').trim();
+}
+
+function localAnswer(hits){
+  const html = hits.map(h=>
+    `<p>${esc(firstSentences(h.doc.text,2))} <span class="cite">${esc(h.doc.id)}</span></p>`
+  ).join('');
+  return html + `<div class="src">Extracted verbatim from the sources below — no model paraphrasing in between, so every claim traces back to a citation.</div>`;
+}
+
+async function modelAnswer(question, hits){
+  const context = hits.map(h=>`[${h.doc.id}] ${h.doc.title}\n${h.doc.text}`).join('\n\n');
+  const res = await fetch(CONFIG.workerUrl, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({question, context})
+  });
+  if(!res.ok) throw new Error('worker '+res.status);
+  const data = await res.json();
+  const text = (data.answer||'').trim();
+  if(!text) throw new Error('empty');
+  const paras = text.split(/\n{2,}/).map(p=>`<p>${esc(p)}</p>`).join('');
+  return paras + `<div class="src">Grounded in: ${hits.map(h=>`<span class="cite">${esc(h.doc.id)}</span>`).join(' ')}</div>`;
+}
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+/* ============================================================
+   ORCHESTRATOR UI
+   ============================================================ */
+const el = id => document.getElementById(id);
+let busy = false;
+
+function resetTrace(){
+  ['s1','s2','s3'].forEach(s=>el(s).classList.remove('on'));
+  ['d1','d2','d3','m1','m2','m3'].forEach(d=>el(d).textContent='');
+  el('c2').innerHTML='';
+  el('answer').classList.remove('on');
+  el('answer').innerHTML='';
+}
+
+const wait = ms => new Promise(r=>setTimeout(r,ms));
+
+async function run(){
+  const question = el('q').value.trim();
+  if(!question || busy) return;
+  busy = true; el('run').disabled = true;
+  resetTrace();
+  el('trace').classList.add('on');
+
+  // 01 PLAN
+  let t0 = performance.now();
+  const p = plan(question);
+  await wait(220);
+  el('s1').classList.add('on');
+  el('d1').textContent = `${p.base.length} term${p.base.length===1?'':'s'} parsed → expanded to ${p.expanded.length}: ${p.expanded.slice(0,8).join(', ')}${p.expanded.length>8?'…':''}`;
+  el('m1').textContent = Math.round(performance.now()-t0)+'ms';
+
+  // 02 RETRIEVE
+  t0 = performance.now();
+  const ranked = retrieve(p.expanded);
+  const top = ranked.length ? ranked[0].score : 0;
+  const gate = Math.max(CONFIG.minScore, top * CONFIG.relGate);
+  const hits = ranked.filter(r=>r.score>=gate).slice(0,CONFIG.topK);
+  await wait(280);
+  el('s2').classList.add('on');
+  el('d2').textContent = `Scanned ${DOCS.length} chunks · ${hits.length} above gate (${gate.toFixed(2)})`;
+  el('c2').innerHTML = hits.map(h=>`<span class="cite">${esc(h.doc.id)} · ${h.score.toFixed(2)}</span>`).join('');
+  el('m2').textContent = Math.round(performance.now()-t0)+'ms';
+
+  // 03 SYNTHESIZE
+  t0 = performance.now();
+  el('s3').classList.add('on');
+
+  if(!hits.length){
+    el('d3').textContent = 'Refused — nothing above threshold';
+    el('m3').textContent = '0ms';
+    el('answer').innerHTML = `<p>Nothing in the corpus covers that. The agent is scoped to Shiva's own work history, projects, and writing, and will not answer from general knowledge — that's deliberate.</p><div class="src">Try: MCP, guardrails, voice AI, distributed systems, public-sector RFPs, side projects, recent writing.</div>`;
+    el('answer').classList.add('on');
+    busy=false; el('run').disabled=false;
+    return;
+  }
+
+  let html, label;
+  if(CONFIG.workerUrl){
+    el('d3').textContent = 'Calling model via worker…';
+    try{
+      html = await modelAnswer(question, hits);
+      label = 'claude via worker';
+    }catch(err){
+      html = localAnswer(hits);
+      label = 'worker unavailable → local fallback';
+    }
+  }else{
+    await wait(200);
+    html = localAnswer(hits);
+    label = 'local extractive';
+  }
+
+  el('d3').textContent = label;
+  el('m3').textContent = Math.round(performance.now()-t0)+'ms';
+  el('answer').innerHTML = html;
+  el('answer').classList.add('on');
+  busy=false; el('run').disabled=false;
+}
+
+el('run').addEventListener('click', run);
+el('q').addEventListener('keydown', e=>{ if(e.key==='Enter') run(); });
+
+el('chips').innerHTML = SUGGESTIONS.map(s=>`<button class="chip">${esc(s)}</button>`).join('');
+el('chips').addEventListener('click', e=>{
+  const b = e.target.closest('.chip'); if(!b) return;
+  el('q').value = b.textContent; run();
+});
+
+/* status */
+(function(){
+  const live = !!CONFIG.workerUrl;
+  el('statusDot').className = 'dot ' + (live?'live':'local');
+  el('statusText').textContent = live ? 'live model' : 'local retrieval';
+  el('modeLabel').textContent = live ? 'worker · claude' : 'client-side · no model';
+  el('footMode').textContent = live ? 'Synthesis runs on a Cloudflare Worker.' : 'Retrieval runs client-side. No key in this page.';
+})();
+
+/* ============================================================
+   ARCHITECTURE MAP
+   ============================================================ */
+const counts = {};
+CORPUS.forEach(c=>counts[c.node]=(counts[c.node]||0)+1);
+
+el('mapGrid').innerHTML = NODES.map(n=>`
+  <button class="node" data-k="${n.k}" aria-pressed="false">
+    <span class="k">${n.k}</span>
+    <span class="l">${n.label}</span>
+    <span class="c">${counts[n.k]||0} entries</span>
+  </button>`).join('');
+
+function renderWork(filter){
+  const items = CORPUS.filter(c=>!c.kind && (!filter || c.node===filter));
+  el('workList').innerHTML = items.map(c=>{
+    const meta = NODES.find(n=>n.k===c.node);
+    return `
+    <div class="work-card">
+      <span class="k">${esc(meta ? meta.label : c.node)}</span>
+      <div class="t">${esc(c.title)}</div>
+      <div class="d">${esc(c.tags.slice(0,5).join(' · '))}</div>
+    </div>`;
+  }).join('');
+}
+renderWork(null);
+
+function renderProjects(){
+  const items = CORPUS.filter(c=>c.kind==='project');
+  el('projectsGrid').innerHTML = items.map(c=>`
+    <div class="proj">
+      <div class="t">${esc(c.title)}</div>
+      <div class="d">${esc(c.text)}</div>
+      <div class="tags">${c.tags.slice(0,5).map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+      <div class="links">
+        ${c.repo?`<a href="${esc(c.repo)}" target="_blank" rel="noopener">Repo</a>`:''}
+        ${c.demo?`<a href="${esc(c.demo)}" target="_blank" rel="noopener">Demo</a>`:''}
+      </div>
+    </div>`).join('');
+}
+renderProjects();
+
+function renderPosts(){
+  const items = CORPUS.filter(c=>c.kind==='post').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  el('postsList').innerHTML = items.map(c=>`
+    <div class="post">
+      <div class="meta">${esc(c.date||'')}</div>
+      <div class="t">${esc(c.title)}</div>
+      <div class="d">${esc(c.text)}</div>
+      ${c.url?`<a class="read" href="${esc(c.url)}"${/^https?:\/\//.test(c.url)?' target="_blank" rel="noopener"':''}>Read →</a>`:''}
+    </div>`).join('');
+}
+renderPosts();
+
+let active = null;
+el('mapGrid').addEventListener('click', e=>{
+  const b = e.target.closest('.node'); if(!b) return;
+  const k = b.dataset.k;
+  const same = active===k;
+  active = same ? null : k;
+
+  document.querySelectorAll('.node').forEach(n=>n.setAttribute('aria-pressed', String(n.dataset.k===active)));
+
+  const d = el('detail');
+  if(!active){ d.classList.remove('on'); renderWork(null); return; }
+
+  const meta = NODES.find(n=>n.k===active);
+  const items = CORPUS.filter(c=>c.node===active);
+  d.innerHTML = `<h3>${esc(meta.label)}</h3><p>${esc(meta.blurb)}</p>
+    <div class="detail-list">${items.map(c=>`
+      <div class="item"><div class="t">${esc(c.title)}</div>
+      <div class="d">${esc(firstSentences(c.text,1))}</div></div>`).join('')}</div>`;
+  d.classList.add('on');
+  renderWork(active);
+});
+
+/* edges between map nodes */
+function drawEdges(){
+  const svg = el('edges'), grid = el('mapGrid');
+  if(!svg || window.innerWidth<=760) return;
+  const g = grid.getBoundingClientRect();
+  const pts = [...grid.querySelectorAll('.node')].map(n=>{
+    const r = n.getBoundingClientRect();
+    return {x:r.left-g.left+r.width/2, y:r.top-g.top+r.height/2};
+  });
+  svg.setAttribute('viewBox',`0 0 ${g.width} ${g.height}`);
+  svg.style.left = (grid.offsetLeft)+'px';
+  svg.style.top  = (grid.offsetTop)+'px';
+  svg.style.width = g.width+'px';
+  svg.style.height = g.height+'px';
+  const pairs=[[0,1],[1,2],[0,3],[1,4],[2,5],[3,4],[4,5]];
+  svg.innerHTML = pairs.filter(([a,b])=>pts[a]&&pts[b]).map(([a,b])=>
+    `<line x1="${pts[a].x}" y1="${pts[a].y}" x2="${pts[b].x}" y2="${pts[b].y}" stroke="#2B3D44" stroke-width="1"/>`
+  ).join('');
+}
+window.addEventListener('resize', drawEdges);
+window.addEventListener('load', drawEdges);
+drawEdges();
+
+/* tiers */
+Object.entries(TIERS).forEach(([k,v])=>{ el(k).innerHTML = v.map(x=>`<li>${esc(x)}</li>`).join(''); });
+
+/* ============================================================
+   AMBIENT GRAPH — hero background
+   ============================================================ */
+(function(){
+  const c = el('graph'); if(!c) return;
+  const ctx = c.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,pts=[];
+
+  function size(){
+    const r = c.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio||1, 2);
+    W=r.width; H=r.height;
+    c.width=W*dpr; c.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const n = Math.max(14, Math.min(30, Math.round(W/48)));
+    pts = Array.from({length:n},()=>({
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.14, vy:(Math.random()-.5)*.14,
+      r:Math.random()*1.6+.9
+    }));
+  }
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<pts.length;i++){
+      const p=pts[i];
+      if(!reduce){
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>W)p.vx*=-1;
+        if(p.y<0||p.y>H)p.vy*=-1;
+      }
+      for(let j=i+1;j<pts.length;j++){
+        const q=pts[j], dx=p.x-q.x, dy=p.y-q.y, d=Math.hypot(dx,dy);
+        if(d<130){
+          ctx.strokeStyle=`rgba(62,240,212,${(1-d/130)*.14})`;
+          ctx.lineWidth=.7;
+          ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+        }
+      }
+      ctx.fillStyle='rgba(62,240,212,.36)';
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.284); ctx.fill();
+    }
+    if(!reduce) requestAnimationFrame(frame);
+  }
+
+  size(); frame();
+  window.addEventListener('resize', ()=>{ size(); if(reduce) frame(); });
+})();
+</script>
 </body>
 </html>

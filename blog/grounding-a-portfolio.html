@@ -1,0 +1,153 @@
+<!--
+  TEMPLATE NOTE — read before deleting:
+  This file is both a real post AND the pattern for new posts.
+  To publish a new post: duplicate this file, then update —
+    1. <title> and the two meta description tags
+    2. the three og:* tags (title, description, url)
+    3. the .eyebrow / <h1> / .meta date in the <article> header
+    4. everything inside <div class="post-body">...</div>
+    5. link it from the Writing section's corpus in ../index.html
+       (add a {"kind":"post", ...} entry with a matching "url")
+  Leave post.css and the nav/footer structure alone so every post
+  stays visually consistent.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I Built a Portfolio That Refuses to Bluff — Shiva Perumalsamy</title>
+<meta name="description" content="Why the retrieval agent on this site cites real sources instead of paraphrasing, refuses to answer when nothing is well-grounded, and keeps synthesis strictly separate from evidence.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="I Built a Portfolio That Refuses to Bluff">
+<meta property="og:description" content="Why the retrieval agent on this site cites real sources instead of paraphrasing, refuses to answer when nothing is well-grounded, and keeps synthesis strictly separate from evidence.">
+<meta property="og:url" content="https://shivaperumalsamy.github.io/blog/grounding-a-portfolio.html">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="post.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-id" href="../index.html">shiva<span class="dim">.perumalsamy</span></a>
+    <a class="back" href="../index.html#blog">← All writing</a>
+  </div>
+</nav>
+
+<article class="article">
+  <span class="eyebrow">Notes on this site</span>
+  <h1>I Built a Portfolio That Refuses to Bluff</h1>
+  <div class="meta">
+    <span>2026-07-15</span>
+    <span>Shiva Perumalsamy</span>
+    <span>~5 min read</span>
+  </div>
+
+  <div class="post-body">
+    <p>I recently added a small search experience to my portfolio site.</p>
+
+    <p>At first glance, it looks like a chatbot. You can ask things like:</p>
+    <ul>
+      <li>What has he shipped with MCP?</li>
+      <li>How does he handle guardrails?</li>
+      <li>What voice AI work has he done?</li>
+      <li>Any open-source contributions?</li>
+    </ul>
+
+    <p>But the interesting part is what it does <strong>before</strong> answering.</p>
+
+    <p>It does not just generate a confident paragraph about me. It retrieves from a small corpus of my own projects, writing, and work history, then shows the source ids it used. In the local version, there is no LLM involved at all. It uses lightweight BM25-style retrieval, returns the strongest matching entries, and cites them directly.</p>
+
+    <p>That constraint is intentional.</p>
+
+    <p>A portfolio can easily become a polished wall of claims. "I build agentic systems." "I work on RAG." "I care about governance." Those statements are easy to write and harder to trust.</p>
+
+    <p>So I wanted the page to behave differently:</p>
+
+    <p><strong>Ask a question. Retrieve the evidence. Show the grounding. Then answer.</strong></p>
+
+    <h2>Citations Are Not Decoration</h2>
+    <p>One thing I wanted to avoid was fake citation behavior.</p>
+
+    <p>The answer chips on the page — things like <code>mcp</code>, <code>aims-guardrails</code>, <code>vitalforce</code> — are not just visual tags. They map back to real entries in the corpus.</p>
+
+    <p>In local mode, the answer is intentionally simple: it returns the first one or two sentences from the best matching entries and shows the ids. Nothing is paraphrased. Nothing is made more impressive. Nothing is invented.</p>
+
+    <p>That makes the answer less flashy, but more inspectable.</p>
+
+    <p>For a personal portfolio, that matters. If I say I worked on MCP, guardrails, voice AI, or agentic delivery, the page should be able to point to the exact source behind that claim.</p>
+
+    <h2>Refusing Is a Feature</h2>
+    <p>The second design choice was refusal.</p>
+
+    <p>Most demos are built to answer everything. That is usually where retrieval systems start to feel untrustworthy. A weak match gets pulled into the response, the answer sounds confident, and the user has no idea whether the system actually found anything relevant.</p>
+
+    <p>I wanted the opposite behavior.</p>
+
+    <p>The retrieval layer uses a lightweight BM25-style scoring approach over title, body text, tags, and category. I also added a small query-expansion layer for domain terms. For example, if someone asks about MCP, guardrails, or voice AI, the search can also look for related vocabulary in the corpus.</p>
+
+    <p>But retrieval alone is not enough. I added two gates before the answer is allowed through:</p>
+    <ol>
+      <li><strong>An absolute threshold</strong> — if nothing scores high enough, the system says the corpus does not cover the question.</li>
+      <li><strong>A relative threshold</strong> — if a result is far weaker than the top match, it gets dropped instead of being dragged into an unrelated answer.</li>
+    </ol>
+
+    <p>That means the page can say:</p>
+    <blockquote><p>I do not have enough grounded information to answer that.</p></blockquote>
+
+    <p>For a portfolio, that might sound unnecessary. But for any real RAG system, this is the behavior I want more often: answer when grounded, refuse when not grounded, and make the boundary visible.</p>
+
+    <h2>What Changes When an LLM Is Added?</h2>
+    <p>The page is also designed so a model can be added later through a Cloudflare Worker.</p>
+
+    <p>But the model does not replace retrieval. It only changes the final step.</p>
+
+    <p>The flow stays the same:</p>
+    <ol>
+      <li>Retrieve relevant entries.</li>
+      <li>Apply refusal thresholds.</li>
+      <li>Pass only the grounded context to the model.</li>
+      <li>Generate a short answer with the same citations.</li>
+      <li>Never allow the model to invent sources.</li>
+    </ol>
+
+    <p>That separation is important.</p>
+
+    <p>The retrieval layer decides what the system knows.</p>
+    <p>The refusal layer decides whether the evidence is strong enough.</p>
+    <p>The model only decides how to phrase the answer.</p>
+
+    <p>That is the part I would carry into a real enterprise RAG or agentic system.</p>
+
+    <h2>Why I Built It This Way</h2>
+    <p>This is not a production search platform. It is a portfolio feature.</p>
+
+    <p>But the design discipline is the same one that matters in higher-stakes systems:</p>
+    <ul>
+      <li>Retrieve before generating.</li>
+      <li>Cite real sources.</li>
+      <li>Show what was used.</li>
+      <li>Set a refusal threshold.</li>
+      <li>Let the system say "I don't know."</li>
+      <li>Keep synthesis separate from evidence.</li>
+    </ul>
+
+    <p>The fun part is that this makes the portfolio itself behave like the kind of systems I like building: grounded, inspectable, and careful about what it claims.</p>
+
+    <p>So yes, the homepage says:</p>
+    <blockquote><p>Skip the scroll. query() my work.</p></blockquote>
+
+    <p>But the real idea is simpler:</p>
+    <blockquote><p>Don't just ask the system to sound smart. Ask it to show its work.</p></blockquote>
+  </div>
+
+  <footer>
+    <a href="../index.html#blog">← Back to all writing</a>
+  </footer>
+</article>
+
+</body>
+</html>
