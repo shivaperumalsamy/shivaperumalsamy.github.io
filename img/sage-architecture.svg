@@ -41,13 +41,6 @@
   <rect x="50" y="120" width="1400" height="180" rx="22" fill="#EAF3FC" stroke="#B9D6EE" class="band"/>
   <text x="80" y="150" class="bandlbl" fill="#0078D4">CHANNEL LAYER — MICROSOFT AZURE</text>
 
-  <!-- azure logo mark -->
-  <g transform="translate(1288 122)">
-    <polygon points="17,1 6,15 1,44 13,44" fill="#0078D4"/>
-    <polygon points="17,1 45,44 22,44 20,22" fill="#0078D4"/>
-    <polygon points="1,44 13,44 5,48" fill="#0078D4"/>
-    <text x="56" y="34" font="500 26px Arial" fill="#0078D4">Azure</text>
-  </g>
 
   <g transform="translate(80 168)">
     <rect width="300" height="110" rx="16" class="card" filter="url(#sh)"/>
@@ -77,12 +70,6 @@
   <rect x="50" y="392" width="1400" height="180" rx="22" fill="#FDF0E2" stroke="#F0CBA0" class="band"/>
   <text x="80" y="422" class="bandlbl" fill="#B25900">COMPUTE LAYER — AMAZON WEB SERVICES</text>
 
-  <!-- aws logo mark -->
-  <g transform="translate(1300 400)">
-    <text x="0" y="28" font="700 30px Arial" fill="#242F3E">aws</text>
-    <path d="M2 46 Q46 74 82 42" stroke="#FF9900" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <path d="M74 24 L100 33 L78 52 Z" fill="#FF9900"/>
-  </g>
 
   <g transform="translate(80 440)">
     <rect width="300" height="110" rx="16" class="card" filter="url(#sh)"/>
