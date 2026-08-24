@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Agent Reasoned Correctly. It Still Shouldn't Have Been Allowed to Do That. — Shiva Perumalsamy</title>
+<meta name="description" content="An architecture for agents that use governed tools: treat every model-generated tool call as a proposal, put identity, policy, risk, and state validation in a deterministic layer between reasoning and execution.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Your Agent Reasoned Correctly. It Still Shouldn't Have Been Allowed to Do That.">
+<meta property="og:description" content="An architecture for agents that use governed tools — reasoning stays probabilistic, authority stays deterministic.">
+<link rel="canonical" href="https://shivap.me/blog/reasoning-within-boundaries.html">
+<meta property="og:url" content="https://shivap.me/blog/reasoning-within-boundaries.html">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="post.css">
+<style>
+/* ------------------------------------------------------------------
+   Page-scoped only. post.css stays untouched so every post keeps the
+   same shell; these are the architecture components this piece needs.
+   ------------------------------------------------------------------ */
+.fig{margin:32px 0 28px}
+.fig svg{display:block;width:100%;height:auto}
+@media(max-width:620px){
+  /* below this width the SVG type shrinks past legibility — scroll the figure instead */
+  .fig{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .fig svg{min-width:600px}
+  .fig figcaption{min-width:600px}
+}
+.fig figcaption{
+  font-family:var(--mono);font-size:11.5px;line-height:1.6;
+  color:#8CA3AB;margin-top:12px;
+}
+.svg-band{fill:#111A1D;stroke:#2B3D44}
+.svg-band-key{fill:#141F23;stroke:#1F8F80}
+.svg-chip{fill:#19252A;stroke:#243740}
+.svg-plane{font-family:var(--mono);font-size:10px;letter-spacing:.15em;fill:#8CA3AB}
+.svg-title{font-family:var(--sans);font-size:15px;font-weight:400;fill:#E9F1F2}
+.svg-sub{font-family:var(--sans);font-size:12px;fill:#8CA3AB}
+.svg-chip-t{font-family:var(--mono);font-size:10.5px;fill:#E9F1F2}
+.svg-edge{font-family:var(--mono);font-size:10.5px;fill:#3EF0D4}
+.svg-note{font-family:var(--mono);font-size:10px;fill:#8CA3AB}
+.svg-badge{font-family:var(--mono);font-size:10px;letter-spacing:.08em}
+
+/* risk ladder */
+.ladder{width:100%;border-collapse:collapse;margin:0 0 26px;font-size:14.5px}
+.ladder th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:#8CA3AB;text-align:left;font-weight:500;
+  padding:0 12px 9px 0;border-bottom:1px solid var(--line);
+}
+.ladder td{padding:11px 12px 11px 0;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--muted)}
+.ladder td:first-child{font-family:var(--mono);font-size:12.5px;color:var(--text);white-space:nowrap}
+.ladder td:last-child{padding-right:0}
+.r{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.r-low{color:#3EF0D4}
+.r-med{color:#F0AC42}
+.r-high{color:#FF8A73}
+
+/* control-plane responsibilities */
+.resp{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);
+  border:1px solid var(--line-soft);border-radius:3px;margin:0 0 26px}
+@media(max-width:560px){.resp{grid-template-columns:1fr}}
+.resp div{background:var(--ink);padding:14px 15px}
+.resp b{
+  display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:#3EF0D4;font-weight:500;margin-bottom:5px;
+}
+.resp span{font-size:14px;line-height:1.6;color:var(--muted)}
+
+/* the walkthrough trace */
+.trace{list-style:none;margin:0 0 26px;padding:0;counter-reset:step}
+.trace li{
+  position:relative;counter-increment:step;
+  padding:0 0 18px 44px;margin:0;border-left:1px solid var(--line);
+  color:var(--muted);font-size:15px;line-height:1.7;
+}
+.trace li:last-child{border-left-color:transparent;padding-bottom:0}
+.trace li::before{
+  content:counter(step,decimal-leading-zero);
+  position:absolute;left:-13px;top:0;width:26px;height:26px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);
+  font-family:var(--mono);font-size:10.5px;color:#8CA3AB;
+  display:flex;align-items:center;justify-content:center;
+}
+.trace li b{display:block;color:var(--text);font-weight:500;margin-bottom:3px}
+.verdict{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  color:#3EF0D4;background:var(--signal-ghost);
+  border:1px solid var(--signal-dim);border-radius:2px;
+  padding:2px 8px;display:inline-block;margin-top:7px;
+}
+.verdict.stop{color:#FF8A73;border-color:#7A3A30;background:rgba(255,138,115,.09)}
+
+.tldr{
+  border:1px solid var(--line);border-left:2px solid var(--signal);
+  border-radius:3px;background:var(--surface);
+  padding:22px 26px 24px;margin:0 0 38px;
+}
+.tldr-h{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:#8CA3AB;margin-bottom:16px;
+}
+.tldr-h em{font-style:normal;color:#6E858E;letter-spacing:.08em}
+.tldr .spine{
+  font-size:15.5px;line-height:1.55;color:var(--text);font-weight:300;
+  padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--line-soft);
+}
+.tldr ol{list-style:none;counter-reset:pt;margin:0;padding:0}
+.tldr li{
+  counter-increment:pt;position:relative;padding-left:32px;margin:0 0 11px;
+  font-size:14.5px;line-height:1.62;color:var(--muted);
+}
+.tldr li:last-child{margin-bottom:0}
+.tldr li::before{
+  content:counter(pt,decimal-leading-zero);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:10.5px;color:var(--signal);
+}
+.tldr li b{color:var(--text);font-weight:500}
+.tldr .after{
+  margin:18px 0 0;padding-top:15px;border-top:1px solid var(--line-soft);
+  font-family:var(--mono);font-size:11.5px;line-height:1.6;color:#6E858E;
+}
+
+.pull{
+  border-left:2px solid var(--signal);padding:4px 0 4px 18px;margin:30px 0;
+  font-size:19px;line-height:1.6;font-weight:200;color:var(--text);
+}
+.kicker{
+  font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  color:#8CA3AB;margin:0 0 26px;
+}
+
+/* ------------------------------------------------------------------
+   Using the gutters. Prose stays at a 720px measure — past roughly 75
+   characters a line gets hard to track — but the diagrams break out of
+   it, and the left gutter carries navigation on wide screens.
+   ------------------------------------------------------------------ */
+
+/* reading progress */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:70;background:transparent;pointer-events:none}
+.progress span{display:block;height:100%;width:0;background:var(--signal);transition:width .1s linear}
+
+/* figures break the measure — they carry the architecture, not the prose */
+@media(min-width:900px){
+  .fig{
+    width:min(940px, calc(100vw - 80px));
+    margin-left:50%;transform:translateX(-50%);
+  }
+}
+
+/* section anchors */
+.post-body h2{position:relative}
+.anchor{
+  position:absolute;left:-26px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:16px;color:var(--signal-dim);
+  text-decoration:none;opacity:0;transition:opacity .15s;
+}
+.post-body h2:hover .anchor,.anchor:focus-visible{opacity:1}
+
+/* contents rail — only where there is genuinely room for it */
+.toc{display:none}
+@media(min-width:1440px){
+  .toc{
+    display:block;position:fixed;top:132px;left:calc(50% - 700px);width:180px;
+    max-height:calc(100vh - 200px);overflow-y:auto;
+    border-left:1px solid var(--line-soft);padding-left:14px;
+  }
+  .toc .toc-h{
+    font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:#6E858E;margin-bottom:12px;
+  }
+  .toc a{
+    display:block;font-size:12.5px;line-height:1.45;color:#8CA3AB;
+    text-decoration:none;padding:5px 0;transition:color .15s;
+  }
+  .toc a:hover{color:var(--text)}
+  .toc a.on{color:var(--signal)}
+}
+@media(prefers-reduced-motion:reduce){.progress span{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+<nav class="toc" id="toc" aria-label="On this page"><div class="toc-h">On this page</div></nav>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-id" href="../index.html">shiva<span class="dim">.perumalsamy</span></a>
+    <a class="back" href="../index.html#blog">← All writing</a>
+  </div>
+</nav>
+
+<article class="article">
+  <span class="eyebrow">Agent architecture</span>
+  <h1>Your agent reasoned correctly. It still shouldn't have been allowed to do that.</h1>
+  <div class="meta">
+    <span>2026-08-24</span>
+    <span>Shiva Perumalsamy</span>
+    <span>~12 min read</span>
+  </div>
+
+  <div class="post-body">
+    <p class="kicker">The model proposes · the control plane authorizes · the tool executes</p>
+
+    <section class="tldr" aria-label="Summary">
+      <div class="tldr-h"><span>The argument in short</span><em>~2 min</em></div>
+
+      <p class="spine">A model can be completely right about what should happen next and still be the wrong thing to authorize it. So let it reason freely, and take the decision away from it.</p>
+
+      <ol>
+        <li><b>Reasoning is not authority.</b> Proposing an action and being allowed to take it are two different responsibilities. Most agent stacks collapse them.</li>
+        <li><b>A tool call is a proposal, not an instruction.</b> Make it a structured record — principal, agent, action, parameters, observed state — that something else evaluates.</li>
+        <li><b>Put a deterministic control plane between reasoning and execution.</b> Identity, authorization, policy, risk, approval, state validation, credential scope, audit. None of it in the model.</li>
+        <li><b>MCP exposes capability, not policy.</b> A tool server should know how to modify a reservation. It should not decide whether this agent may modify <em>this</em> one.</li>
+        <li><b>Risk belongs to the action, not the tool.</b> Reading a Jira issue and deleting one are not the same grant. Tool-level access is too coarse to express that.</li>
+        <li><b>Approval is one verdict among several, not the policy system.</b> Interrupt a human only when the risk earns it — ask about everything and they stop reading the prompts.</li>
+        <li><b>Re-validate at execution, not at proposal.</b> The world moves while the agent thinks. Check the assumptions at the boundary, and read back what actually happened instead of trusting a 200.</li>
+        <li><b>An agent workflow is a distributed system.</b> Partial failure, idempotency, compensation. The only genuinely new part is that the coordinator reasons.</li>
+      </ol>
+
+      <p class="after">The model proposes · the control plane authorizes · the tool executes · the evidence explains what happened.<br>The rest of this piece argues each point, then walks a real system end to end.</p>
+    </section>
+
+    <p>Give a language model a set of tools and it will use them. That is the appeal, and it is also the whole problem. The moment an agent can call <code>reservation.modify</code> or <code>issue.delete</code> or <code>instance.terminate</code>, a probabilistic system is holding authority over a deterministic one — and correct reasoning is not the same thing as permission.</p>
+
+    <p>The architecture I keep arriving at separates those two ideas completely. The model decides what to propose — that is planning, and it is the part it is genuinely good at. What it does not decide is whether the proposal is authorized to run. Every tool call it produces is a <strong>proposal</strong>, and a separate deterministic layer rules on it.</p>
+
+    <p class="pull">The model proposes. The control plane authorizes. The tool executes. The evidence explains what happened.</p>
+
+    <p>That sentence is four responsibilities, and the interesting engineering is in refusing to collapse them into one system.</p>
+
+    <h2>Where the boundary goes</h2>
+
+    <p>Most agent stacks today have two layers: a model, and a set of tools it can reach — often through MCP. The tool call travels straight from reasoning to execution. Nothing sits in between with the authority to say no.</p>
+
+    <p>The layer that is missing is a control plane: deterministic code, holding identity, policy, risk classification, and state, positioned so that every proposed action has to pass through it.</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 720 500" role="img" aria-labelledby="figt figd">
+        <title id="figt">Three-plane agent architecture</title>
+        <desc id="figd">A reasoning plane containing the language model emits a proposal downward into a deterministic control plane holding identity, authorization, tool registry, policy, risk classification, approval, state validation and credential isolation. The control plane emits an authorized action downward into an execution plane of MCP tool servers. Evidence — trace, audit and evaluation data — flows back up from execution to reasoning.</desc>
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#3EF0D4"/>
+          </marker>
+          <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#8CA3AB"/>
+          </marker>
+        </defs>
+
+        <!-- reasoning plane -->
+        <rect class="svg-band" x="20" y="18" width="570" height="92" rx="3"/>
+        <text class="svg-plane" x="37" y="42">REASONING PLANE</text>
+        <text class="svg-badge" fill="#F0AC42" x="573" y="42" text-anchor="end">probabilistic</text>
+        <text class="svg-title" x="37" y="70">LLM agent</text>
+        <text class="svg-sub" x="37" y="92">interprets context · compares options · proposes the next action</text>
+
+        <path d="M305,110 L305,156" stroke="#3EF0D4" stroke-width="1.4" marker-end="url(#ar)"/>
+        <text class="svg-edge" x="318" y="138">proposal — not an instruction</text>
+
+        <!-- control plane -->
+        <rect class="svg-band-key" x="20" y="158" width="570" height="184" rx="3"/>
+        <text class="svg-plane" x="37" y="182">CONTROL PLANE</text>
+        <text class="svg-badge" fill="#3EF0D4" x="573" y="182" text-anchor="end">deterministic</text>
+
+        <rect class="svg-chip" x="37" y="196" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="100" y="217" text-anchor="middle">identity</text>
+        <rect class="svg-chip" x="175" y="196" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="238" y="217" text-anchor="middle">authorization</text>
+        <rect class="svg-chip" x="313" y="196" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="376" y="217" text-anchor="middle">tool registry</text>
+        <rect class="svg-chip" x="451" y="196" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="514" y="217" text-anchor="middle">policy</text>
+
+        <rect class="svg-chip" x="37" y="242" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="100" y="263" text-anchor="middle">risk class</text>
+        <rect class="svg-chip" x="175" y="242" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="238" y="263" text-anchor="middle">approval</text>
+        <rect class="svg-chip" x="313" y="242" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="376" y="263" text-anchor="middle">state validation</text>
+        <rect class="svg-chip" x="451" y="242" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="514" y="263" text-anchor="middle">credential scope</text>
+
+        <line x1="37" y1="296" x2="573" y2="296" stroke="#1D2B30" stroke-width="1"/>
+        <text class="svg-note" x="37" y="318">every decision records who asked, what was asked, which policy applied, and why</text>
+
+        <path d="M305,342 L305,388" stroke="#3EF0D4" stroke-width="1.4" marker-end="url(#ar)"/>
+        <text class="svg-edge" x="318" y="370">authorized action + scoped credential</text>
+
+        <!-- execution plane -->
+        <rect class="svg-band" x="20" y="390" width="570" height="92" rx="3"/>
+        <text class="svg-plane" x="37" y="414">EXECUTION PLANE</text>
+        <text class="svg-badge" fill="#8CA3AB" x="573" y="414" text-anchor="end">capability only</text>
+        <rect class="svg-chip" x="37" y="428" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="100" y="449" text-anchor="middle">restaurant mcp</text>
+        <rect class="svg-chip" x="175" y="428" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="238" y="449" text-anchor="middle">calendar mcp</text>
+        <rect class="svg-chip" x="313" y="428" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="376" y="449" text-anchor="middle">rides mcp</text>
+        <rect class="svg-chip" x="451" y="428" width="126" height="34" rx="2"/>
+        <text class="svg-chip-t" x="514" y="449" text-anchor="middle">messaging mcp</text>
+
+        <!-- evidence return path -->
+        <path d="M620,455 L660,455 L660,64 L620,64" fill="none" stroke="#8CA3AB" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#ar2)"/>
+        <text class="svg-note" transform="translate(682,300) rotate(-90)" text-anchor="middle">evidence · trace · audit · eval</text>
+      </svg>
+      <figcaption>The control plane is the only layer that decides whether a proposal becomes an authorized action. The layers below it are deterministic too — they just do not get a vote.</figcaption>
+    </figure>
+
+    <p>A proposal is just a structured record, and writing it down explicitly is what makes the rest of the design possible:</p>
+
+<pre><code>principal:   user-123
+agent:       daily-planner
+tool:        restaurant
+action:      reservation.modify
+parameters:
+  reservation_id: 8472
+  requested_time: 20:00
+risk:        medium
+observed_at: 2026-08-24T18:04:11Z
+trace_id:    abc-123</code></pre>
+
+    <p>Once the call is a record rather than a function invocation, the control plane can ask questions the model has no business answering about itself. Is this principal authenticated? Does reservation 8472 belong to them? Is this tool registered and trusted? Is this agent permitted to use this action, as opposed to this tool? Does this action require approval? And — the one most systems forget — is the world still in the state the agent observed when it made the proposal?</p>
+
+    <h2>MCP exposes capability. It should not own policy.</h2>
+
+    <p>The obvious place to put all this is the tool server, and it is the wrong place. A restaurant MCP server should know how to modify a reservation. It should not know your identity model, your approval matrix, your risk appetite, or how the other eleven tools in the system are supposed to behave.</p>
+
+    <p>Push policy into tools and you rebuild the same governance layer once per tool, slightly differently each time, and you find out where the copies disagree during an incident. The tool's job is narrow on purpose: expose a capability safely and consistently, and refuse to be interesting.</p>
+
+    <p>Narrow is not passive. A tool server still validates its own inputs against its schema and enforces whatever provider-side constraints its API demands — that is local correctness, and you want it as close to the call as possible. What it should not carry is the cross-cutting decision: whether this principal, through this agent, may take this action right now. The first is defense in depth. The second is a policy engine that has been copy-pasted eleven times.</p>
+
+    <h2>Risk belongs to the action, not the tool</h2>
+
+    <p>Most agent stacks grant access at the tool level: the agent can reach the restaurant server, therefore it can reach everything that server exposes. That is far too coarse, because the consequences inside a single tool are not remotely uniform.</p>
+
+    <table class="ladder">
+      <thead>
+        <tr><th>Action</th><th>Risk</th><th>Disposition</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>restaurant.search</td><td><span class="r r-low">low</span></td><td>Execute automatically. Reversible, no side effects, no state change.</td></tr>
+        <tr><td>restaurant.availability</td><td><span class="r r-low">low</span></td><td>Execute automatically. Read path, cacheable, safe to retry.</td></tr>
+        <tr><td>reservation.modify</td><td><span class="r r-med">medium</span></td><td>Execute under defined conditions — ownership proven, state revalidated, within a standing authorization.</td></tr>
+        <tr><td>reservation.cancel</td><td><span class="r r-high">high</span></td><td>Require explicit approval. Destructive, hard to reverse, socially visible.</td></tr>
+      </tbody>
+    </table>
+
+    <p>A useful policy model grants authority at the action boundary, not the tool boundary. The same gradient runs through every enterprise system I have worked in. Reading a Jira issue and deleting one are not equivalent. Looking up a customer record and changing their account are not equivalent. Viewing infrastructure and terminating it are emphatically not equivalent. As agents get more capable, the granularity of that distinction is what stands between a useful system and an incident report.</p>
+
+    <h2>Three decisions, three owners</h2>
+
+    <p>Granting the model tools is usually described as one decision. It is actually three, and collapsing them is where most of the coupling comes from.</p>
+
+    <table class="ladder">
+      <thead><tr><th>Decision</th><th>Owner</th><th>Why there</th></tr></thead>
+      <tbody>
+        <tr><td>WHAT</td><td><span class="r r-low">model</span></td><td>Which business capability does the situation call for? This is judgement over messy context — exactly what the model is good at.</td></tr>
+        <tr><td>WHERE</td><td><span class="r r-med">registry</span></td><td>Which provider owns this merchant or this existing booking? Deterministic lookup, never visible to the model.</td></tr>
+        <tr><td>HOW</td><td><span class="r r-med">adapter</span></td><td>Native MCP, REST, GraphQL, or something worse. A per-provider concern that nothing upstream should know about.</td></tr>
+      </tbody>
+    </table>
+
+    <p>Keeping WHERE and HOW away from the model buys something concrete: the orchestrator reasons in canonical capabilities — dining, mobility, itinerary — and never in provider-specific schemas. Swapping a booking provider, or adding one, changes an adapter and a registry row. The reasoning layer does not move.</p>
+
+    <p>It also closes an exploit. If the model cannot name a provider, it cannot be talked into choosing a different one mid-execution. Provider binding is resolved server-side, after authorization, and stays fixed for the life of the action.</p>
+
+    <h2>Approval is a policy outcome, not the policy system</h2>
+
+    <p>The reflex answer to all of this is to ask the user before every write. It sounds safe and it is quietly corrosive. An agent that interrupts every few minutes trains people to stop reading and start clicking, and human-in-the-loop degrades into human-as-a-button. You end up with a complete audit trail of decisions nobody actually made.</p>
+
+    <p class="pull">The goal is not to put a human in front of every action. It is to interrupt the human only when the risk justifies the interruption.</p>
+
+    <p>Which means approval has to be one possible verdict among several — execute, execute within an existing authorization, escalate for confirmation, deny — chosen by policy rather than applied uniformly out of caution. When a human does confirm, that confirmation becomes an <em>input</em> to the policy gate. It is not a way around it.</p>
+
+    <h3>Make the governance unskippable</h3>
+
+    <p>There is a tempting shortcut here: expose policy as one more tool and let the agent call it before acting. That design fails the moment the model forgets, reorders, or reasons its way past the check — and you will not find out until something has already happened.</p>
+
+    <p>So policy does not sit beside the mutation, it sits <em>inside</em> it. Every consequential write runs schema validation, the policy engine, the idempotency check, and the audit write on the path to the provider, in code the model cannot address or skip. The control is structural. Nothing depends on the model remembering it exists.</p>
+
+    <h2>Validate state at execution, not at proposal</h2>
+
+    <p>Agents are slow in a way that matters. They gather context, reason, call several tools, and sometimes wait on a human. The world does not pause for any of it.</p>
+
+    <p>An agent checks availability and sees an 8:00 PM slot. It proposes the change. The notification reaches me five minutes later and I approve it. In those five minutes someone else took the last 8:00 slot — or I moved the booking myself from the restaurant's own app, or a second agent acting on the same plan got there first. The proposal was valid when it was created and is invalid when it executes — and if the system trusts the approval instead of rechecking the world, the approval has actively made things worse by lending confidence to a stale decision.</p>
+
+    <p>This is time-of-check to time-of-use, and it is not an AI problem. It is a concurrency problem that agents simply make much easier to hit, because the gap between deciding and acting went from milliseconds to minutes. The fix is the ordinary one: carry the observed state into the proposal, revalidate it at the execution boundary, and fail closed when the assumptions no longer hold.</p>
+
+    <p>For anything consequential I run the full sequence rather than a single call:</p>
+
+<pre><code>hold        → take the inventory so it cannot vanish mid-decision
+mutate      → execute once, under an idempotency key
+read back   → ask the provider what state it is actually in now
+audit       → record what was asked, allowed, executed, and confirmed</code></pre>
+
+    <p>The read-back is the step people skip, and it is the one that matters most. A <code>200</code> means the request was accepted, not that the world now looks the way you assume. Reporting success on the strength of a status code is how an agent tells someone their evening is sorted when it is not — and a confident wrong answer about the real world costs far more trust than an error message.</p>
+
+    <h2>An agent workflow is a distributed system</h2>
+
+    <p>Once an agent coordinates more than one tool, the shape becomes familiar. Move the reservation, update the calendar, notify the other person, adjust the ride. Steps one and two succeed. Step three fails.</p>
+
+    <p>There is no transaction spanning a restaurant API, a calendar provider, a messaging service, and a ride-sharing platform. What there is instead: partial failure, retries, idempotency, compensating actions, and stale state. If a call times out, did the update fail, or did it succeed and the response get lost? Retry without an idempotency key and the agent may book dinner twice.</p>
+
+    <p>None of that is new. The only genuinely new thing is the coordinator — it used to be deterministic application code, and now it is a model reasoning about what should happen next. That makes these patterns more important than they were, not less.</p>
+
+    <h2>What the control plane owns</h2>
+
+    <p>Not one monolith. A set of responsibilities that live between reasoning and execution, wherever they physically run:</p>
+
+    <div class="resp">
+      <div><b>Identity</b><span>Who is the user, and which agent is acting on their behalf?</span></div>
+      <div><b>Authorization</b><span>Can this principal, through this agent, invoke this action?</span></div>
+      <div><b>Tool registry</b><span>Is this a trusted tool with a known schema and expected behavior?</span></div>
+      <div><b>Policy</b><span>Under what conditions is this action allowed at all?</span></div>
+      <div><b>Risk classification</b><span>Harmless read, reversible write, or destructive operation?</span></div>
+      <div><b>Approval</b><span>Does this specific action warrant interrupting a human?</span></div>
+      <div><b>State validation</b><span>Are the assumptions behind the proposal still true right now?</span></div>
+      <div><b>Credential isolation</b><span>Can this execute without the model ever seeing provider credentials?</span></div>
+      <div><b>Observability</b><span>Which agent called which tool, with what arguments, and what came back?</span></div>
+      <div><b>Audit</b><span>Can we explain later who authorized this, and under which policy?</span></div>
+      <div><b>Evaluation</b><span>Was the tool choice appropriate? Did policy behave correctly? Did the workflow achieve the intent?</span></div>
+      <div><b>Compensation</b><span>When step three fails, what gets retried, reversed, or deliberately left alone?</span></div>
+      <div><b>Routing</b><span>Which provider owns this action, and through which adapter — decided server-side, never by the model.</span></div>
+      <div><b>Intent</b><span>Hard constraints, soft preferences, and what must be preserved — held as data, not left in a prompt.</span></div>
+    </div>
+
+    <p>None of these are model responsibilities, and none of them should be duplicated inside every tool server.</p>
+
+    <hr>
+
+    <h2>Walkthrough: StillOn</h2>
+
+    <p>The use case that made all of this concrete for me was small and personal. <strong>StillOn</strong> is a recovery layer for a plan that already exists. Booking platforms are excellent up to the moment of confirmation; almost nobody owns what happens after. A flight slips, a meeting overruns, an event is cancelled — and working out what is now unreachable, what could replace it, and who needs to be told gets handed straight back to the customer.</p>
+
+    <p>So StillOn does five things in a loop: detect a change, work out which downstream activities are now infeasible, search eligible partners for alternatives that preserve the original intent, act — automatically where it is pre-authorized and by asking where it is not — and verify the partner state before claiming anything worked.</p>
+
+    <p>The first architecture was the obvious one: context into a model, services attached through MCP, let it reason, let it act. It worked, which is exactly what made the authority question uncomfortable. Here is what it became.</p>
+
+    <figure class="fig">
+      <svg viewBox="0 0 720 620" role="img" aria-labelledby="figt2 figd2">
+        <title id="figt2">StillOn reference architecture</title>
+        <desc id="figd2">Six stages stacked vertically. Trigger: web app, assistant MCP surface, or a deterministic disruption monitor with no language model. Plan: the Maestro orchestrator, the only component that calls a model. Governed tools: canonical dining, entertainment, mobility, flight, itinerary and notification capabilities. Authorize: schema validation, policy engine, idempotency, typed errors and audit, none of it callable by the model. Route: a partner registry never visible to the model, resolving a certified adapter. Execute and verify: provider adapters over native MCP, REST or GraphQL. A state and runtime band underneath spans every stage, with PostgreSQL as authoritative truth and Redis holding locks and expiring holds.</desc>
+        <defs>
+          <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#3EF0D4"/>
+          </marker>
+        </defs>
+
+        <!-- 1 trigger -->
+        <rect class="svg-band" x="20" y="20" width="680" height="62" rx="3"/>
+        <text class="svg-plane" x="32" y="38">1 · TRIGGER</text>
+        <rect class="svg-chip" x="28" y="46" width="214" height="28" rx="2"/>
+        <text class="svg-chip-t" x="135" y="64" text-anchor="middle">apps/web · guest plan UI</text>
+        <rect class="svg-chip" x="253" y="46" width="214" height="28" rx="2"/>
+        <text class="svg-chip-t" x="360" y="64" text-anchor="middle">assistant MCP · OAuth 2.1</text>
+        <rect class="svg-chip" x="478" y="46" width="214" height="28" rx="2"/>
+        <text class="svg-chip-t" x="585" y="64" text-anchor="middle">disruption monitor · no LLM</text>
+
+        <path d="M360,82 L360,102" stroke="#3EF0D4" stroke-width="1.4" marker-end="url(#a2)"/>
+
+        <!-- 2 plan -->
+        <rect class="svg-band-key" x="20" y="106" width="680" height="64" rx="3"/>
+        <text class="svg-plane" x="32" y="124">2 · PLAN</text>
+        <text class="svg-badge" fill="#F0AC42" x="688" y="124" text-anchor="end">probabilistic</text>
+        <rect class="svg-chip" x="28" y="132" width="664" height="30" rx="2"/>
+        <text class="svg-chip-t" x="42" y="151">Maestro orchestrator</text>
+        <text class="svg-note" x="678" y="151" text-anchor="end">the only component that calls a model</text>
+
+        <path d="M360,170 L360,192" stroke="#3EF0D4" stroke-width="1.4" marker-end="url(#a2)"/>
+        <text class="svg-edge" x="372" y="186">canonical governed tools only — no provider APIs</text>
+
+        <!-- 3 governed tools -->
+        <rect class="svg-band" x="20" y="196" width="680" height="66" rx="3"/>
+        <text class="svg-plane" x="32" y="214">3 · GOVERNED TOOLS — DOMAIN MCP LAYER</text>
+        <rect class="svg-chip" x="28" y="224" width="104" height="28" rx="2"/>
+        <text class="svg-chip-t" x="80" y="242" text-anchor="middle">dining</text>
+        <rect class="svg-chip" x="140" y="224" width="104" height="28" rx="2"/>
+        <text class="svg-chip-t" x="192" y="242" text-anchor="middle">entertainment</text>
+        <rect class="svg-chip" x="252" y="224" width="104" height="28" rx="2"/>
+        <text class="svg-chip-t" x="304" y="242" text-anchor="middle">mobility</text>
+        <rect class="svg-chip" x="364" y="224" width="104" height="28" rx="2"/>
+        <text class="svg-chip-t" x="416" y="242" text-anchor="middle">flight</text>
+        <rect class="svg-chip" x="476" y="224" width="104" height="28" rx="2"/>
+        <text class="svg-chip-t" x="528" y="242" text-anchor="middle">itinerary</text>
+        <rect class="svg-chip" x="588" y="224" width="104" height="28" rx="2"/>
+        <text class="svg-chip-t" x="640" y="242" text-anchor="middle">notification</text>
+
+        <path d="M360,262 L360,284" stroke="#3EF0D4" stroke-width="1.4" marker-end="url(#a2)"/>
+
+        <!-- 4 authorize -->
+        <rect class="svg-band-key" x="20" y="288" width="680" height="62" rx="3"/>
+        <text class="svg-plane" x="32" y="306">4 · AUTHORIZE — GOVERNED EXECUTION</text>
+        <text class="svg-badge" fill="#3EF0D4" x="688" y="306" text-anchor="end">not model-callable</text>
+        <text class="svg-chip-t" x="360" y="334" text-anchor="middle">schema validation · policy engine · idempotency · typed errors · audit</text>
+
+        <path d="M360,350 L360,372" stroke="#3EF0D4" stroke-width="1.4" marker-end="url(#a2)"/>
+
+        <!-- 5 route -->
+        <rect class="svg-band" x="20" y="376" width="680" height="56" rx="3"/>
+        <text class="svg-plane" x="32" y="394">5 · ROUTE — DETERMINISTIC</text>
+        <text class="svg-badge" fill="#8CA3AB" x="688" y="394" text-anchor="end">never LLM-visible</text>
+        <text class="svg-chip-t" x="360" y="418" text-anchor="middle">partner registry → merchant → owning provider → certified adapter</text>
+
+        <path d="M360,432 L360,454" stroke="#3EF0D4" stroke-width="1.4" marker-end="url(#a2)"/>
+
+        <!-- 6 execute -->
+        <rect class="svg-band" x="20" y="458" width="680" height="62" rx="3"/>
+        <text class="svg-plane" x="32" y="476">6 · EXECUTE &amp; VERIFY</text>
+        <rect class="svg-chip" x="28" y="486" width="214" height="28" rx="2"/>
+        <text class="svg-chip-t" x="135" y="504" text-anchor="middle">provider A · native MCP</text>
+        <rect class="svg-chip" x="253" y="486" width="214" height="28" rx="2"/>
+        <text class="svg-chip-t" x="360" y="504" text-anchor="middle">provider B · REST</text>
+        <rect class="svg-chip" x="478" y="486" width="214" height="28" rx="2"/>
+        <text class="svg-chip-t" x="585" y="504" text-anchor="middle">provider C · GraphQL</text>
+
+        <!-- state -->
+        <rect x="20" y="540" width="680" height="60" rx="3" fill="#111A1D" stroke="#2B3D44" stroke-dasharray="4 3"/>
+        <text class="svg-plane" x="32" y="558">STATE &amp; RUNTIME — PARTICIPATES AT EVERY STEP, NOT A STEP</text>
+        <text class="svg-note" x="32" y="584">PostgreSQL · authoritative truth: chain, workflow, approvals, audit</text>
+        <text class="svg-note" x="688" y="584" text-anchor="end">Redis · non-authoritative: locks, cache, expiring holds</text>
+      </svg>
+      <figcaption>One model-enabled component, and five layers below it that are not. New providers arrive as an adapter and a registry row — the reasoning layer never learns their names.</figcaption>
+    </figure>
+
+    <p>Trace a delayed flight through it.</p>
+
+    <ol class="trace">
+      <li><b>Detect</b>The disruption monitor sees the inbound flight now lands at 19:20 instead of 17:45. The monitor is deterministic and contains no model — nothing about noticing a change requires one.
+        <div class="verdict">auto · low risk</div></li>
+      <li><b>Reason</b>Maestro — the one component wired to a model — reads the itinerary, sees a 19:30 dinner that is no longer comfortably reachable, and proposes moving it to 20:00. It reasons in capabilities, not providers: it asks for <em>dining</em>, and has no idea which booking platform is behind that restaurant.</li>
+      <li><b>Check intent</b>The customer's constraints are stored as data, not left in conversation history. Hard constraints, soft preferences, and what must be preserved are all separable — so "keep the party together" outranks "prefer 20:00" when the two conflict.
+        <div class="verdict">pass</div></li>
+      <li><b>Authorize</b>Inside the mutation handler, not beside it: schema validation, then policy. Is the principal authenticated, does this reservation belong to them, is this agent permitted this action, does the risk class demand a human? A 30-minute shift falls inside a standing authorization; the model could not have skipped this check even if it tried.
+        <div class="verdict">execute within authorization</div></li>
+      <li><b>Route</b>The partner registry maps merchant to owning provider to certified adapter. This happens after authorization, server-side, invisible to the model — and once bound, it stays bound for the life of the action.</li>
+      <li><b>Hold and mutate</b>Take the 20:00 slot so it cannot evaporate mid-decision, then execute once under an idempotency key. If the response is lost to a timeout, the retry cannot book dinner twice.</li>
+      <li><b>Read back</b>Ask the provider what state it is actually in. If someone took the slot while this was in flight, the action fails closed and re-proposes rather than reporting success on the strength of an accepted request.
+        <div class="verdict stop">fail closed · re-propose</div></li>
+      <li><b>Coordinate and record</b>Calendar updated, guest notified, ride pushed back. If the notification fails after the reservation has moved, that is partial failure with real-world state already changed, and compensation decides what to retry, reverse, or escalate. One trace ties it together: what changed, what was proposed, which policy allowed it, what was revalidated, what each provider returned.</li>
+    </ol>
+
+    <p>Now change one word. The restaurant cannot do 20:00, so the agent proposes <code>reservation.cancel</code> instead. Identical reasoning quality, identical confidence, completely different consequence — and this time policy stops at approval, because cancelling is destructive, socially visible, and something I would want to decide myself. Nothing about the model changed. The action class did.</p>
+
+    <hr>
+
+    <h2>The pattern is much bigger than a planner</h2>
+
+    <p>StillOn is just where I happened to notice it. The same shape appears everywhere agents touch real systems: an engineering agent updating Jira, a sales agent modifying a CRM opportunity, an operations agent restarting infrastructure, a finance agent approving an expense, a support agent issuing a refund, a coding agent merging a pull request or triggering a deploy.</p>
+
+    <p>In every one of those, the model may reason perfectly well and still not be the thing that should decide. So the useful question is not <em>can the agent use this tool</em>. It is:</p>
+
+    <p class="pull">Under what authority can this agent take this action, for this user, in this state, under this policy — and with what evidence afterwards?</p>
+
+    <h2>None of this is new. Only the caller is.</h2>
+
+    <p>Nearly every piece of this already exists somewhere in our craft. Identity and authorization came from API design. Policy enforcement came from gateways. Retries and idempotency came from distributed systems. Observability came from running things in production. Compensation came from long-running workflows. Least privilege came from security engineering.</p>
+
+    <p>Agents did not invalidate any of it. They changed who is calling. The caller can now read natural language, reason over context, invent a plan nobody programmed, and compose tools in sequences nobody enumerated. That is genuinely powerful, and it is precisely why the boundary has to be explicit.</p>
+
+    <p>Giving an agent more tools does not make it more useful past a certain point. Increasingly, the more valuable architectural work is deciding what it should not be allowed to do on its own.</p>
+
+    <h2>The same boundary, one layer up</h2>
+
+    <p>The part that surprised me is that this pattern repeated in how the system got built, not just in how it runs.</p>
+
+    <p>I built StillOn with coding agents, and the failure mode there is the same one: an agent that reasons well and drifts anyway, because nothing structural was holding it to the design. The answer turned out to be identical in shape — write the architecture and business rules down as an explicit specification, define the interfaces before the implementation, generate the models and clients from OpenAPI and MCP schemas, and let the agent move fast inside those contracts.</p>
+
+<pre><code>AGENTS.md → spec → plan → OpenAPI / MCP schemas → codegen → implementation → tests</code></pre>
+
+    <p>The contracts are the single source of truth, so implementation drift has somewhere to fail loudly instead of quietly accumulating. And because the boundary is the specification rather than the tool, none of it is tied to a particular coding agent.</p>
+
+    <p>At runtime, I give the model room to reason and constrain its authority. At build time, I give the coding agent room to implement and constrain the architecture, the specification, and the contracts. It is one idea applied twice.</p>
+
+    <p class="pull">Reasoning is delegated. Authority never is.</p>
+  </div>
+
+  <footer>
+    <a href="../index.html#blog">← All writing</a>
+  </footer>
+</article>
+
+<script>
+(function(){
+  var heads = [].slice.call(document.querySelectorAll('.post-body h2'));
+  var toc = document.getElementById('toc');
+  var links = [];
+
+  heads.forEach(function(h){
+    var id = h.textContent.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48);
+    h.id = id;
+
+    var a = document.createElement('a');
+    a.className = 'anchor'; a.href = '#' + id; a.textContent = '#';
+    a.setAttribute('aria-label', 'Link to this section');
+    h.appendChild(a);
+
+    var t = document.createElement('a');
+    t.href = '#' + id; t.textContent = h.firstChild.textContent;
+    toc.appendChild(t); links.push(t);
+  });
+
+  /* One pass drives both the progress bar and the active heading.
+     Throttled to one animation frame, and all reads happen before any
+     write so a scroll never forces a second layout. Positions are read
+     live: IntersectionObserver entries carry the rect from when they
+     fired, which goes stale on a fast jump. */
+  var bar = document.getElementById('bar'), current = -1, queued = false;
+
+  function draw(){
+    queued = false;
+    /* --- read --- */
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
+    var i = -1;
+    for (var n = 0; n < heads.length; n++){
+      if (heads[n].getBoundingClientRect().top <= 140) i = n; else break;
+    }
+
+    /* --- write --- */
+    bar.style.width = pct + '%';
+    if (i !== current){
+      if (links[current]) links[current].classList.remove('on');
+      if (links[i]) links[i].classList.add('on');
+      current = i;
+    }
+  }
+
+  function onScroll(){
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(draw);
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', draw);
+  draw();
+})();
+</script>
+
+</body>
+</html>

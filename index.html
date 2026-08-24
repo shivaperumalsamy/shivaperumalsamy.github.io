@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shiva Perumalsamy — Enterprise AI Solutions Architect</title>
 <meta name="description" content="Agentic systems, retrieval, real-time voice AI, side projects, and technical writing. Ask this page a question — it retrieves before it answers.">
+<link rel="canonical" href="https://shivap.me/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Shiva Perumalsamy — Enterprise AI Systems">
+<meta property="og:description" content="Agents, orchestration, retrieval, governance, voice, and evaluation—grounded in real delivery work.">
+<meta property="og:url" content="https://shivap.me/">
+<meta property="og:image" content="https://shivap.me/img/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shiva Perumalsamy — Enterprise AI Systems">
+<meta name="twitter:description" content="Agents, orchestration, retrieval, governance, voice, and evaluation.">
+<meta name="twitter:image" content="https://shivap.me/img/og-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
@@ -117,6 +127,8 @@ h1 .op{
 }
 .lede{font-size:clamp(16px,1.8vw,19px);color:var(--muted);max-width:56ch;margin:0 0 34px;font-weight:300}
 .lede strong{color:var(--text);font-weight:400}
+.hero-cta{display:flex;flex-wrap:wrap;gap:9px;margin:-12px 0 26px}
+.hero-cta a{font-family:var(--mono);font-size:11.5px;color:var(--signal);text-decoration:none;border:1px solid var(--signal-dim);border-radius:2px;padding:7px 10px;background:var(--signal-ghost)}
 
 /* ============================================================
    ORCHESTRATOR
@@ -184,6 +196,15 @@ h1 .op{
 .answer p{margin:0 0 11px;font-size:16px;line-height:1.7}
 .answer p:last-child{margin-bottom:0}
 .answer .src{font-family:var(--mono);font-size:11.5px;color:var(--muted-dim);margin-top:14px;padding-top:11px;border-top:1px solid var(--line-soft)}
+.answer-summary{color:var(--muted);font-size:14px;margin:0 0 14px}
+.evidence{display:grid;gap:8px;margin-top:14px}
+.evidence-card{display:block;width:100%;text-align:left;background:var(--ink);border:1px solid var(--line-soft);border-radius:2px;padding:12px 13px;color:var(--text);font:inherit;cursor:pointer;transition:border-color .18s,background .18s}
+.evidence-card:hover{border-color:var(--signal-dim);background:var(--signal-ghost)}
+.evidence-meta{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal-dim)}
+.evidence-title{font-size:15px;font-weight:400;margin-top:4px}
+.evidence-copy{font-family:var(--mono);font-size:11.5px;line-height:1.55;color:var(--muted);margin-top:4px}
+.evidence-card .cite{margin-left:auto}
+.answer .src{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 
 /* ============================================================
    SECTIONS
@@ -221,6 +242,7 @@ h1 .op{
 .detail-list{display:grid;gap:11px}
 .item{border-left:2px solid var(--line);padding-left:14px}
 .item .t{font-size:15.5px;color:var(--text)}
+.item .hook{font-size:13.5px;color:var(--signal);margin-top:3px}
 .item .d{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:3px}
 .item .demo-link{
   position:relative;display:inline-block;margin-top:8px;
@@ -354,6 +376,7 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
     <h1>Skip the scroll. <span class="op">query()</span> my work.</h1>
 
     <p class="lede">This page runs a small retrieval agent over my own work history, side projects, and technical writing — agents, RAG, real-time voice, governance. <strong>Ask it something specific.</strong> It shows you what it retrieved before it answers, so you can check the grounding yourself.</p>
+    <div class="hero-cta"><a href="#projects">Selected systems →</a><a href="#contact">Contact →</a><a href="#about">14+ years enterprise engineering →</a></div>
 
     <section class="orch" aria-label="Ask about my work">
       <div class="orch-bar">
@@ -399,7 +422,7 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
     <div class="sec-head">
       <span class="eyebrow">The system</span>
       <h2>Six surfaces I design against.</h2>
-      <p>Pick one to see what it means — and the work shipped as part of it.</p>
+      <p>These are capability lenses, not project buckets. Each one answers a recruiter question: what can Shiva actually design, build, and prove in production?</p>
     </div>
 
     <div class="map">
@@ -414,8 +437,8 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">Projects</span>
-      <h2>Side builds, not just the day job.</h2>
-      <p>Same retrieval index as the agent above — ask it about any of these directly.</p>
+      <h2>Selected systems, with evidence.</h2>
+      <p>Public demos, open-source work, enterprise delivery, and prototypes—ask the portfolio agent about any of them directly.</p>
     </div>
     <div class="projects" id="projectsGrid"></div>
   </div>
@@ -459,7 +482,7 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
   </div>
 </section>
 
-<section class="sec">
+<section class="sec" id="about">
   <div class="wrap">
     <div class="facts">
       <div class="fact">
@@ -472,11 +495,11 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
       </div>
       <div class="fact">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M9 12.5 7 21l5-3 5 3-2-8.5"/></svg>
-        <div class="v">Top ~50</div><div class="k">of ~15,000 · Presidential Award</div>
+        <div class="v">Presidential Award</div><div class="k">Crystal Winner · CDW's highest recognition</div>
       </div>
       <div class="fact">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3Z"/><path d="M9 12l2 2 4-4"/></svg>
-        <div class="v">2</div><div class="k">Agentic AI certifications</div>
+        <div class="v">3</div><div class="k">Agentic AI certifications</div>
       </div>
     </div>
   </div>
@@ -524,95 +547,179 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
      ============================================================ -->
 <script type="application/json" id="corpus">
 [
-{"id":"vitalforce","node":"voice","title":"VitalForce AI — real-time multimodal voice agent","tags":["voice","livekit","pipecat","riva","nemo","metahuman","bithuman","unreal","gtc","latency","interruption","barge-in","webrtc","streaming","stt","tts"],
-"text":"VitalForce AI is a real-time multimodal voice agent demoed live on stage at NVIDIA GTC 2026. Stack: LiveKit and Pipecat for transport and orchestration, NVIDIA Riva and NeMo for speech, BitHuman and Unreal Engine MetaHuman for the embodied avatar. The hard parts were the ones that always are in live voice: interruption and barge-in handling, streaming audio under WebRTC, and holding end-to-end latency low enough that turn-taking feels human rather than transactional.","demo":"https://vimeo.com/1176717334/9f3973f9a3"},
+{"id": "nav-contact", "kind": "navigation", "node": "navigation", "href": "#contact", "title": "Contact Shiva", "tags": ["contact", "email", "email address", "reach", "reach out", "connect", "linkedin", "github", "hire", "talk"],
+"text": "To contact Shiva, use the Email, LinkedIn, or GitHub links in the Contact section. He is available to talk about enterprise AI systems, agents, retrieval, governance, voice AI, and evaluation."},
 
-{"id":"booking-agent","node":"voice","title":"Conversational booking agent","tags":["voice","personaplex","nemotron","booking","real-time","nvidia"],
-"text":"A real-time voice booking agent built on NVIDIA PersonaPlex and Nemotron, handling natural-language interaction from intent capture through transaction completion. Narrower in scope than VitalForce, and useful as a control — it isolates how much of the perceived quality in a voice agent comes from the model versus the turn-taking and latency engineering around it."},
+{"id": "nav-projects", "kind": "navigation", "node": "navigation", "href": "#projects", "title": "Selected projects and demos", "tags": ["projects", "side projects", "builds", "demos", "portfolio", "work", "showcase"],
+"text": "The Projects section contains selected builds, architecture diagrams, demos, and public technical deep dives. It is the fastest way to browse project-level evidence."},
 
-{"id":"litellm-guardrails","node":"governance","title":"NeMo Guardrails inside a LiteLLM Gateway","tags":["governance","guardrails","nemo","litellm","mcp","tool call","validation","mediation","policy","enforcement","security"],
-"text":"Integrated NVIDIA NeMo Guardrails into a LiteLLM gateway as a mediation and enforcement layer, specifically for validating MCP tool calls. Flow is LiteLLM to NeMo Guardrails to the model, so policy sits in the request path rather than beside it. The design point: an agent that can call tools needs enforcement at the call boundary, not a prompt asking it to behave."},
+{"id": "nav-writing", "kind": "navigation", "node": "navigation", "href": "#blog", "title": "Technical writing", "tags": ["writing", "blog", "posts", "articles", "technical notes", "recent writing", "published"],
+"text": "The Writing section contains public technical notes and articles about grounded retrieval, secure multi-agent systems, and real-time voice AI."},
 
-{"id":"nemoclaw","node":"agents","title":"NemoClaw / NemoHermes — enterprise agentic reference architecture","tags":["agents","jira","nvidia","nemo","open source","pr","upstream","agentic","toolkit","sandboxing","governance","security"],
-"text":"Designed and built NemoClaw, later migrated to NemoHermes — an enterprise agentic reference architecture on NVIDIA's secure agentic framework, Jira-connected, with scoped tool access, sandboxed execution, and governance controls built in rather than bolted on. The work produced an upstream open-source contribution into the NVIDIA ecosystem, which matters more than the demo did — it means the agent patterns survived contact with someone else's codebase and review standards. Also written up as a technical post on secure multi-agent execution."},
+{"id": "nav-stack", "kind": "navigation", "node": "navigation", "href": "#stack", "title": "Technology stack and depth", "tags": ["stack", "skills", "tools", "technologies", "experience", "production", "working", "learning", "strongest"],
+"text": "The Stack section grades technology depth honestly: production systems operated in practice, working hands-on experience, and clearly labeled learning or PoC-level areas."},
 
-{"id":"spec-driven","node":"orchestration","title":"Spec-driven development with Claude Code","tags":["claude code","spec-driven","skills","hooks","delivery","teams","aidlc","developer productivity","adoption"],
-"text":"Introduced spec-driven development with Claude Code — skills and hooks — across delivery teams. The adoption problem was never the tooling; it was getting engineers to write the spec before the prompt. Related industry framing: AIDLC, the AI-driven development lifecycle, which I treat as an emerging generic term rather than any vendor's property."},
+{"id": "nav-background", "kind": "navigation", "node": "navigation", "href": "#about", "title": "Background and credentials", "tags": ["background", "experience", "career", "years", "credentials", "certifications", "education", "award", "about"],
+"text": "Shiva is an Enterprise AI Solutions Architect with 14+ years of enterprise engineering experience, agentic AI certifications, and a public portfolio of delivery work and technical writing."},
 
-{"id":"mcp","node":"agents","title":"MCP and A2A in practice","tags":["mcp","model context protocol","a2a","agent to agent","tools","interop","protocol","tool call"],
-"text":"Production experience with A2A and the NeMo Agent Toolkit, and hands-on MCP work in two directions: exposing enterprise systems as MCP tools, and governing what agents are allowed to do with them via guardrail mediation on tool calls. The interesting failure mode in multi-agent systems is not a bad model response — it is an agent confidently calling the wrong tool with well-formed arguments."},
+{"id": "open-source", "node": "agents", "title": "Three open-source contributions", "tags": ["open source", "opensource", "contributions", "nvidia", "nemoclaw", "nemohermes", "labs oo agents", "idea contributor"],
+"text": "Three public NVIDIA ecosystem contributions: NemoClaw/NemoHermes; code contributions to NVIDIA-NeMo/labs-OO-Agents; and an idea contribution to NemoClaw. Each is public evidence that the work survived collaboration and review outside a private delivery environment."},
 
-{"id":"aws","node":"agents","title":"AWS agentic stack","tags":["aws","bedrock","agentcore","strands","eks","kubernetes","production","cloud"],
-"text":"Production-level work with AWS Bedrock, AWS AgentCore, AWS Strands, and Amazon EKS. This is the cloud stack I would default to for a new agentic build today, mostly because the operational story around agents there is further along than the alternatives."},
+{"id": "delivery-metrics", "node": "evaluation", "title": "Measured delivery outcomes", "tags": ["metrics", "outcomes", "latency", "25 seconds", "12 seconds", "40 percent", "qa", "testing", "improvement"],
+"text": "Measured outcomes include reducing multi-agent p95 response time from roughly 25 seconds to 12 seconds through parallel orchestration, and cutting manual QA effort by roughly 40% through reusable automated regression and accessibility testing."},
 
-{"id":"azure","node":"agents","title":"Azure AI stack","tags":["azure","ai foundry","apim","logic apps","api gateway","azure ml","vllm","semantic router","routing"],
-"text":"Working, hands-on level with Azure AI Foundry, Azure APIM, Logic Apps, API Gateway, and Azure ML, plus vLLM Semantic Router for LLM traffic routing. Solid delivery experience — a step below the AWS depth, and I say so rather than flattening both into one stack list."},
+{"id": "vitalforce", "node": "voice", "title": "VitalForce AI — real-time multimodal voice agent", "tags": ["voice", "livekit", "pipecat", "riva", "nemo", "metahuman", "bithuman", "unreal", "gtc", "latency", "interruption", "barge-in", "webrtc", "streaming", "stt", "tts"], "demo": "https://vimeo.com/1176717334/9f3973f9a3",
+"text": "An embodied voice agent is judged on turn-taking before it is judged on answers, which decides where the engineering effort goes. VitalForce AI, demoed live on stage at NVIDIA GTC 2026, runs LiveKit and Pipecat for transport and orchestration, NVIDIA Riva and NeMo for speech, and a lightweight avatar layer for presence. The hard parts were the ones that are always hard in live voice: interruption and barge-in, streaming audio under WebRTC, and holding end-to-end latency low enough that turn-taking feels human rather than transactional."},
 
-{"id":"gpu-learning","node":"evaluation","title":"Where I'm still learning","tags":["cuda","pytorch","fine-tuning","lora","peft","learning","honest","limitations","gaps"],
-"text":"CUDA, PyTorch, and fine-tuning with LoRA and PEFT are PoC-level for me, not production. I list them in a separate tier deliberately. In an architecture role the cost of overstating model-training depth is high and shows up fast, usually in the first technical screen."},
+{"id": "booking-agent", "node": "voice", "title": "Conversational booking agent", "tags": ["voice", "personaplex", "nemotron", "booking", "real-time", "nvidia"],
+"text": "A narrower voice build is useful as a control: it isolates how much of the perceived quality comes from the model versus the turn-taking and latency engineering around it. This one runs on NVIDIA PersonaPlex and Nemotron, carrying natural-language interaction from intent capture through to a completed transaction, with the conversation layer deliberately kept separate from the system that commits the booking."},
 
-{"id":"gov-rfp","node":"governance","title":"Public-sector AI procurement","tags":["rfp","municipal","permitting","procurement","public sector","government","evaluation","proposal"],
-"text":"Evaluated an AI-powered permitting and plan-review assistant RFP for a large municipal government. Public-sector AI procurement is where the governance conversation stops being theoretical — evaluators ask how the system fails, who is accountable for the failure, and what the audit trail looks like, well before they ask what model it uses."},
+{"id": "litellm-guardrails", "node": "governance", "title": "Policy in the request path, not beside it", "tags": ["governance", "guardrails", "nemo", "litellm", "mcp", "tool call", "validation", "mediation", "policy", "enforcement", "security"],
+"text": "An agent that can call tools needs enforcement at the call boundary, not a prompt asking it to behave. That means putting policy in the request path: NeMo Guardrails wired into a LiteLLM gateway as a mediation layer, so MCP tool calls are validated on the way through rather than audited afterwards. Gateway to guardrails to model — the order is the design."},
 
-{"id":"courts","node":"rag","title":"Court systems and records search","tags":["courts","utah","montana","records","search","freemium","billing","rag","retrieval","pagination","large result sets"],
-"text":"Analyzed an AI assistant RFP for the Montana court system and positioned relevant prior Utah Courts experience in client-facing responses. Related build: a court records search application with a freemium and billing boundary designed around large result sets — the retrieval problem and the pricing problem turned out to be the same problem, since where you draw the result-set boundary is simultaneously a relevance decision and a revenue decision."},
+{"id": "nemoclaw", "node": "agents", "title": "NemoClaw / NemoHermes — governance built into the runtime, not bolted on", "tags": ["agents", "jira", "nvidia", "nemo", "open source", "pr", "upstream", "agentic", "toolkit", "sandboxing", "governance", "security"],
+"text": "Governance that an enterprise will accept has to sit in the runtime, not in the prompt. NemoClaw — later migrated to NemoHermes — is the reference architecture I built for that on NVIDIA's secure agentic framework: scoped tool access, sandboxed execution, and deny-by-default controls as properties of the runtime rather than instructions to the model. It produced an upstream open-source contribution into the NVIDIA ecosystem, which matters more than the demo did — the patterns survived contact with someone else's codebase and review standards."},
 
-{"id":"municipal-rfp","node":"governance","title":"Municipal fiber ISP RFP analysis","tags":["rfp","fiber","isp","municipal","analysis"],
-"text":"Analyzed a municipal fiber ISP RFP and helped position relevant prior experience. Useful range: not every architecture problem in consulting is an AI problem, and being able to read a procurement document properly is its own skill."},
+{"id": "agent-governed-data", "node": "agents", "title": "Governed natural-language access to structured data", "tags": ["agents", "mcp", "sql", "governed tools", "tool design", "least privilege", "hitl", "structured data", "natural language", "guardrails", "on-prem"],
+"text": "A natural-language interface over a large relational dataset for people who do not write SQL, built as a small set of governed tools rather than model-generated SQL. Generated SQL against a production database is three problems at once — security exposure, unbounded query latency, and result sets far larger than anyone asked for — so the questions users actually ask get mapped onto explicit, bounded operations instead. Low-confidence answers route to a human review queue rather than being returned."},
 
-{"id":"distributed","node":"orchestration","title":"Bulk PDF generation — race condition","tags":["distributed systems","redis","atomic counter","rabbitmq","aggregator","informix","row locking","race condition","concurrency","backend"],
-"text":"Distributed systems design for a bulk PDF generation race condition: a Redis atomic counter for completion tracking, a RabbitMQ aggregator pattern for fan-in, and Informix row locking at the data layer. Predates the agentic work and still informs it — an agent fanning out tool calls is a distributed system with worse error messages."},
+{"id": "agent-intake", "node": "agents", "title": "Guided intake agent for plain-language requests", "tags": ["agents", "rag", "intake", "hybrid retrieval", "self-service", "public sector", "structured output", "conversational"],
+"text": "A guided intake agent for a public-service context: someone describes their situation in ordinary words, the agent identifies the correct structured document, explains the process, collects what the document requires, and hands it back populated. The hard part was retrieval, not conversation — everyday language does not match formal document titles, and keyword or synonym matching only narrows the gap. The fix was changing what gets indexed rather than swapping the embedding model."},
 
-{"id":"a11y","node":"evaluation","title":"Accessibility and WCAG 2.1 AA","tags":["accessibility","wcag","a11y","formio","forms","schema","json","testing","compliance"],
-"text":"Accessibility and WCAG 2.1 AA testing for FormIO-generated forms, including schema restructuring and JSON delivery. Accessibility is the clearest example of a requirement that has to be designed into the schema; retrofitting it at the render layer is where projects lose their quarter."},
+{"id": "agent-docintel", "node": "agents", "title": "Document-intelligence agent over technical drawings", "tags": ["agents", "multimodal", "document intelligence", "ocr", "drawings", "extraction", "grounding", "citation", "engineering"],
+"text": "A retrieval agent over technical specifications and engineering drawings, where plain text extraction returns every keyword on a sheet and none of the spatial relationships that give those keywords meaning. Ingestion is ranked by source fidelity — structured object data first, coordinate-aware vector text next, OCR and vision only as fallback — and answers cite back to the source sheet. Symbols run on a separate path from text retrieval entirely, because a drawing symbol carries meaning with no text attached to it."},
 
-{"id":"healthnow","node":"orchestration","title":"HealthNow — design-first API backend","tags":["go","golang","openapi","swagger","codegen","angular","design-first","api","backend"],
-"text":"HealthNow backend built in Go with a design-first OpenAPI/Swagger codegen workflow integrated with an Angular frontend. Design-first is the same discipline as spec-driven development with AI tooling, arrived at years earlier — write the contract, generate the edges, keep humans arguing about the interface rather than the implementation."},
+{"id": "agent-crosscloud", "node": "agents", "title": "Cross-cloud assistant with specialist sub-agents", "tags": ["agents", "orchestration", "multi-agent", "supervisor", "hierarchical", "cross-cloud", "knowledge base", "routing", "latency"],
+"text": "An internal assistant that puts three cloud domains behind one conversation, with a supervisor routing each question to the specialist sub-agent that owns it, each grounded in its own knowledge base. Hierarchical delegation is the easy part to draw and the hard part to make fast — the work is in fanning the specialists out concurrently rather than in sequence, so one slow domain does not hold the whole answer hostage."},
 
-{"id":"sage","node":"orchestration","title":"SAGE — internal seller assistant","tags":["aws","azure","bedrock","langgraph","orchestration","rag","teams","entra id"],
-"text":"SAGE is a cross-cloud seller assistant: a Microsoft Teams bot on Azure, bridged by Entra ID SSO and tenant isolation, fronts a LangGraph supervisor-of-supervisors on AWS that routes lead qualification, cloud-funding, cost-estimation, and licensing questions to sub-agents grounded in Amazon Bedrock Knowledge Bases."},
+{"id": "spec-driven", "node": "orchestration", "title": "Spec before prompt, contract before code", "tags": ["claude code", "spec-driven", "skills", "hooks", "delivery", "teams", "aidlc", "developer productivity", "adoption", "openapi", "design-first", "go"], "kind": "about",
+"text": "Write the contract before the code, and the spec before the prompt. Spec-driven development with Claude Code — skills and hooks — rolled out across delivery teams, where the adoption problem was never the tooling but getting engineers to specify first. It is the same discipline as the design-first OpenAPI codegen workflow behind an earlier Go backend: generate the edges from the contract, and keep the argument on the interface rather than the implementation."},
 
-{"id":"role","node":"orchestration","title":"Current role and recognition","tags":["cdw","sirius","role","consultant","architect","award","presidential","crystal","austin","experience","gtm","mentoring"],
-"text":"AI Managing Consultant Engineer and Enterprise AI Solutions Architect at CDW (formerly Sirius), based in Austin, Texas, with 14+ years across enterprise software and production AI systems. The role spans agentic AI architecture, client-facing engagements, internal product strategy and GTM, plus direct 1:1 mentoring of junior architects and engineers on agentic system design and delivery practices. Received CDW's Presidential Award (Crystal Winner, 2025) — roughly the top 50 of about 15,000 employees."},
+{"id": "mcp", "node": "agents", "title": "Exposing systems as tools, and governing what agents do with them", "tags": ["mcp", "model context protocol", "a2a", "agent to agent", "tools", "interop", "protocol", "tool call"],
+"text": "MCP work runs in two directions: turning enterprise systems into tools an agent can call, and constraining what the agent is allowed to do with them through guardrail mediation at the call boundary. Production experience with A2A and the NeMo Agent Toolkit alongside it. The interesting failure in a multi-agent system is never a bad model response — it is an agent confidently calling the wrong tool with well-formed arguments."},
 
-{"id":"creds","node":"evaluation","title":"Certifications and education","tags":["certification","anthropic","claude","certified architect","nvidia","agentic ai","ut austin","pgp","education","credentials"],
-"text":"Anthropic Claude Certified Architect (2026) and NVIDIA Certified Professional, Agentic AI (2026). Post Graduate Program in AI/ML from the University of Texas at Austin. Earlier career includes WebSphere Commerce delivery and about a year of hands-on native Android/Java development between 2012 and 2015; React Native and Flutter exposure was at a leadership level rather than hands-on."},
+{"id": "gpu-learning", "node": "evaluation", "title": "Where I'm still learning", "tags": ["cuda", "pytorch", "fine-tuning", "lora", "peft", "learning", "honest", "limitations", "gaps"], "kind": "about",
+"text": "CUDA, PyTorch, and fine-tuning with LoRA and PEFT are PoC-level for me, not production. I list them in a separate tier deliberately. In an architecture role the cost of overstating model-training depth is high and shows up fast, usually in the first technical screen."},
 
-{"id":"proj-vitalforce","kind":"project","node":"voice","title":"VitalForce AI — enterprise avatar agent platform","tags":["voice","avatar","nvidia","riva","livekit","rag","healthcare","retail","banking"],
-"text":"VitalForce AI is an enterprise avatar agent platform for real-time conversational digital humans — secure AI 'digital employees' that listen, speak, reason, and act on a technology-agnostic stack spanning NVIDIA, Google, and Azure. The demo showcases role-specific avatars across healthcare, retail, banking, hospitality, and education.","repo":"","demo":"https://vimeo.com/1176717334/9f3973f9a3","diagram":"img/vital-force.png"},
+{"id": "gov-rfp", "node": "governance", "title": "Procurement asks how it fails before it asks what model it uses", "tags": ["governance", "procurement", "public sector", "rfp", "evaluation", "accountability", "audit trail", "failure modes", "permitting"],
+"text": "Public-sector AI procurement is where the governance conversation stops being theoretical. Evaluators want to know how the system fails, who is accountable when it does, and what the audit trail looks like — all of that well before anyone asks which model is behind it. Designing the failure story first is what makes the rest of the answer credible."},
 
-{"id":"proj-personaplex","kind":"project","node":"voice","title":"NVIDIA PersonaPlex — real-time conversational booking assistant","tags":["voice","personaplex","nemotron","booking","real-time","nvidia","observability"],
-"text":"A real-time voice booking agent built on NVIDIA PersonaPlex and Nemotron, running natural-language interaction end-to-end — intent capture, dialogue state, response planning, and transaction execution — with no scripted IVR tree. Built as a narrower, controlled counterpart to VitalForce, useful for isolating model quality from real-time engineering quality.","repo":"","demo":"","diagram":"img/personaplex-architecture.svg"},
+{"id": "courts", "node": "rag", "title": "The result-set boundary is a pricing decision too", "tags": ["rag", "retrieval", "pagination", "large result sets", "search", "freemium", "billing", "product", "relevance", "records"],
+"text": "On a records search product with a freemium boundary, the retrieval problem and the pricing problem turned out to be the same problem: where you cut off the result set is simultaneously a relevance decision and a revenue decision. Tuning either one in isolation moves the other. It is the clearest case I have worked on of retrieval design being a product decision rather than an engineering one."},
 
-{"id":"proj-sage","kind":"project","node":"orchestration","title":"SAGE — internal seller assistant","tags":["orchestration","agents","aws","azure","bedrock","langgraph","teams","entra id","cross-cloud"],
-"text":"A cross-cloud hierarchical multi-agent seller assistant: a Microsoft Teams bot on Azure, bridged by Entra ID SSO and tenant isolation, to a LangGraph supervisor-of-supervisors on AWS. Domain sub-agents for lead qualification, cloud-funding, cost-estimation, and licensing are each grounded in their own Amazon Bedrock Knowledge Base, running Claude on Bedrock on ECS/Fargate.","repo":"","demo":"","diagram":"img/sage-architecture.svg"},
+{"id": "municipal-rfp", "node": "governance", "title": "Municipal fiber ISP RFP analysis", "tags": ["rfp", "fiber", "isp", "municipal", "analysis"], "kind": "about",
+"text": "Analyzed a municipal fiber ISP RFP and helped position relevant prior experience. Useful range: not every architecture problem in consulting is an AI problem, and being able to read a procurement document properly is its own skill."},
 
-{"id":"proj-nemoclaw","kind":"project","node":"agents","title":"NemoClaw / NemoHermes — enterprise agentic reference architecture","tags":["agents","nvidia","jira","open source","sandboxing","landlock","secret vault","observability","hitl","governance","security"],
-"text":"NemoClaw (OpenShell) is a sandboxed multi-agent system built for controlled execution: kernel-level isolation, deny-by-default least privilege, and modular single-responsibility sub-agents — Jira, code, test, build, docs, notify — coordinated by a planning agent, with a secret vault and human-in-the-loop approval gating every write action. Produced an upstream open-source contribution into the NVIDIA ecosystem.","repo":"","demo":"","article":"https://www.linkedin.com/pulse/designing-secure-multi-agent-systems-nemoclaw-sivanandham-perumalsamy-mxm3c","diagram":"img/nemo-agent.png"},
+{"id": "distributed", "node": "orchestration", "title": "Fan-out is easy, fan-in is the hard half", "tags": ["distributed systems", "redis", "atomic counter", "rabbitmq", "aggregator", "row locking", "race condition", "concurrency", "completion tracking", "fan-in"],
+"text": "Fanning work out is easy; knowing when every branch has finished is the part that breaks. A Redis atomic counter for completion tracking, a RabbitMQ aggregator for fan-in, and row locking at the data layer solved it for bulk document generation. An agent fanning out tool calls is the same distributed system with worse error messages."},
 
-{"id":"proj-crash-intel","kind":"project","node":"agents","title":"Crash-Data Intelligence Agent","tags":["agents","mcp","sql","google mcp toolbox","nemo guardrails","classification","sentiment","trend detection"],
-"text":"A SQL-connected crash-data intelligence agent, fronted by an internal AI manager service and routed through an MCP layer — a purpose-built Crash Intelligence MCP and a Narrative Intelligence MCP, alongside Google's MCP Toolbox for Databases. Generation runs on Gemma and Nemotron on-prem behind NVIDIA NeMo Guardrails, with low-confidence responses routed to a human analyst review queue.","repo":"","demo":"","diagram":"img/crash-intelligent.png"},
+{"id": "a11y", "node": "evaluation", "title": "Accessibility as a measurable gate, not a retrofit", "tags": ["accessibility", "wcag", "a11y", "schema", "forms", "json", "testing", "compliance", "regression", "remediation"],
+"text": "Accessibility fails when it is treated as a rendering concern discovered at the end. The conformance rules have to be designed into the schema — for generated forms that meant restructuring the schema and its JSON delivery rather than patching the render layer. Measured continuously it behaves like any other regression signal; retrofitted late, it is where projects lose their quarter."},
 
-{"id":"proj-testify","kind":"project","node":"evaluation","title":"Testify — agentic testing accelerator","tags":["testing","agents","langchain","langgraph","playwright","accessibility","ci/cd"],
-"text":"A multi-agent testing workflow (Python, LangChain/LangGraph, Playwright) that generates tests and runs browser-based regression and accessibility checks — CI/CD-integrated and reused across teams, cutting manual testing effort by roughly 40%. Aligned to government accessibility legislation, with live scans that quantify issues and the effort to fix them, seeding a pipeline of 50+ entities.","repo":"","demo":"","diagram":"img/Testify-Architecture.png"},
+{"id": "role", "node": "orchestration", "title": "Current role and recognition", "tags": ["cdw", "sirius", "role", "consultant", "architect", "award", "presidential", "crystal", "austin", "experience", "gtm", "mentoring"], "kind": "about",
+"text": "AI Managing Consultant Engineer and Enterprise AI Solutions Architect at CDW (formerly Sirius), based in Austin, Texas, with 14+ years across enterprise software and production AI systems. The role spans agentic AI architecture, client-facing engagements, internal product strategy and GTM, plus direct 1:1 mentoring of junior architects and engineers on agentic system design and delivery practices. Received CDW's Presidential Award as a Crystal Winner in 2025, the company's highest recognition."},
 
-{"id":"proj-agent-eval","kind":"project","node":"evaluation","title":"Agent evaluation and benchmarking framework","tags":["evaluation","benchmarking","agents","llm","latency","regression"],
-"text":"An evaluation harness for benchmarking multi-agent and LLM systems on accuracy, tool-use correctness, reasoning quality, latency, and regression across releases. Ground-truth feedback loops turn those scores into evidence for agent design decisions — which model, which prompt, which guardrail — instead of shipping on vibes.","repo":"","demo":""},
+{"id": "creds", "node": "evaluation", "title": "Certifications and education", "tags": ["certification", "anthropic", "claude", "certified architect", "nvidia", "agentic ai", "ut austin", "pgp", "education", "credentials"], "kind": "about",
+"text": "Anthropic Claude Certified Architect (2026) and NVIDIA Certified Professional, Agentic AI (2026). Post Graduate Program in AI/ML from the University of Texas at Austin. Earlier career includes WebSphere Commerce delivery and about a year of hands-on native Android/Java development between 2012 and 2015; React Native and Flutter exposure was at a leadership level rather than hands-on."},
 
-{"id":"proj-aidlc","kind":"project","node":"orchestration","title":"AI-DLC multi-agent orchestration framework","tags":["orchestration","aidlc","mcp","jira","gitlab","ci/cd","python"],
-"text":"A coordinator-led orchestration framework — Research, Dev, Code Review, Testing, and CI/CD agents, each a Python agent integrated via MCP tool connectors. Jira and GitLab connectors make the workflow git-native and PR-linked, so execution closes the loop end-to-end instead of stopping at a suggestion someone has to act on manually.","repo":"","demo":""},
+{"id": "orch-parallel", "node": "orchestration", "title": "Parallel fan-out over sequential delegation", "tags": ["orchestration", "latency", "tracing", "langgraph", "parallel", "supervisor", "multi-agent", "performance", "refactor"],
+"text": "A supervisor that calls its specialists one after another is the most common avoidable latency bug in multi-agent systems, and it hides well because every call looks fast on its own. Instrument the graph before optimising it, find the serial edge, then model the flow so those calls fan out concurrently — on one internal assistant that change alone took response time from roughly thirty seconds to twelve."},
 
-{"id":"proj-nlp-automation","kind":"project","node":"agents","title":"Enterprise conversational AI and NLP automation","tags":["nlp","conversational ai","rasa","luis","salesforce","automation"],
-"text":"Earlier-career delivery of machine learning and conversational AI for enterprise clients: a custom NLP model for support-email triage that automated Salesforce queue routing and eliminated manual overhead at scale, plus conversational AI and virtual-assistant builds on Rasa and Microsoft LUIS integrated into enterprise workflows.","repo":"","demo":""},
+{"id": "orch-sdlc", "node": "orchestration", "title": "One agent per role, and the loop closes at the pull request", "tags": ["orchestration", "aidlc", "sdlc", "mcp", "ci/cd", "code review", "git", "brownfield", "modernization", "spec-driven", "coordinator"],
+"text": "Research, Development, Code Review, Testing, and CI/CD each run as their own agent under a coordinator, integrated through MCP tool connectors and wired into the issue tracker and git host so work lands as a pull request rather than a suggestion someone has to act on. What the coordinator decomposes against is a written specification, not a prompt — which is why spec-driven development had to land with the teams before the agents could. Brownfield is the real constraint: generating a new application from a requirement is the easy motion; understanding an existing repository, its dependencies, and years of accumulated behavior is the one enterprises actually need."},
 
-{"id":"post-1","kind":"post","node":"rag","title":"I Built a Portfolio That Refuses to Bluff","date":"2026-07-15","tags":["blog","rag","retrieval","citations","grounding"],
-"text":"Why the retrieval agent on this site cites real sources instead of paraphrasing, refuses to answer when nothing is well-grounded, and keeps synthesis strictly separate from evidence.","url":"blog/grounding-a-portfolio.html"},
+{"id": "orch-boundary", "node": "orchestration", "title": "Probabilistic conversation, deterministic transaction", "tags": ["orchestration", "governance", "state management", "transactions", "read write separation", "hitl", "architecture", "booking"],
+"text": "In any agent that can commit a real action, the probabilistic layer and the transaction layer stay apart, and reads stay separate from writes. Search and retrieval run freely; committing requires a validated selection and an explicit confirmation. The model proposes the action and never holds authority over the system of record, which is usually what carries the design through security review."},
 
-{"id":"post-nemoclaw-security","kind":"post","node":"agents","title":"Designing Secure Multi-Agent Systems with NemoClaw and OpenShell","date":"2026-04-22","tags":["blog","nemoclaw","openshell","security","sandboxing","multi-agent","agents"],
-"text":"A deep dive into building a custom multi-agent architecture on NemoClaw's OpenShell runtime and sandboxing, with dedicated agents for tasks like Jira management and code review — the argument being that execution safety and reliability matter more than agent sophistication alone.","url":"https://www.linkedin.com/pulse/designing-secure-multi-agent-systems-nemoclaw-sivanandham-perumalsamy-mxm3c/"},
+{"id": "orch-unit-cost", "node": "orchestration", "title": "Unit cost is an architecture constraint, not a line item", "tags": ["orchestration", "cost", "finops", "pipeline", "extraction", "estimation", "unit economics", "data lake", "anomaly detection"],
+"text": "Managed extraction prices per page, and page count is the variable nobody validates during discovery — which is how a pilot lands at twice its estimate. The durable design is hybrid: deterministic parsing for formats that are known and stable, model-based extraction reserved for what genuinely needs it. I now validate the variables that drive cost and scale, not only the ones that drive correctness."},
 
-{"id":"post-vitalforce-demo","kind":"post","node":"voice","title":"VitalForce AI: Enterprise Avatar Agent Platform — a recorded walkthrough","date":"2026-03-05","tags":["blog","voice","vitalforce","demo","avatar","metahuman"],
-"text":"VitalForce AI Avatars moves beyond traditional text chat by introducing AI-powered digital avatars that interact in a natural, human-like way. These avatars don't just listen, speak, and understand users — they can also take action and perform tasks, acting as intelligent agents powered by enterprise knowledge and AI.","url":"https://vimeo.com/1176717334/9f3973f9a3"}
+{"id": "rag-representation", "node": "rag", "title": "Representation beats retriever tuning", "tags": ["rag", "retrieval", "embeddings", "representation", "chunking", "bm25", "indexing", "relevance"],
+"text": "When retrieval underperforms, the instinct is to change the embedding model or the chunk size. More often the indexed text simply does not resemble the language people search in — a formal title says what something is called, not when you would need it. Writing a short plain-language description for each item and indexing that alongside the original metadata has moved accuracy further than any retriever swap I have tried."},
+
+{"id": "rag-hybrid", "node": "rag", "title": "Hybrid retrieval, and where each half earns its place", "tags": ["rag", "hybrid retrieval", "bm25", "semantic search", "reranking", "citation", "grounding", "metadata"],
+"text": "Semantic search over descriptive text, keyword matching over identifiers and metadata, combined rather than chosen between. Semantic handles the way people describe a situation; keyword handles the exact names, codes, and numbers that embeddings blur together. Reranking sits on top of both, and every answer carries a citation back to its source."},
+
+{"id": "rag-multimodal", "node": "rag", "title": "Multimodal ingestion, ranked by source fidelity", "tags": ["rag", "multimodal", "ocr", "extraction", "document intelligence", "template", "canonical schema", "ingestion", "drawings"],
+"text": "Not every document deserves the same extraction technique. Structured object data is more reliable than inferring the same fact from a rendered page, coordinate-aware vector text beats flat text extraction, and OCR or vision is the fallback rather than the default. Where layouts vary, detecting the template family first and normalizing the extracted fields into one canonical schema is what makes downstream retrieval consistent."},
+
+{"id": "rag-limits", "node": "rag", "title": "Knowing when the context does not exist", "tags": ["rag", "grounding", "refusal", "relevance", "threshold", "hallucination", "honesty", "retrieval"],
+"text": "The failure mode that costs the most trust is a confident answer assembled from weakly related chunks. A relevance floor and an explicit refusal path are cheaper than any amount of prompt engineering asking the model to be careful. This page runs that rule on itself and shows you the retrieval scores, so you can check the grounding rather than take it on faith."},
+
+{"id": "gov-zero-trust", "node": "governance", "title": "Zero trust at the tool-call boundary", "tags": ["governance", "zero trust", "least privilege", "sandboxing", "deny by default", "secrets", "multi-agent", "security", "isolation"],
+"text": "Enterprises are not hesitant about agents because of model quality. They are hesitant about handing an autonomous process credentials to production. The controls that answer that are structural rather than prompt-level: deny-by-default tool scope, sandboxed execution, isolation between agents, a secret store the agent cannot read out of, and governed agent-to-agent communication."},
+
+{"id": "gov-hitl", "node": "governance", "title": "Human approval on the write path", "tags": ["governance", "hitl", "approval", "review queue", "security review", "policy", "write path", "confidence", "audit"],
+"text": "Reads and writes deserve different rules. Retrieval and analysis can run unattended; anything that changes a system of record passes through an approval gate, and low-confidence output routes to a human queue instead of being returned. Approval flows are also what gets an agent through security review — usually the real gate on production, not accuracy."},
+
+{"id": "gov-regulated", "node": "governance", "title": "What actually blocks production in regulated environments", "tags": ["governance", "regulated", "public sector", "data sovereignty", "self-hosted", "compliance", "procurement", "accessibility", "security review"],
+"text": "In public-sector and regulated delivery the binding constraint is rarely model capability. It is security review, data sovereignty and self-hosted deployment requirements, accessibility compliance, and procurement timelines. Designing for those from the first architecture conversation is the difference between a pilot that demos well and a system that ships."},
+
+{"id": "voice-latency", "node": "voice", "title": "Latency budget is the product", "tags": ["voice", "latency", "webrtc", "streaming", "barge-in", "interruption", "turn taking", "realtime", "livekit"],
+"text": "In live voice, what users judge is not answer quality but whether turn-taking feels human. That makes the engineering budget the actual product surface — streaming audio under WebRTC, interruption and barge-in handling, time to first audible response. It is why a voice demo can fail with the better model behind it."},
+
+{"id": "voice-fullduplex", "node": "voice", "title": "Full-duplex versus the pipeline", "tags": ["voice", "full duplex", "speech to speech", "stt", "tts", "interruption", "architecture", "turn taking"],
+"text": "The conventional stack is sequential: speech to text, model, text to speech. It works, but users cannot interrupt cleanly or correct themselves mid-response, and the interaction stays rigid. Full-duplex speech-to-speech models make interruption and self-correction native, and they change the design problem — the transcript you used to orchestrate against is no longer sitting in the middle of the flow."},
+
+{"id": "voice-grounding", "node": "voice", "title": "Grounding a speech model that has no retrieval", "tags": ["voice", "rag", "grounding", "asr", "parallel", "vector database", "hybrid prompting", "enterprise knowledge"],
+"text": "Full-duplex speech models generally carry no native retrieval, so grounding runs as a parallel path: a separate ASR stream feeding a vector query and a reasoning model, folded back into the conversation as context. The conversational layer stays responsive while the grounded answer arrives on its own timeline."},
+
+{"id": "voice-fidelity", "node": "voice", "title": "Fidelity is negotiable, the date is not", "tags": ["voice", "avatar", "tradeoff", "delivery", "scope", "demo", "rendering", "schedule"],
+"text": "With an embodied avatar there is always a higher-fidelity option one step away, and it always costs schedule. When the deadline is an external event, I would rather ship a lighter-weight avatar and spend the time on real-time behavior, because people judge the conversation and forgive the resolution. Trading visual fidelity for delivery certainty is a call worth making early and out loud."},
+
+{"id": "eval-method", "node": "evaluation", "title": "Golden datasets and deterministic evaluators", "tags": ["evaluation", "golden dataset", "deterministic", "llm as judge", "benchmarking", "faithfulness", "ragas", "deepeval", "langsmith"],
+"text": "Evaluation starts from the business outcome and a representative golden dataset, not a public leaderboard. Deterministic evaluators cover anything programmatically verifiable — was the expected tool chosen, were the parameters right, is the output valid — and LLM-as-a-judge is reserved for semantic dimensions like faithfulness, relevance, and helpfulness. Benchmarking compares models; evaluation measures your application. Conflating the two is how teams ship on vibes."},
+
+{"id": "eval-trajectory", "node": "evaluation", "title": "Score the trajectory, not just the answer", "tags": ["evaluation", "trajectory", "tool selection", "tool parameters", "goal success", "agent behavior", "safety", "observability"],
+"text": "A correct-looking final response can come from a wrong path, and in an agentic system the path is what breaks in production. Goal success rate, tool selection accuracy, and tool parameter accuracy get measured alongside response quality and safety, because the interesting failure is not a bad answer — it is an agent confidently calling the wrong tool with well-formed arguments."},
+
+{"id": "eval-ci", "node": "evaluation", "title": "Regression thresholds as a release gate", "tags": ["evaluation", "regression", "ci", "release gate", "drift", "tracing", "langfuse", "arize phoenix", "production"],
+"text": "Evaluation only matters if something fails when the score drops. Thresholds run in CI as a production-readiness gate, and sampled production traces feed real failures back into the dataset, so the suite gets harder over time instead of decaying into a number nobody reads."},
+
+{"id": "eval-automated-testing", "node": "evaluation", "title": "Automated regression and accessibility scanning", "tags": ["evaluation", "testing", "playwright", "regression", "accessibility", "wcag", "axe-core", "ci/cd", "automation", "remediation"],
+"text": "The same discipline applied to conventional software: test scenarios written in natural language, generated into executable browser tests, stored once validated, and triggered from the release pipeline so regression coverage stops scaling with QA headcount. The same execution engine scans rendered pages against accessibility rules and reports findings by severity and remediation effort, which turns a compliance conversation into an evidence-based one."},
+
+{"id": "proj-vitalforce", "kind": "project", "node": "voice", "title": "VitalForce AI — enterprise avatar agent platform", "tags": ["voice", "avatar", "nvidia", "riva", "livekit", "rag", "healthcare", "retail", "banking"], "repo": "", "demo": "https://vimeo.com/1176717334/9f3973f9a3", "diagram": "img/vital-force.png",
+"text": "VitalForce AI is an enterprise avatar agent platform for real-time conversational digital humans — secure AI 'digital employees' that listen, speak, reason, and act on a technology-agnostic stack spanning NVIDIA, Google, and Azure. The demo showcases role-specific avatars across healthcare, retail, banking, hospitality, and education."},
+
+{"id": "proj-personaplex", "kind": "project", "node": "voice", "title": "NVIDIA PersonaPlex — real-time conversational booking assistant", "tags": ["voice", "personaplex", "nemotron", "booking", "real-time", "nvidia", "observability"], "repo": "", "demo": "", "diagram": "img/personaplex-architecture.svg",
+"text": "A real-time voice booking agent built on NVIDIA PersonaPlex and Nemotron, running natural-language interaction end-to-end — intent capture, dialogue state, response planning, and transaction execution — with no scripted IVR tree. Built as a narrower, controlled counterpart to VitalForce, useful for isolating model quality from real-time engineering quality."},
+
+{"id": "proj-sage", "kind": "project", "node": "orchestration", "title": "Multi-Cloud Seller Assistant", "tags": ["orchestration", "agents", "aws", "azure", "bedrock", "langgraph", "teams", "entra id", "cross-cloud"], "repo": "", "demo": "", "diagram": "img/sage-architecture.svg",
+"text": "A cross-cloud hierarchical multi-agent seller assistant: a Microsoft Teams bot on Azure, bridged by Entra ID SSO and tenant isolation, to a LangGraph supervisor-of-supervisors on AWS. Domain sub-agents for lead qualification, cloud-funding, cost-estimation, and licensing are each grounded in their own Amazon Bedrock Knowledge Base, running Claude on Bedrock on ECS/Fargate."},
+
+{"id": "proj-nemoclaw", "kind": "project", "node": "agents", "title": "Secure Jira Intelligence Agent", "tags": ["agents", "nvidia", "jira", "open source", "sandboxing", "landlock", "secret vault", "observability", "hitl", "governance", "security"], "repo": "", "demo": "", "article": "https://www.linkedin.com/pulse/designing-secure-multi-agent-systems-nemoclaw-sivanandham-perumalsamy-mxm3c", "diagram": "img/nemo-agent.png",
+"text": "NemoClaw (OpenShell) is a sandboxed multi-agent system built for controlled execution: kernel-level isolation, deny-by-default least privilege, and modular single-responsibility sub-agents — Jira, code, test, build, docs, notify — coordinated by a planning agent, with a secret vault and human-in-the-loop approval gating every write action. Produced an upstream open-source contribution into the NVIDIA ecosystem."},
+
+{"id": "proj-crash-intel", "kind": "project", "node": "agents", "title": "Crash-Data Intelligence Agent", "tags": ["agents", "mcp", "sql", "google mcp toolbox", "nemo guardrails", "classification", "sentiment", "trend detection"], "repo": "", "demo": "", "diagram": "img/crash-intelligent.png",
+"text": "A SQL-connected crash-data intelligence agent, fronted by an internal AI manager service and routed through an MCP layer — a purpose-built Crash Intelligence MCP and a Narrative Intelligence MCP, alongside Google's MCP Toolbox for Databases. Generation runs on Gemma and Nemotron on-prem behind NVIDIA NeMo Guardrails, with low-confidence responses routed to a human analyst review queue."},
+
+{"id": "proj-testify", "kind": "project", "node": "evaluation", "title": "AI Testing & Accessibility Accelerator", "tags": ["testing", "agents", "langchain", "langgraph", "playwright", "accessibility", "ci/cd"], "repo": "", "demo": "", "diagram": "img/Testify-Architecture.png",
+"text": "A multi-agent testing workflow (Python, LangChain/LangGraph, Playwright) that generates tests and runs browser-based regression and accessibility checks — CI/CD-integrated and reused across teams, cutting manual testing effort by roughly 40%. Aligned to government accessibility legislation, with live scans that quantify issues and the effort to fix them, seeding a pipeline of 50+ entities."},
+
+{"id": "proj-agent-eval", "kind": "project", "node": "evaluation", "title": "Agent evaluation and benchmarking framework", "tags": ["evaluation", "benchmarking", "agents", "llm", "latency", "regression"], "repo": "", "demo": "",
+"text": "An evaluation harness for benchmarking multi-agent and LLM systems on accuracy, tool-use correctness, reasoning quality, latency, and regression across releases. Ground-truth feedback loops turn those scores into evidence for agent design decisions — which model, which prompt, which guardrail — instead of shipping on vibes."},
+
+{"id": "proj-aidlc", "kind": "project", "node": "orchestration", "title": "Governed AI Delivery Framework", "tags": ["orchestration", "aidlc", "mcp", "jira", "gitlab", "ci/cd", "python"], "repo": "", "demo": "",
+"text": "A coordinator-led orchestration framework — Research, Dev, Code Review, Testing, and CI/CD agents, each a Python agent integrated via MCP tool connectors. Jira and GitLab connectors make the workflow git-native and PR-linked, so execution closes the loop end-to-end instead of stopping at a suggestion someone has to act on manually."},
+
+{"id": "proj-nlp-automation", "kind": "project", "node": "agents", "title": "Enterprise conversational AI and NLP automation", "tags": ["nlp", "conversational ai", "rasa", "luis", "salesforce", "automation"], "repo": "", "demo": "",
+"text": "Earlier-career delivery of machine learning and conversational AI for enterprise clients: a custom NLP model for support-email triage that automated Salesforce queue routing and eliminated manual overhead at scale, plus conversational AI and virtual-assistant builds on Rasa and Microsoft LUIS integrated into enterprise workflows."},
+
+{"id": "post-control-plane", "kind": "post", "node": "governance", "title": "Your agent reasoned correctly. It still shouldn't have been allowed to do that.", "date": "2026-08-24", "tags": ["blog", "architecture", "governance", "control plane", "mcp", "governed tools", "policy", "idempotency", "state validation", "stillon", "maestro", "authorization"], "url": "blog/reasoning-within-boundaries.html",
+"text": "An architecture for agents that use governed tools: treat every model-generated tool call as a proposal, and put identity, policy, risk classification, and state validation in a deterministic layer between reasoning and execution. Walks the StillOn reference architecture end to end — one model-enabled orchestrator, canonical domain tools, an authorization boundary the model cannot address, deterministic routing, and hold-mutate-read-back verification. Reasoning is delegated; authority never is."},
+
+{"id": "post-1", "kind": "post", "node": "rag", "title": "I Built a Portfolio That Refuses to Bluff", "date": "2026-07-15", "tags": ["blog", "rag", "retrieval", "citations", "grounding"], "url": "blog/grounding-a-portfolio.html",
+"text": "Why the retrieval agent on this site cites real sources instead of paraphrasing, refuses to answer when nothing is well-grounded, and keeps synthesis strictly separate from evidence."},
+
+{"id": "post-nemoclaw-security", "kind": "post", "node": "agents", "title": "Designing Secure Multi-Agent Systems with NemoClaw and OpenShell", "date": "2026-04-22", "tags": ["blog", "nemoclaw", "openshell", "security", "sandboxing", "multi-agent", "agents"], "url": "https://www.linkedin.com/pulse/designing-secure-multi-agent-systems-nemoclaw-sivanandham-perumalsamy-mxm3c/",
+"text": "A deep dive into building a custom multi-agent architecture on NemoClaw's OpenShell runtime and sandboxing, with dedicated agents for tasks like Jira management and code review — the argument being that execution safety and reliability matter more than agent sophistication alone."},
+
+{"id": "post-vitalforce-demo", "kind": "post", "node": "voice", "title": "VitalForce AI: Enterprise Avatar Agent Platform — a recorded walkthrough", "date": "2026-03-05", "tags": ["blog", "voice", "vitalforce", "demo", "avatar", "metahuman"], "url": "https://vimeo.com/1176717334/9f3973f9a3",
+"text": "VitalForce AI Avatars moves beyond traditional text chat by introducing AI-powered digital avatars that interact in a natural, human-like way. These avatars don't just listen, speak, and understand users — they can also take action and perform tasks, acting as intelligent agents powered by enterprise knowledge and AI."},
+
+{"id": "agent-substrate", "node": "agents", "title": "Choosing the substrate: operations decide it, not model access", "tags": ["aws", "bedrock", "agentcore", "strands", "eks", "azure", "ai foundry", "apim", "logic apps", "azure ml", "vllm", "semantic router", "kubernetes", "platform", "deployment", "cloud"],
+"text": "Every cloud will sell you model access; what separates them for agents is the operational story — identity, tool permissions, traffic routing, and what you can see when a run goes wrong at 2am. I default to the AWS agent stack today (Bedrock, AgentCore, Strands, EKS) because that story is further along there, and I have Azure delivery experience at a genuinely lower depth (AI Foundry, APIM, Logic Apps, Azure ML, plus vLLM Semantic Router for LLM traffic). Grading those two honestly matters more than listing both — the gap shows up in the first technical screen."}
 ]
 </script>
 
@@ -633,12 +740,48 @@ const CORPUS = JSON.parse(document.getElementById('corpus').textContent);
 
 /* ---------- Nodes ---------- */
 const NODES = [
-  {k:'agents',        label:'Agents',        blurb:'Tool-using systems that take actions in enterprise environments — and the protocols that keep them interoperable.'},
-  {k:'orchestration', label:'Orchestration', blurb:'The layer that decides what runs, in what order, and what happens when a step fails.'},
-  {k:'rag',           label:'Retrieval',     blurb:'Getting the right context in front of the model, and knowing when the right context does not exist.'},
-  {k:'governance',    label:'Governance',    blurb:'Policy in the request path, not beside it. Enforcement at the tool-call boundary.'},
-  {k:'voice',         label:'Voice',         blurb:'Real-time multimodal agents where latency and turn-taking are the product.'},
-  {k:'evaluation',    label:'Evaluation',    blurb:'How you know it works — and how honestly you describe what it does not do yet.'}
+  {k:'agents', label:'Agents',
+   blurb:'Agents that move from response to responsibility. I build systems that reason over context, use tools, retain state, and complete bounded work.',
+   proofs:[
+     {title:'Secure Jira Intelligence Agent', hook:'intent → planning → tools → state → action → feedback', text:'A sandboxed agent that triages project activity, summarizes change, identifies priority work, and supports governed actions.'},
+     {title:'Conversational Filing Assistant', hook:'conversation + retrieval + workflow completion', text:'A public-facing assistant that maps everyday language to the right process, gathers required information, and prepares the workflow.'},
+     {title:'Voice Booking Agent', hook:'conversation + tools + state + transaction', text:'A real-time agent that turns spoken intent into availability lookup and a controlled booking flow.'}
+   ]},
+  {k:'orchestration', label:'Orchestration',
+   blurb:'Orchestration is where agents become systems. I design the routing, state, parallelism, retries, quality gates, and deterministic checks around probabilistic steps.',
+   proofs:[
+     {title:'Governed AI Delivery Framework', hook:'requirement → architect → developer → reviewer → test → delivery evidence', text:'A coordinator-led multi-agent workflow for architecture, development, review, testing, CI/CD, product validation, and evidence generation.'},
+     {title:'Parallel Agent Orchestration', hook:'sequential → parallel · ~25s p95 → ~12s', text:'Reworked a multi-agent seller assistant around a parallel LangGraph flow and a simpler metadata-filtered retrieval architecture.'},
+     {title:'Transaction Boundary Pattern', hook:'probabilistic conversation ≠ deterministic transaction', text:'Separates free-running search and analysis from validated, explicitly confirmed write operations.'}
+   ]},
+  {k:'rag', label:'Retrieval',
+   blurb:'Retrieval is a representation problem before it is a model problem. I design the source, structure, metadata, and failure path—not just embeddings and top-K.',
+   proofs:[
+     {title:'Conversational Form Retrieval', hook:'representation > blindly tuning embeddings', text:'Improved form prediction by indexing plain-language descriptions alongside formal metadata, then combining semantic and keyword retrieval.'},
+     {title:'Multimodal Engineering Document Intelligence', hook:'object data → coordinate-aware text → OCR / vision fallback', text:'Preserves source structure across engineering drawings and routes symbols separately from text so spatial meaning is not lost.'},
+     {title:'Structured + Narrative Intelligence', hook:'coded fields + written account', text:'Combines governed access to structured incident data with narrative analysis so investigators can compare records with their descriptions.'}
+   ]},
+  {k:'governance', label:'Governance',
+   blurb:'The model can propose an action. It should never authorize its own action. I put policy, least privilege, and auditability at the tool and runtime boundary.',
+   proofs:[
+     {title:'Governed Data Agent', hook:'user → agent → approved tool → policy → database', text:'Replaced unrestricted model-generated production SQL with bounded MCP tools mapped to approved investigative queries.'},
+     {title:'Secure Multi-Agent Runtime', hook:'sandboxed execution · scoped credentials · deny-by-default egress', text:'Designed isolated execution, tool policy, credential scope, and controlled agent-to-agent interaction for enterprise acceptance.'},
+     {title:'Transaction Governance', hook:'model proposes; policy authorizes; deterministic systems execute', text:'Allows automatic read paths while requiring validation and explicit confirmation for booking, purchase, or modification.'}
+   ]},
+  {k:'voice', label:'Voice',
+   blurb:'Voice AI is not speech wrapped around a chatbot. It is a real-time system of turn-taking, state, reasoning, tools, latency, and transaction safety.',
+   proofs:[
+     {title:'Real-Time Voice AI Avatar', hook:'speech → ASR → reasoning / RAG → tools → TTS → avatar', text:'A live NVIDIA GTC demonstration of grounded enterprise interaction, streaming transport, interruption handling, and avatar presence.'},
+     {title:'Full-Duplex Booking Assistant', hook:'continuous listening + interruption + stateful conversation', text:'A PersonaPlex/Nemotron booking build that contrasts full-duplex interaction with the traditional STT → LLM → TTS pipeline.'},
+     {title:'Grounded Voice Architecture', hook:'responsive conversation layer + parallel retrieval path', text:'Keeps a voice experience responsive while separately retrieving enterprise context and returning grounded answers on its own timeline.'}
+   ]},
+  {k:'evaluation', label:'Evaluation',
+   blurb:'If an agent cannot be evaluated, it cannot be safely improved. I measure behavior, operational performance, and regression—not just whether a demo sounds plausible.',
+   proofs:[
+     {title:'Agent Evaluation Harness', hook:'deterministic checks → semantic judge → trace evaluation → regression', text:'Scores task success, tool and argument correctness, trajectory, groundedness, latency, and token/context efficiency.'},
+     {title:'AI Testing & Accessibility Accelerator', hook:'natural-language scenario → Playwright regression suite', text:'Generates, validates, and reuses browser tests alongside axe-core accessibility scanning, reducing manual QA effort by roughly 40%.'},
+     {title:'Spec-Driven AI Development', hook:'quality gates before code generation', text:'Uses specifications and measurable validation to reduce rework and optimize end-to-end delivery quality rather than code-generation speed.'}
+   ]}
 ];
 
 const TIERS = {
@@ -648,9 +791,15 @@ const TIERS = {
 };
 
 const SUGGESTIONS = [
+  "What agents has he built?",
+  "How does he orchestrate multiple agents?",
+  "What is his approach to RAG and retrieval?",
+  "How does he govern agent actions?",
+  "What voice AI work has he done?",
+  "How does he evaluate agents?",
   "What has he shipped with MCP?",
   "How does he handle guardrails on tool calls?",
-  "What's the voice AI work?",
+  "How can I contact him?",
   "Where is he weakest?",
   "Any open-source contributions?",
   "Any side projects or recent writing?"
@@ -694,7 +843,17 @@ function tok(s){
   return (s||'').toLowerCase().split(/[^a-z0-9+#.]+/).filter(t=>t.length>1 && !STOP.has(t));
 }
 
-const DOCS = CORPUS.map(c=>{
+/* The six-surface proof points are queryable alongside the detailed work corpus. */
+const SURFACE_CORPUS = NODES.flatMap(n=>n.proofs.map((proof, i)=>({
+  id:`surface-${n.k}-${i + 1}`,
+  node:n.k,
+  kind:'surface',
+  title:proof.title,
+  text:`${proof.text} Architecture: ${proof.hook}. Capability lens: ${n.blurb}`,
+  tags:[n.k, n.label.toLowerCase(), 'portfolio', 'capability', ...proof.hook.toLowerCase().split(/[^a-z0-9+#.]+/).filter(Boolean)]
+})));
+
+const DOCS = [...CORPUS, ...SURFACE_CORPUS].map(c=>{
   const body = (c.title+' '+c.text+' '+c.tags.join(' ')+' '+c.node).toLowerCase();
   const terms = tok(body);
   const tf = {};
@@ -730,15 +889,24 @@ function retrieve(terms){
    SYNTHESIS
    ============================================================ */
 function firstSentences(text,n){
-  const parts = text.match(/[^.!?]+[.!?]+/g) || [text];
+  /* lookahead keeps decimals ("WCAG 2.1", "~1.15") from reading as sentence ends */
+  const parts = text.match(/[^.!?]+[.!?]+(?=\s|$)/g) || [text];
   return parts.slice(0,n).join(' ').trim();
 }
 
+function evidenceCards(hits){
+  return `<div class="evidence">${hits.map(h=>`
+    <button class="evidence-card" type="button" data-surface="${esc(h.doc.node||'')}" data-target="${esc(h.doc.href||'')}">
+      <span class="evidence-meta"><span>${esc(h.doc.node)}</span><span class="cite">${esc(h.doc.id)} · ${h.score.toFixed(2)}</span></span>
+      <span class="evidence-title">${esc(h.doc.title)}</span>
+      <span class="evidence-copy">${esc(firstSentences(h.doc.text,1))}</span>
+    </button>`).join('')}</div>`;
+}
+
 function localAnswer(hits){
-  const html = hits.map(h=>
-    `<p>${esc(firstSentences(h.doc.text,2))} <span class="cite">${esc(h.doc.id)}</span></p>`
-  ).join('');
-  return html + `<div class="src">Extracted verbatim from the sources below — no model paraphrasing in between, so every claim traces back to a citation.</div>`;
+  return `<p class="answer-summary">${hits.length} relevant ${hits.length===1?'source':'sources'} found. These are direct extracts from Shiva’s portfolio corpus—open a card to explore its capability lens.</p>`
+    + evidenceCards(hits)
+    + `<div class="src">Grounded locally · no model paraphrasing</div>`;
 }
 
 async function modelAnswer(question, hits){
@@ -753,7 +921,7 @@ async function modelAnswer(question, hits){
   const text = (data.answer||'').trim();
   if(!text) throw new Error('empty');
   const paras = text.split(/\n{2,}/).map(p=>`<p>${esc(p)}</p>`).join('');
-  return paras + `<div class="src">Grounded in: ${hits.map(h=>`<span class="cite">${esc(h.doc.id)}</span>`).join(' ')}</div>`;
+  return paras + evidenceCards(hits) + `<div class="src">Grounded in: ${hits.map(h=>`<span class="cite">${esc(h.doc.id)}</span>`).join(' ')}</div>`;
 }
 
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -798,7 +966,7 @@ async function run(){
   const hits = ranked.filter(r=>r.score>=gate).slice(0,CONFIG.topK);
   await wait(280);
   el('s2').classList.add('on');
-  el('d2').textContent = `Scanned ${DOCS.length} chunks · ${hits.length} above gate (${gate.toFixed(2)})`;
+  el('d2').textContent = `Searched ${DOCS.length} sources · ${hits.length} relevant above gate (${gate.toFixed(2)})`;
   el('c2').innerHTML = hits.map(h=>`<span class="cite">${esc(h.doc.id)} · ${h.score.toFixed(2)}</span>`).join('');
   el('m2').textContent = Math.round(performance.now()-t0)+'ms';
 
@@ -809,8 +977,8 @@ async function run(){
   if(!hits.length){
     el('d3').textContent = 'Refused — nothing above threshold';
     el('m3').textContent = '0ms';
-    el('answerLabel').textContent = 'Refused';
-    el('answerBody').innerHTML = `<p>Nothing in the corpus covers that. The agent is scoped to Shiva's own work history, projects, and writing, and will not answer from general knowledge — that's deliberate.</p><div class="src">Try: MCP, guardrails, voice AI, distributed systems, public-sector RFPs, side projects, recent writing.</div>`;
+    el('answerLabel').textContent = 'No grounded match';
+    el('answerBody').innerHTML = `<p>Nothing in the portfolio corpus clears the relevance threshold for that question. Rather than bluff, the agent leaves it unanswered.</p><div class="src">Try: agent orchestration, secure tool use, retrieval design, voice AI, evaluation, or accessibility testing.</div>`;
     el('answer').classList.add('on');
     busy=false; el('run').disabled=false;
     return;
@@ -848,6 +1016,19 @@ el('chips').addEventListener('click', e=>{
   el('q').value = b.textContent; run();
 });
 
+document.addEventListener('click', e=>{
+  const card = e.target.closest('.evidence-card');
+  if(!card) return;
+  if(card.dataset.target){
+    document.querySelector(card.dataset.target)?.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
+  if(NODES.some(n=>n.k===card.dataset.surface)){
+    selectNode(card.dataset.surface);
+    document.getElementById('system').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+});
+
 /* status */
 (function(){
   const live = !!CONFIG.workerUrl;
@@ -866,7 +1047,7 @@ el('mapGrid').innerHTML = NODES.map(n=>`
   <button class="node" data-k="${n.k}" aria-pressed="false">
     <span class="k">${n.k}</span>
     <span class="l">${n.label}</span>
-    <span class="c">${counts[n.k]||0} entries</span>
+    <span class="c">${n.proofs.length} proof points</span>
   </button>`).join('');
 
 function renderProjects(){
@@ -889,24 +1070,35 @@ function renderProjects(){
 renderProjects();
 
 /* image modal — architecture diagrams open in a lightbox, not a new tab */
+let modalTrigger = null;
 function openImgModal(src, alt){
   el('imgModalImg').src = src;
   el('imgModalImg').alt = alt;
   el('imgModal').classList.add('on');
   el('imgModal').setAttribute('aria-hidden', 'false');
+  el('imgModalClose').focus();
 }
 function closeImgModal(){
   el('imgModal').classList.remove('on');
   el('imgModal').setAttribute('aria-hidden', 'true');
   el('imgModalImg').src = '';
+  modalTrigger?.focus();
+  modalTrigger = null;
 }
 document.addEventListener('click', e=>{
   const wrap = e.target.closest('.proj-diagram-wrap');
-  if(wrap){ e.preventDefault(); openImgModal(wrap.href, wrap.querySelector('img').alt); return; }
+  if(wrap){ e.preventDefault(); modalTrigger=wrap; openImgModal(wrap.href, wrap.querySelector('img').alt); return; }
 });
 el('imgModal').addEventListener('click', e=>{ if(e.target===el('imgModal')) closeImgModal(); });
 el('imgModalClose').addEventListener('click', closeImgModal);
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeImgModal(); });
+document.addEventListener('keydown', e=>{
+  if(!el('imgModal').classList.contains('on')) return;
+  if(e.key==='Escape') closeImgModal();
+  if(e.key==='Tab'){
+    e.preventDefault();
+    el('imgModalClose').focus();
+  }
+});
 
 function renderPosts(){
   const items = CORPUS.filter(c=>c.kind==='post').sort((a,b)=>(b.date||'').localeCompare(a.date||''));
@@ -931,12 +1123,13 @@ function selectNode(k){
   if(!active){ d.classList.remove('on'); return; }
 
   const meta = NODES.find(n=>n.k===active);
-  const items = CORPUS.filter(c=>!c.kind && c.node===active);
   d.innerHTML = `<h3>${esc(meta.label)}</h3><p>${esc(meta.blurb)}</p>
-    <div class="detail-list">${items.map(c=>`
-      <div class="item"><div class="t">${esc(c.title)}</div>
-      <div class="d">${esc(firstSentences(c.text,1))}</div>
-      ${c.demo?`<a class="demo-link" href="${esc(c.demo)}" target="_blank" rel="noopener">Watch demo →</a>`:''}</div>`).join('')}</div>`;
+    <div class="detail-list">${meta.proofs.map(item=>`
+      <div class="item">
+        <div class="t">${esc(item.title)}</div>
+        <div class="hook">${esc(item.hook)}</div>
+        <div class="d">${esc(item.text)}</div>
+      </div>`).join('')}</div>`;
   d.classList.add('on');
 }
 el('mapGrid').addEventListener('click', e=>{

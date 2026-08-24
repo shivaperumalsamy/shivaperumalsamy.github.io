@@ -29,7 +29,7 @@ wrangler secret put ANTHROPIC_API_KEY
 wrangler deploy
 ```
 
-Optional rate-limit KV:
+Required rate-limit KV:
 
 ```bash
 wrangler kv namespace create RATE_LIMIT
@@ -50,7 +50,7 @@ Status dot flips to teal **live model**. If the Worker errors, rate-limits, or i
 
 ## Editing the corpus
 
-Everything on the page reads from the `<script type="application/json" id="corpus">` block near the bottom of `index.html`. Add a chunk and it automatically appears in the retrieval index, the node counts, the architecture map detail, and the work list.
+The retrieval corpus lives in the `<script type="application/json" id="corpus">` block near the bottom of `index.html`. Add a chunk and it becomes queryable. The architecture map itself uses a separately curated set of proof points, so navigation and supporting chunks do not appear as map cards.
 
 ```json
 {
@@ -73,7 +73,15 @@ If a common question retrieves nothing, add the trigger word to `EXPAND` in the 
 
 ## Known gaps
 
-- **Corpus is my draft, not your words.** I wrote it from what I know of your background. Read it before it goes live — anything overstated is on the page under your name.
-- **Contact links are placeholders.** The site will publish with `you@example.com` if you don't change it.
-- **`resume.pdf` doesn't exist yet.**
-- **Not indexed for search.** Add `<meta property="og:*">` tags before you start sharing the link.
+- **Read the corpus before it goes live.** Anything overstated is on the page under your name.
+- **`resume.pdf` doesn't exist yet.** Nothing links to one — decide which version to publish,
+  and strip the phone number before a PDF goes into a public repo.
+- **Favicon.** Social and canonical metadata now use `img/og-card.png`; add a favicon when one is available.
+  `robots.txt` and `sitemap.xml` are in place and point at `https://shivap.me/`.
+- **Custom domain.** There's no `CNAME` file in the repo. If `shivap.me` is pointed at Pages
+  through Settings → Pages, GitHub writes that file itself; if it's fronted by Cloudflare
+  instead, leave it alone. Worth confirming which, so the domain can't silently drop.
+- **Worker is not wired up.** `CONFIG.workerUrl` is empty, so the page runs local extractive
+  retrieval and the headline "live model" mode never turns on. `worker.js` now carries the real
+  allowed origins; it still needs deploying, and `MODEL` there is `claude-sonnet-4-6` —
+  `claude-opus-5` is the better-answer / higher-cost swap.

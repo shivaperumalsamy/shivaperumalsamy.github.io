@@ -7,13 +7,14 @@
  * Set these before deploying:
  *   ALLOWED_ORIGINS  — your Pages origins, comma-separated
  *   ANTHROPIC_API_KEY — set as a SECRET (wrangler secret put), never in wrangler.toml
- *   RATE_LIMIT (optional KV namespace) — enables per-IP throttling
+ *   RATE_LIMIT — required KV namespace for per-IP throttling
  */
 
 const ALLOWED_ORIGINS = [
-  "https://YOURHANDLE.github.io",
-  "https://yourdomain.com",
-  "http://localhost:8000"
+  "https://shivap.me",
+  "https://www.shivap.me",
+  "https://shivaperumalsamy.github.io",
+  "http://127.0.0.1:8777"
 ];
 
 const MODEL = "claude-sonnet-4-6";
@@ -41,7 +42,7 @@ function cors(origin) {
 }
 
 async function throttled(env, ip) {
-  if (!env.RATE_LIMIT) return false;              // KV not bound → skip
+  if (!env.RATE_LIMIT) throw new Error("RATE_LIMIT KV binding is required");
   const key = `rl:${ip}:${new Date().getUTCHours()}`;
   const n = parseInt((await env.RATE_LIMIT.get(key)) || "0", 10);
   if (n >= LIMIT_PER_HOUR) return true;
@@ -62,7 +63,14 @@ export default {
     }
 
     const ip = request.headers.get("CF-Connecting-IP") || "anon";
-    if (await throttled(env, ip)) {
+    let limited;
+    try {
+      limited = await throttled(env, ip);
+    } catch (error) {
+      console.error("rate limiter unavailable", error);
+      return new Response(JSON.stringify({ error: "service temporarily unavailable" }), { status: 503, headers });
+    }
+    if (limited) {
       return new Response(JSON.stringify({ error: "rate limited" }), { status: 429, headers });
     }
 
