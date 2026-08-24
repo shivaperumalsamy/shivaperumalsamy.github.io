@@ -73,7 +73,17 @@ If a common question retrieves nothing, add the trigger word to `EXPAND` in the 
 
 ## Known gaps
 
-- **Corpus is my draft, not your words.** I wrote it from what I know of your background. Read it before it goes live — anything overstated is on the page under your name.
-- **Contact links are placeholders.** The site will publish with `you@example.com` if you don't change it.
-- **`resume.pdf` doesn't exist yet.**
-- **Not indexed for search.** Add `<meta property="og:*">` tags before you start sharing the link.
+- **Read the corpus before it goes live.** Anything overstated is on the page under your name.
+- **`resume.pdf` doesn't exist yet.** Nothing links to one — decide which version to publish,
+  and strip the phone number before a PDF goes into a public repo.
+- **No social or search metadata.** `index.html` has no `og:*` / `twitter:*` tags, no canonical
+  URL, and no favicon, so the link previews as a blank card on LinkedIn and Slack.
+  `img/og-card.png` (1200×630) is sitting there ready for whenever those tags get added.
+  `robots.txt` and `sitemap.xml` are in place and point at `https://shivap.me/`.
+- **Custom domain.** There's no `CNAME` file in the repo. If `shivap.me` is pointed at Pages
+  through Settings → Pages, GitHub writes that file itself; if it's fronted by Cloudflare
+  instead, leave it alone. Worth confirming which, so the domain can't silently drop.
+- **Worker is not wired up.** `CONFIG.workerUrl` is empty, so the page runs local extractive
+  retrieval and the headline "live model" mode never turns on. `worker.js` now carries the real
+  allowed origins; it still needs deploying, and `MODEL` there is `claude-sonnet-4-6` —
+  `claude-opus-5` is the better-answer / higher-cost swap.

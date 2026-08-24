@@ -11,9 +11,10 @@
  */
 
 const ALLOWED_ORIGINS = [
-  "https://YOURHANDLE.github.io",
-  "https://yourdomain.com",
-  "http://localhost:8000"
+  "https://shivap.me",
+  "https://www.shivap.me",
+  "https://shivaperumalsamy.github.io",
+  "http://127.0.0.1:8777"
 ];
 
 const MODEL = "claude-sonnet-4-6";
