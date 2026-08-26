@@ -1029,6 +1029,85 @@ document.addEventListener('click', e=>{
   }
 });
 
+/* ============================================================
+   WEBMCP — expose the portfolio's existing retrieval and navigation
+   capabilities to browser-based AI agents when the experimental API exists.
+   The site remains fully functional in browsers without WebMCP.
+   ============================================================ */
+function portfolioSearch(query, limit=5){
+  const terms = plan(query).expanded;
+  const ranked = retrieve(terms);
+  const top = ranked.length ? ranked[0].score : 0;
+  const gate = Math.max(CONFIG.minScore, top * CONFIG.relGate);
+  return ranked.filter(result=>result.score>=gate).slice(0,limit).map(result=>({
+    id: result.doc.id,
+    title: result.doc.title,
+    capability: result.doc.node,
+    score: Number(result.score.toFixed(2)),
+    excerpt: firstSentences(result.doc.text, 2),
+    url: result.doc.url || result.doc.demo || result.doc.article || ''
+  }));
+}
+const webMCPResult = value => JSON.stringify(value);
+
+async function registerWebMCP(){
+  // document.modelContext is current; the navigator fallback supports earlier previews.
+  const modelContext = document.modelContext || navigator.modelContext;
+  if(!modelContext?.registerTool) return;
+
+  try {
+    await modelContext.registerTool({
+      name: 'search_shiva_portfolio',
+      description: 'Search Shiva Perumalsamy\'s portfolio for grounded evidence about experience, projects, writing, and technical capabilities. Returns only portfolio sources that clear the site\'s relevance threshold.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'The portfolio question or search terms.' },
+          limit: { type: 'integer', minimum: 1, maximum: 8, description: 'Maximum number of sources to return. Defaults to 5.' }
+        },
+        required: ['query'],
+        additionalProperties: false
+      },
+      annotations: { readOnlyHint: true },
+      execute: ({query, limit=5}) => {
+        const safeQuery = String(query || '').trim().slice(0, 400);
+        if(!safeQuery) return webMCPResult({ results: [], message: 'A search query is required.' });
+        const results = portfolioSearch(safeQuery, Math.max(1, Math.min(8, Number(limit) || 5)));
+        return webMCPResult({
+          results,
+          message: results.length ? `Found ${results.length} grounded portfolio source${results.length===1?'':'s'}.` : 'No portfolio sources cleared the relevance threshold.'
+        });
+      }
+    });
+
+    await modelContext.registerTool({
+      name: 'open_shiva_portfolio_section',
+      description: 'Open and scroll to a capability section in Shiva Perumalsamy\'s portfolio. Use after identifying a relevant capability or when the visitor asks to view that section.',
+      inputSchema: {
+        type: 'object',
+        properties: {
+          section: { type: 'string', enum: NODES.map(node=>node.k), description: 'Capability section to open.' }
+        },
+        required: ['section'],
+        additionalProperties: false
+      },
+      execute: ({section}) => {
+        const node = NODES.find(item=>item.k===section);
+        if(!node) return webMCPResult({ opened: false, message: 'Unknown portfolio section.' });
+        if(active!==section) selectNode(section);
+        el('system').scrollIntoView({behavior:'smooth', block:'start'});
+        return webMCPResult({ opened: true, section: node.k, title: node.label, summary: node.blurb });
+      }
+    });
+  } catch (error) {
+    // WebMCP is optional and experimental; a disabled permission or duplicate
+    // registration must never affect the normal portfolio experience.
+    console.debug('WebMCP tools unavailable', error);
+  }
+}
+
+window.addEventListener('load', registerWebMCP, {once:true});
+
 /* status */
 (function(){
   const live = !!CONFIG.workerUrl;

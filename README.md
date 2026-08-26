@@ -11,3 +11,10 @@ clears the relevance gate.
   extractively from the corpus.
 - `blog/` — long-form posts.
 - `DEPLOY.md` — deploy steps, corpus schema, and known gaps.
+
+## WebMCP
+
+When a browser exposes the experimental WebMCP API, the page registers two native tools without a
+polyfill: `search_shiva_portfolio` for relevance-gated corpus search and
+`open_shiva_portfolio_section` for opening a capability section. Browsers without WebMCP continue
+to run the site normally.
