@@ -85,7 +85,7 @@ const result = await document.modelContext.executeTool(
     <p>In other words: the agent can reason freely, but the system decides which actions are valid now, for this user, against this state.</p>
 
     <h2>How this gets evaluated</h2>
-    <p>WebMCP also gives teams a cleaner evaluation surface. A browser harness such as Playwright can still test the human flow, while a tool-aware harness can separately assert that the right tools register, schemas reject bad arguments, read tools return grounded results, and write tools stop for confirmation or policy checks.</p>
+    <p>WebMCP also gives teams a cleaner evaluation surface. Browser automation is likely to become hybrid: use a structured WebMCP tool when a site exposes one, then fall back to browser interaction when it does not. A browser harness such as Playwright can still test the human flow, while a tool-aware harness can separately assert that the right tools register, schemas reject bad arguments, read tools return grounded results, and write tools stop for confirmation or policy checks.</p>
     <p>That is more useful than judging whether an agent happened to click through a page successfully. It lets us measure tool selection, parameter accuracy, policy enforcement, and the trace of the action itself.</p>
     <p>For now, this is a small experiment, but the architectural direction is interesting: agents should not have to crawl an interface to discover a capability—and exposing a capability should never mean giving up control of it. WebMCP gives us an agent-facing web. Governance determines whether we can trust agents to use it.</p>
   </div>

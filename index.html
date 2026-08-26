@@ -75,7 +75,7 @@ a{color:inherit}
 }
 .nav-in{
   max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);
-  height:58px;display:flex;align-items:center;gap:22px;
+  height:58px;display:flex;align-items:center;gap:22px;position:relative;
 }
 .nav-id{font-family:var(--mono);font-size:13.5px;font-weight:500;letter-spacing:.01em;color:var(--text);text-decoration:none;white-space:nowrap}
 .nav-id .dim{color:var(--muted-dim)}
@@ -93,6 +93,7 @@ a{color:inherit}
 }
 .nav-links a:hover{color:var(--signal)}
 .nav-links a:hover::after{transform:scaleX(1)}
+.menu-toggle{display:none}
 .status{
   display:flex;align-items:center;gap:7px;
   font-family:var(--mono);font-size:11px;letter-spacing:.09em;
@@ -102,7 +103,29 @@ a{color:inherit}
 .dot.live{background:var(--signal);box-shadow:0 0 0 0 rgba(62,240,212,.5);animation:pulse 2.6s infinite}
 .dot.local{background:var(--amber)}
 @keyframes pulse{70%{box-shadow:0 0 0 7px rgba(62,240,212,0)}100%{box-shadow:0 0 0 0 rgba(62,240,212,0)}}
-@media(max-width:820px){.nav-links{display:none}}
+@media(max-width:820px){
+  .nav-in{gap:13px}
+  .menu-toggle{
+    display:flex;align-items:center;justify-content:center;flex:none;margin-left:auto;
+    width:34px;height:34px;padding:0;background:transparent;border:1px solid var(--line);
+    border-radius:2px;color:var(--muted);font:inherit;cursor:pointer;
+  }
+  .menu-toggle:hover,.menu-toggle[aria-expanded="true"]{border-color:var(--signal-dim);color:var(--signal)}
+  .menu-toggle span,.menu-toggle::before,.menu-toggle::after{content:'';display:block;width:14px;height:1px;background:currentColor;transition:transform .18s,opacity .18s}
+  .menu-toggle{position:relative}
+  .menu-toggle span{position:absolute}
+  .menu-toggle::before{position:absolute;transform:translateY(-5px)}
+  .menu-toggle::after{position:absolute;transform:translateY(5px)}
+  .menu-toggle[aria-expanded="true"] span{opacity:0}
+  .menu-toggle[aria-expanded="true"]::before{transform:rotate(45deg)}
+  .menu-toggle[aria-expanded="true"]::after{transform:rotate(-45deg)}
+  .nav-links{display:none;position:absolute;z-index:61;top:58px;left:0;right:0;margin:0;padding:13px var(--gut) 16px;gap:0;flex-direction:column;background:rgba(11,15,17,.97);border-bottom:1px solid var(--line-soft)}
+  .nav.open .nav-links{display:flex}
+  .nav-links a{padding:10px 0}
+  .nav-links a::after{right:auto;width:28px;transform:scaleX(0);transform-origin:left}
+  .status{font-size:10px}
+}
+@media(max-width:480px){.status #statusText{display:none}}
 
 /* ============================================================
    HERO — the demo is the thesis
@@ -354,7 +377,7 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
 <nav class="nav">
   <div class="nav-in">
     <a class="nav-id" href="#top">shiva<span class="dim">.perumalsamy</span></a>
-    <div class="nav-links">
+    <div class="nav-links" id="primaryNav">
       <a href="#system">System</a>
       <a href="#projects">Projects</a>
       <a href="#blog">Writing</a>
@@ -362,6 +385,7 @@ footer .f{display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--mono);font
       <a href="#contact">Contact</a>
     </div>
     <div class="status" id="status"><span class="dot" id="statusDot"></span><span id="statusText">booting</span></div>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primaryNav"><span></span></button>
   </div>
 </nav>
 
@@ -934,6 +958,24 @@ function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;',
    ============================================================ */
 const el = id => document.getElementById(id);
 let busy = false;
+
+/* Mobile navigation keeps the same anchor links available when the desktop row collapses. */
+const menuToggle = el('menuToggle');
+const siteNav = document.querySelector('.nav');
+function closeMenu(){
+  siteNav.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.setAttribute('aria-label', 'Open navigation');
+}
+menuToggle.addEventListener('click', ()=>{
+  const open = !siteNav.classList.contains('open');
+  siteNav.classList.toggle('open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+});
+el('primaryNav').addEventListener('click', event=>{ if(event.target.closest('a')) closeMenu(); });
+document.addEventListener('keydown', event=>{ if(event.key==='Escape' && siteNav.classList.contains('open')) closeMenu(); });
+window.addEventListener('resize', ()=>{ if(window.innerWidth>820) closeMenu(); });
 
 function resetTrace(){
   ['s1','s2','s3'].forEach(s=>el(s).classList.remove('on'));
