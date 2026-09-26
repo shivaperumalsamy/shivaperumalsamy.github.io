@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hello, Wispr — Shiva Perumalsamy</title>
+<!-- Unlisted page: not linked from index.html or sitemap.xml, and kept out of search results. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../blog/post.css">
+<style>
+.article{max-width:1440px;padding-top:clamp(28px,4vw,48px)}
+.article .meta{margin-bottom:24px}
+/* Fill the width, but cap the width so a 16:9 frame never runs taller than the viewport. */
+.video{position:relative;width:min(100%,calc((100vh - 200px) * 16 / 9));margin:0 auto;aspect-ratio:16/9;background:var(--surface);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-note{font-family:var(--mono);font-size:11.5px;line-height:1.55;color:var(--muted-dim);margin-top:12px}
+.video-note a{color:var(--signal);text-decoration:underline;text-decoration-color:var(--signal-dim)}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-in"><a class="nav-id" href="../index.html">shiva<span class="dim">.perumalsamy</span></a><a class="back" href="../index.html">← Home</a></div></nav>
+<article class="article">
+  <span class="eyebrow">For the Wispr team</span>
+  <h1>Hello, Wispr</h1>
+  <div class="meta"><span>Shiva Perumalsamy</span></div>
+  <div class="video">
+    <iframe src="https://drive.google.com/file/d/1wEkwtCyXm7dwOCFNjcnjavSZjYKXuD4U/preview" title="Hello, Wispr — video from Shiva Perumalsamy" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <p class="video-note">Video not loading? <a id="driveLink" href="https://drive.google.com/file/d/1wEkwtCyXm7dwOCFNjcnjavSZjYKXuD4U/view" target="_blank" rel="noopener">Open it in Google Drive</a>.</p>
+</article>
+<script>
+/* The Drive player is cross-origin, so the page can't see "play". A click into it moves focus
+   to the iframe and blurs the window — that is logged once as a play by the analytics Worker. */
+(function(){
+  var frame = document.querySelector('.video iframe');
+  var sent = {};
+  function log(event){
+    if(sent[event]) return; sent[event] = true;
+    try { navigator.sendBeacon('/_event', event); } catch(e) {}
+  }
+  addEventListener('blur', function(){
+    setTimeout(function(){ if(document.activeElement === frame) log('play'); }, 0);
+  });
+  document.getElementById('driveLink').addEventListener('click', function(){ log('drive'); });
+})();
+</script>
+</body>
+</html>

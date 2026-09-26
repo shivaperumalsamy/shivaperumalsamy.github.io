@@ -48,6 +48,33 @@ Status dot flips to teal **live model**. If the Worker errors, rate-limits, or i
 
 ---
 
+## Site analytics — view log
+
+`analytics/` is a separate Worker on the route `shivap.me/*`. It passes every request through to
+the site and records each HTML page load in KV: time, path, IP, city/country, network, referrer, browser, and a
+crawler flag. Images, CSS and other assets are not logged.
+
+`wispr/index.html` is an unlisted page (no links, not in the sitemap, `noindex`) and is logged like
+any other page. It also logs `play` when a visitor clicks into the embedded Drive player, and
+`drive` when they open the video in Google Drive (both via `POST /_event`).
+
+```bash
+cd analytics
+wrangler kv namespace create VIEWS   # paste the id into wrangler.toml
+wrangler secret put VIEWS_KEY        # any long random string
+wrangler deploy
+```
+
+- Read the log: `https://shivap.me/_views?key=VIEWS_KEY`
+  (`&path=/wispr/` for one page, `&bots=1` to include crawlers, `&format=json` for JSON).
+- Records expire after 90 days (`RETENTION_DAYS`).
+- Workers KV free tier allows 1,000 writes/day, so roughly 1,000 page loads/day before logging stops
+  (the site keeps serving normally).
+- Limits: `play` means the visitor clicked the player, not how long they watched — the Drive
+  player is cross-origin and reports nothing back. A direct Drive link skips the page entirely.
+
+---
+
 ## Editing the corpus
 
 The retrieval corpus lives in the `<script type="application/json" id="corpus">` block near the bottom of `index.html`. Add a chunk and it becomes queryable. The architecture map itself uses a separately curated set of proof points, so navigation and supporting chunks do not appear as map cards.

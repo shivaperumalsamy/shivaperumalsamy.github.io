@@ -1,0 +1,13 @@
+name = "site-analytics"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+# Runs in front of every request to the static site; only HTML page loads are logged.
+routes = [
+  { pattern = "shivap.me/*", zone_name = "shivap.me" }
+]
+
+# Create with: wrangler kv namespace create VIEWS — then paste the returned id here.
+[[kv_namespaces]]
+binding = "VIEWS"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
