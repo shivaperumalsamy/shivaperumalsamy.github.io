@@ -28,6 +28,7 @@ const VIEWS_PATH = "/_views";
 const EVENT_PATH = "/_event";
 const EVENTS = ["play", "drive"];
 const SITE_ORIGIN = "https://shivap.me";
+const DISPLAY_TZ = "America/Chicago"; // table only; stored times and JSON stay UTC
 const BOT_UA = /bot|crawl|spider|slurp|preview|facebookexternalhit|embedly|curl|wget|python|httpclient|headless|lighthouse|monitor/i;
 
 function clean(value, max) {
@@ -79,9 +80,14 @@ function summarize(views) {
     (places.length ? ` · from ${places.slice(0, 12).join("; ")}${places.length > 12 ? "; …" : ""}` : "");
 }
 
+const showTime = new Intl.DateTimeFormat("en-US", {
+  timeZone: DISPLAY_TZ, month: "short", day: "numeric", year: "numeric",
+  hour: "numeric", minute: "2-digit", second: "2-digit", timeZoneName: "short"
+});
+
 function renderViews(views, filter) {
   const cols = ["at", "event", "path", "city", "region", "country", "network", "ip", "referer", "agent"];
-  const rows = views.map(v => `<tr class="${v.event}">${cols.map(c => `<td>${escapeHtml(v[c] || "")}</td>`).join("")}</tr>`).join("");
+  const rows = views.map(v => `<tr class="${v.event}">${cols.map(c => `<td>${escapeHtml(c === "at" ? showTime.format(new Date(v.at)) : v[c] || "")}</td>`).join("")}</tr>`).join("");
   return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow">
 <title>Site Views</title><style>
