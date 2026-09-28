@@ -103,8 +103,9 @@ If a common question retrieves nothing, add the trigger word to `EXPAND` in the 
 - **Read the corpus before it goes live.** Anything overstated is on the page under your name.
 - **`resume.pdf` doesn't exist yet.** Nothing links to one — decide which version to publish,
   and strip the phone number before a PDF goes into a public repo.
-- **Favicon.** Social and canonical metadata now use `img/og-card.png`; add a favicon when one is available.
-  `robots.txt` and `sitemap.xml` are in place and point at `https://shivap.me/`.
+- **Favicon.** `favicon.svg` (modern browsers), `favicon.ico` (16/32/48, legacy and `/favicon.ico` requests) and
+  `apple-touch-icon.png` (iOS home screen) sit at the root and are linked from every page's `<head>`.
+  Social and canonical metadata use `img/og-card.png`. `robots.txt` and `sitemap.xml` are in place and point at `https://shivap.me/`.
 - **Custom domain.** There's no `CNAME` file in the repo. If `shivap.me` is pointed at Pages
   through Settings → Pages, GitHub writes that file itself; if it's fronted by Cloudflare
   instead, leave it alone. Worth confirming which, so the domain can't silently drop.
